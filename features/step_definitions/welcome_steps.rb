@@ -1,5 +1,5 @@
 Given(/^I am on the home page$/) do
-  visit '/greetings/hello'
+  visit '/homes/index'
 end
 
 Then(/^I should see "(.*?)"$/) do |text|
