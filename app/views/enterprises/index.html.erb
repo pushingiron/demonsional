@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Enterprises</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>New name</th>
+      <th>New acct</th>
+      <th>Parent</th>
+      <th>Active</th>
+      <th>Location code</th>
+      <th>Location name</th>
+      <th>Address 1</th>
+      <th>Address 2</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Postal</th>
+      <th>Country</th>
+      <th>User</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @enterprises.each do |enterprise| %>
+      <tr>
+        <td><%= enterprise.new_name %></td>
+        <td><%= enterprise.new_acct %></td>
+        <td><%= enterprise.parent %></td>
+        <td><%= enterprise.active %></td>
+        <td><%= enterprise.location_code %></td>
+        <td><%= enterprise.location_name %></td>
+        <td><%= enterprise.address_1 %></td>
+        <td><%= enterprise.address_2 %></td>
+        <td><%= enterprise.city %></td>
+        <td><%= enterprise.state %></td>
+        <td><%= enterprise.postal %></td>
+        <td><%= enterprise.country %></td>
+        <td><%= enterprise.user_id %></td>
+        <td><%= link_to 'Show', enterprise %></td>
+        <td><%= link_to 'Edit', edit_enterprise_path(enterprise) %></td>
+        <td><%= link_to 'Destroy', enterprise, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Enterprise', new_enterprise_path %>
+<%= link_to 'Create in TMS', 'enterprises/post_xml'  %>

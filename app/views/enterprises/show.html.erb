@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>New name:</strong>
+  <%= @enterprise.new_name %>
+</p>
+
+<p>
+  <strong>New acct:</strong>
+  <%= @enterprise.new_acct %>
+</p>
+
+<p>
+  <strong>Parent:</strong>
+  <%= @enterprise.parent %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @enterprise.active %>
+</p>
+
+<p>
+  <strong>Location code:</strong>
+  <%= @enterprise.location_code %>
+</p>
+
+<p>
+  <strong>Location name:</strong>
+  <%= @enterprise.location_name %>
+</p>
+
+<p>
+  <strong>Address 1:</strong>
+  <%= @enterprise.address_1 %>
+</p>
+
+<p>
+  <strong>Address 2:</strong>
+  <%= @enterprise.address_2 %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @enterprise.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @enterprise.state %>
+</p>
+
+<p>
+  <strong>Postal:</strong>
+  <%= @enterprise.postal %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @enterprise.country %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @enterprise.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_enterprise_path(@enterprise) %> |
+<%= link_to 'Back', enterprises_path %>

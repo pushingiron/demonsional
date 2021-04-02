@@ -1,0 +1,88 @@
+<%= form_with(model: enterprise) do |form| %>
+  <% if enterprise.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(enterprise.errors.count, "error") %> prohibited this enterprise from being saved:</h2>
+
+      <ul>
+        <% enterprise.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :new_name %>
+    <%= form.text_field :new_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :new_acct %>
+    <%= form.text_field :new_acct %>
+  </div>
+
+  <div class="field">
+    <%= form.label :parent %>
+    <%= form.text_field :parent %>
+  </div>
+
+  <div class="field">
+    <%= form.label :active %>
+    <%= form.check_box :active %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location_code %>
+    <%= form.text_field :location_code %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location_name %>
+    <%= form.text_field :location_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address_1 %>
+    <%= form.text_field :address_1 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :address_2 %>
+    <%= form.text_field :address_2 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :city %>
+    <%= form.text_field :city %>
+  </div>
+
+  <div class="field">
+    <%= form.label :state %>
+    <%= form.text_field :state %>
+  </div>
+
+  <div class="field">
+    <%= form.label :postal %>
+    <%= form.text_field :postal %>
+  </div>
+
+  <div class="field">
+    <%= form.label :country %>
+    <%= form.text_field :country %>
+  </div>
+<!--
+
+  <div class="field">
+    <%#= form.label :user_id %>
+    <%#= form.text_field :user_id %>
+  </div>
+-->
+
+  <div class="field">
+    <%= form.hidden_field :user_id, :value => @user_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
