@@ -23,13 +23,13 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Uploads
+          Admin
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Shipping Orders</a>
-          <a class="dropdown-item" href="#">Purchase Orders</a>
+          <a class="dropdown-item" href="#">Users</a>
+          <a class="dropdown-item" href="#">Log</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Enterprises / Locations</a>
+          <a class="dropdown-item" href="#">Dreamy stuff</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -37,11 +37,11 @@
           Account
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Sign In</a>
-          <a class="dropdown-item" href="#">Sign Out</a>
-          <a class="dropdown-item" href="#">Profile</a>
+          <%= link_to "Sign In", new_user_session_path, class: "dropdown-item"  %>
+          <%= link_to "Sign Out", destroy_user_session_path, method: :DELETE, class: "dropdown-item" %>
+          <a class="dropdown-item" href="/users/edit">Profile</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Enterprises / Locations</a>
+          <a class="dropdown-item" href="#">Future release</a>
         </div>
       </li>
     </ul>
