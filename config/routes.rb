@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :enterprises do
     collection do
-      post :post_xml
+      get :post_xml
     end
   end
 
