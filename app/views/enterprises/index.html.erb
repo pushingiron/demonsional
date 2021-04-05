@@ -40,7 +40,7 @@
         <td><%= enterprise.user_id %></td>
         <td><%= link_to 'Show', enterprise %></td>
         <td><%= link_to 'Edit', edit_enterprise_path(enterprise) %></td>
-        <td><%= link_to 'Destroy', enterprise, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Destroy', enterprise, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -49,4 +49,5 @@
 <br>
 
 <%= link_to 'New Enterprise', new_enterprise_path %>
+<br>
 <%= link_to 'Create in TMS', 'enterprises/post_xml'  %>
