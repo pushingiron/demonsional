@@ -4,7 +4,9 @@ class StaticPagesController < ApplicationController
   end
 
   def xml_response
-    @xml = params
+    p 'in xml_response'
+    @xml = params[:format]
+    p @xml
   end
 
 end

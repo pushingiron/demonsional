@@ -10,7 +10,10 @@ class EnterprisesController < ApplicationController
 
   def post_xml
     @enterprises = current_user.enterprises.all
-    Enterprise.mg_post(@enterprises)
+    @response = Enterprise.mg_post(@enterprises)
+    p 'headers!!! controller'
+    p @response
+    redirect_to static_pages_xml_response_path(@response)
   end
 
   # GET /enterprises/1 or /enterprises/1.json

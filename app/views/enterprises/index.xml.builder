@@ -50,7 +50,3 @@ xml.tag! 'service-request' do
   end
 end
 
-@output = xml.target!
-p 'xml'
-p @output
-
