@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :locations
+  resources :shipping_orders
   devise_for :users, controllers: { sessions: 'users/sessions' }
 
   resources :enterprises do

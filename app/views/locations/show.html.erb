@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Loc code:</strong>
+  <%= @location.loc_code %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @location.name %>
+</p>
+
+<p>
+  <strong>Address1:</strong>
+  <%= @location.address1 %>
+</p>
+
+<p>
+  <strong>Address2:</strong>
+  <%= @location.address2 %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @location.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @location.state %>
+</p>
+
+<p>
+  <strong>Postal:</strong>
+  <%= @location.postal %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @location.country %>
+</p>
+
+<p>
+  <strong>Geo:</strong>
+  <%= @location.geo %>
+</p>
+
+<p>
+  <strong>Residential:</strong>
+  <%= @location.residential %>
+</p>
+
+<p>
+  <strong>Comments:</strong>
+  <%= @location.comments %>
+</p>
+
+<p>
+  <strong>Earliest appt:</strong>
+  <%= @location.earliest_appt %>
+</p>
+
+<p>
+  <strong>Latest appt:</strong>
+  <%= @location.latest_appt %>
+</p>
+
+<p>
+  <strong>Reference:</strong>
+  <%= @location.reference %>
+</p>
+
+<%= link_to 'Edit', edit_location_path(@location) %> |
+<%= link_to 'Back', locations_path %>

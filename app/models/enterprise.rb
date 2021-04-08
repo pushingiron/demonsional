@@ -6,10 +6,6 @@ class Enterprise < ApplicationRecord
     encoded_params = URI.encode_www_form(params)
     response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params)
     response.body.force_encoding('utf-8')
-
-    # response.body #if response.status == 201
-
-
   end
 
 

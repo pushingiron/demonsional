@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_30_170759) do
+ActiveRecord::Schema.define(version: 2021_04_07_210505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,36 @@ ActiveRecord::Schema.define(version: 2021_03_30_170759) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_enterprises_on_user_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "loc_type"
+    t.string "loc_code"
+    t.string "name"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "state"
+    t.string "postal"
+    t.string "country"
+    t.string "geo"
+    t.boolean "residential"
+    t.string "comments"
+    t.date "earliest_appt"
+    t.date "latest_appt"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "shipping_order_id"
+    t.index ["shipping_order_id"], name: "index_locations_on_shipping_order_id"
+  end
+
+  create_table "shipping_orders", force: :cascade do |t|
+    t.string "payment_method"
+    t.string "cust_acct_num"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_shipping_orders_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

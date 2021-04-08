@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  loc_code: MyString
+  name: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state: MyString
+  postal: MyString
+  country: MyString
+  geo: MyString
+  residential: false
+  comments: MyString
+  earliest_appt: 2021-04-06
+  latest_appt: 2021-04-06
+  reference: 
+
+two:
+  loc_code: MyString
+  name: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state: MyString
+  postal: MyString
+  country: MyString
+  geo: MyString
+  residential: false
+  comments: MyString
+  earliest_appt: 2021-04-06
+  latest_appt: 2021-04-06
+  reference: 

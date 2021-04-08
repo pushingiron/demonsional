@@ -1,5 +1,5 @@
 class EnterprisesController < ApplicationController
-  before_action :set_enterprise, except: %i[index post_xml]
+  before_action :set_enterprise, except: %i[index post_xml new create]
   before_action :authenticate_user!
 
 
@@ -21,7 +21,9 @@ class EnterprisesController < ApplicationController
 
   # GET /enterprises/new
   def new
+    p 'in new!!!'
     @enterprise = current_user.enterprises.new
+    p @enterprise
   end
 
   # GET /enterprises/1/edit
