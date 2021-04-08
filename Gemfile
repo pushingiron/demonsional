@@ -22,7 +22,6 @@ gem 'bootstrap'
 gem 'builder'
 gem 'devise'
 gem 'faraday'
-gem 'jquery-rails'
 gem 'uri'
 
 # Use Redis adapter to run Action Cable in production
