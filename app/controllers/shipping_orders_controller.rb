@@ -64,6 +64,9 @@ class ShippingOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shipping_order_params
-      params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id)
+      p 'shipping order params!!!'
+      p params
+      params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id,
+                                             {locations_attributes: [ :id, :shipping_order_id, :loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, :residential, :comments, :earliest_appt, :latest_appt]})
     end
 end
