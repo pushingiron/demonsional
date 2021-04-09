@@ -19,6 +19,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 
 gem 'bootstrap'
+gem "bootstrap_form", "~> 4.0"
 gem 'builder'
 gem 'devise'
 gem 'faraday'
