@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_09_163806) do
+ActiveRecord::Schema.define(version: 2021_04_09_205943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,25 @@ ActiveRecord::Schema.define(version: 2021_04_09_163806) do
     t.index ["shipping_order_id"], name: "index_locations_on_shipping_order_id"
   end
 
+  create_table "references", force: :cascade do |t|
+    t.string "reference_type"
+    t.string "reference_value"
+    t.boolean "is_primary"
+    t.bigint "shipping_order_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shipping_order_id"], name: "index_references_on_shipping_order_id"
+  end
+
+  create_table "shipping_order_dates", force: :cascade do |t|
+    t.string "date_type"
+    t.date "date_value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "locations_id"
+    t.index ["locations_id"], name: "index_shipping_order_dates_on_locations_id"
+  end
+
   create_table "shipping_orders", force: :cascade do |t|
     t.string "payment_method"
     t.string "cust_acct_num"
@@ -78,4 +97,5 @@ ActiveRecord::Schema.define(version: 2021_04_09_163806) do
   end
 
   add_foreign_key "enterprises", "users"
+  add_foreign_key "references", "shipping_orders"
 end

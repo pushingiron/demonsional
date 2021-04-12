@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  value: MyString
+  is_primary: false
+  shipping_orders: one
+
+two:
+  type: 
+  value: MyString
+  is_primary: false
+  shipping_orders: two

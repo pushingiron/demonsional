@@ -1,0 +1,32 @@
+<%= form_with(model: shipping_order_date) do |form| %>
+  <% if shipping_order_date.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(shipping_order_date.errors.count, "error") %> prohibited this shipping_order_date from being saved:</h2>
+
+      <ul>
+        <% shipping_order_date.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :date_type %>
+    <%= form.text_field :date_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date_value %>
+    <%= form.date_select :date_value %>
+  </div>
+
+  <div class="field">
+    <%= form.label :shipping_orders %>
+    <%= form.text_field :shipping_orders %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

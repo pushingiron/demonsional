@@ -1,68 +1,77 @@
-<%= bootstrap_form_for( @shipping_order) do |f| %>
-  <% if shipping_order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(shipping_order.errors.count, "error") %> prohibited this shipping_order from being saved:</h2>
-
-      <ul>
-        <% shipping_order.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<div class="container-fluid">
+  <%= bootstrap_form_for( @shipping_order) do |f| %>
+    <% if shipping_order.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(shipping_order.errors.count, "error") %> prohibited this shipping_order from being saved:</h2>
+        <ul>
+          <% shipping_order.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="col">
+        <%= f.select :payment_method, ['Prepaid', 'Collect', 'Third Party'] %>
+      </div>
+      <div class="col">
+        <%= f.text_field :cust_acct_num %>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.select :payment_method, ['Prepaid', 'Collect', 'Third Party'] %>
-  </div>
-  <div class="field">
-    <%= f.text_field :cust_acct_num %>
-  </div>
-<div>
-  <h2>Pickup Location</h2>
-  <%= f.fields_for :locations, @shipping_order.locations.build do |ff| %>
-    <div class="field">
-      <%= ff.hidden_field :stop_type, :value => 'Pickup' %>
-      <%= ff.text_field :loc_code %>
-      <%= ff.text_field :loc_type %>
-      <%= ff.text_field :name %>
-      <%= ff.text_field :address1 %>
-      <%= ff.text_field :address2 %>
-      <%= ff.text_field :city %>
-      <%= ff.text_field :state %>
-      <%= ff.text_field :postal %>
-      <%= ff.text_field :country %>
-      <%= ff.text_field :geo %>
-      <%= ff.text_field :residential %>
-      <%= ff.text_field :comments %>
-      <%= ff.time_field :earliest_appt %>
-      <%= ff.time_field :latest_appt %>
-    </div>
-  <% end %>
-</div>
-  <div>
-    <h2>Drop Location</h2>
-    <div>
-      <%= f.fields_for :locations, @shipping_order.locations.build do |ff| %>
-        <div class="field">
-          <%= ff.hidden_field :stop_type, :value => 'Drop' %>
-          <%= ff.text_field :loc_code %>
-          <%= ff.text_field :name %>
-          <%= ff.text_field :address1 %>
-          <%= ff.text_field :address2 %>
-          <%= ff.text_field :city %>
-          <%= ff.text_field :state %>
-          <%= ff.text_field :postal %>
-          <%= ff.text_field :country %>
-          <%= ff.text_field :geo %>
-          <%= ff.text_field :residential %>
-          <%= ff.text_field :comments %>
-          <%= ff.time_field :earliest_appt %>
-          <%= ff.time_field :latest_appt %>
-        </div>
+    <h2>References</h2>
+    <div class="row">
+      <%= f.fields_for :references, @shipping_order.references.build do |fr| %>
+        <%= fr.text_field :reference_type %>
+        <%= fr.text_field :reference_value %>
       <% end %>
     </div>
-  </div>
-  <div class="actions">
+    <h2>Pickup Location</h2>
+    <%= f.fields_for :locations, @shipping_order.locations.build do |fp| %>
+      <div class="row">
+        <%= fp.hidden_field :stop_type, :value => 'Pickup' %>
+        <%= fp.text_field :loc_code %>
+        <%= fp.text_field :loc_type %>
+      </div>
+      <div class="row">
+        <%= fp.text_field :name %>
+      </div>
+      <div class="row">
+        <%= fp.text_field :address1 %>
+        <%= fp.text_field :address2 %>
+      </div>
+      <div class="row">
+        <%= fp.text_field :city %>
+        <%= fp.text_field :state %>
+        <%= fp.text_field :postal %>
+        <%= fp.text_field :country %>
+        <%= fp.text_field :geo %>
+      </div>
+      <div class="row">
+        <%= fp.text_field :residential %>
+        <%= fp.text_field :comments %>
+        <%= fp.time_field :earliest_appt %>
+        <%= fp.time_field :latest_appt %>
+      </div>
+    <% end %>
+    <div>
+      <h2>Drop Location</h2>
+      <%= f.fields_for :locations, @shipping_order.locations.build do |fd| %>
+        <%= fd.hidden_field :stop_type, :value => 'Drop' %>
+        <%= fd.text_field :loc_code %>
+        <%= fd.text_field :name %>
+        <%= fd.text_field :address1 %>
+        <%= fd.text_field :address2 %>
+        <%= fd.text_field :city %>
+        <%= fd.text_field :state %>
+        <%= fd.text_field :postal %>
+        <%= fd.text_field :country %>
+        <%= fd.text_field :geo %>
+        <%= fd.text_field :residential %>
+        <%= fd.text_field :comments %>
+        <%= fd.time_field :earliest_appt %>
+        <%= fd.time_field :latest_appt %>
+      <% end %>
+    </div>
     <%= f.submit %>
-  </div>
-<% end %>
+  <% end %>
+</div>

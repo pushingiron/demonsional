@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date type:</strong>
+  <%= @shipping_order_date.date_type %>
+</p>
+
+<p>
+  <strong>Date value:</strong>
+  <%= @shipping_order_date.date_value %>
+</p>
+
+<p>
+  <strong>Shipping orders:</strong>
+  <%= @shipping_order_date.shipping_orders %>
+</p>
+
+<%= link_to 'Edit', edit_shipping_order_date_path(@shipping_order_date) %> |
+<%= link_to 'Back', shipping_order_dates_path %>

@@ -1,0 +1,2 @@
+class ShippingOrderDate < ApplicationRecord
+end

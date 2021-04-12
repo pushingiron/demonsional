@@ -1,0 +1,37 @@
+<%= form_with(model: reference) do |form| %>
+  <% if reference.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reference.errors.count, "error") %> prohibited this reference from being saved:</h2>
+
+      <ul>
+        <% reference.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :type %>
+    <%= form.text_field :type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :value %>
+    <%= form.text_field :value %>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_primary %>
+    <%= form.check_box :is_primary %>
+  </div>
+
+  <div class="field">
+    <%= form.label :shipping_orders_id %>
+    <%= form.text_field :shipping_orders_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

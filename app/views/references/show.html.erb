@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @reference.type %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @reference.value %>
+</p>
+
+<p>
+  <strong>Is primary:</strong>
+  <%= @reference.is_primary %>
+</p>
+
+<p>
+  <strong>Shipping orders:</strong>
+  <%= @reference.shipping_orders_id %>
+</p>
+
+<%= link_to 'Edit', edit_reference_path(@reference) %> |
+<%= link_to 'Back', references_path %>

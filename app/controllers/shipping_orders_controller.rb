@@ -58,15 +58,16 @@ class ShippingOrdersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_shipping_order
-      @shipping_order = current_user.shipping_orders.find(params[:id])
-    end
+  def set_shipping_order
+    @shipping_order = current_user.shipping_orders.find(params[:id])
+  end
 
     # Only allow a list of trusted parameters through.
-    def shipping_order_params
-      p 'shipping order params!!!'
-      p params
-      params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id,
-                                             {locations_attributes: [ :id, :shipping_order_id, :loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, :residential, :comments, :earliest_appt, :latest_appt, :stop_type]})
-    end
+  def shipping_order_params
+    p 'shipping order params!!!'
+    p params
+    params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id,
+                                           { locations_attributes: %i[id shipping_order_id loc_code name address1 address2 city state postal country geo residential comments earliest_appt latest_appt stop_type loc_type] },
+                                           { references_attributes: %i[id reference_type reference_value is_primary shipping_order_id] })
+  end
 end

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date_type: MyString
+  date_value: 2021-04-09
+  shipping_orders: 
+
+two:
+  date_type: MyString
+  date_value: 2021-04-09
+  shipping_orders: 
