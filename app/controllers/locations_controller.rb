@@ -57,13 +57,21 @@ class LocationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_location
-      @location = Location.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_location
+    @location = @shipping_order.locations.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def location_params
-      params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type)
-    end
+  # Only allow a list of trusted parameters through.
+  def location_params
+    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type)
+  end
+
+  def pickup_location_params
+    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type)
+  end
+
+  def drop_location_params
+    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type)
+  end
 end
