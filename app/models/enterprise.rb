@@ -7,7 +7,7 @@ class Enterprise < ApplicationRecord
     response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params)
     response.body.force_encoding('utf-8')
   end
-
+end
 
   def enterprise_xml(enterprise_list)
 
@@ -59,5 +59,4 @@ class Enterprise < ApplicationRecord
       end
       xml.target!
     end
-  end
   end
