@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_09_205943) do
+ActiveRecord::Schema.define(version: 2021_04_13_213117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,24 @@ ActiveRecord::Schema.define(version: 2021_04_09_205943) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_enterprises_on_user_id"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "type"
+    t.integer "sequence"
+    t.integer "line_number"
+    t.string "description"
+    t.string "freight_class"
+    t.float "weight"
+    t.string "weight_uom"
+    t.float "quantity"
+    t.string "quantity_uom"
+    t.float "cube"
+    t.string "cube_uom"
+    t.bigint "shipping_order_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shipping_order_id"], name: "index_items_on_shipping_order_id"
   end
 
   create_table "locations", force: :cascade do |t|

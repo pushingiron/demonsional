@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: 
+  sequence: 1
+  line_number: 1
+  description: MyString
+  freight_class: MyString
+  weight: 1.5
+  weight_uom: MyString
+  quantity: 1.5
+  quantity_uom: MyString
+  cube: 1.5
+  cube_uom: MyString
+  shipping_orders: 
+
+two:
+  type: 
+  sequence: 1
+  line_number: 1
+  description: MyString
+  freight_class: MyString
+  weight: 1.5
+  weight_uom: MyString
+  quantity: 1.5
+  quantity_uom: MyString
+  cube: 1.5
+  cube_uom: MyString
+  shipping_orders: 

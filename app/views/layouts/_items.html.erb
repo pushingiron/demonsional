@@ -1,0 +1,45 @@
+<%= f.fields_for :items do |i| %>
+  <div class="row">
+    <div class="col">
+      <%= i.check_box :_destroy %>
+    </div>
+    <div class="col">
+      <%= i.number_field :sequence %>
+    </div>
+    <div class="col">
+      <%= i.number_field :line_number %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= i.text_field :description %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= i.text_field :freight_class %>
+    </div>
+    <div class="col">
+      <%= i.number_field :weight %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= i.text_field :weight_uom %>
+    </div>
+    <div class="col">
+      <%= i.number_field :quantity %>
+    </div>
+    <div class="col">
+      <%= i.text_field :quantity_uom %>
+    </div>
+    <div class="col">
+      <%= i.number_field :cube %>
+    </div>
+    <div class="col">
+      <%= i.text_field :cube_uom %>
+    </div>
+  </div>
+<% end %>
+<%= f.submit 'Add item', :name => "add_item" %>
+<%= f.submit 'Delete item', :name => "remove_item" %>

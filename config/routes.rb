@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :items
   resources :shipping_order_dates
   resources :references
   resources :locations

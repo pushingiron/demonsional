@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @item.type %>
+</p>
+
+<p>
+  <strong>Sequence:</strong>
+  <%= @item.sequence %>
+</p>
+
+<p>
+  <strong>Line number:</strong>
+  <%= @item.line_number %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @item.description %>
+</p>
+
+<p>
+  <strong>Freight class:</strong>
+  <%= @item.freight_class %>
+</p>
+
+<p>
+  <strong>Weight:</strong>
+  <%= @item.weight %>
+</p>
+
+<p>
+  <strong>Weight uom:</strong>
+  <%= @item.weight_uom %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @item.quantity %>
+</p>
+
+<p>
+  <strong>Quantity uom:</strong>
+  <%= @item.quantity_uom %>
+</p>
+
+<p>
+  <strong>Cube:</strong>
+  <%= @item.cube %>
+</p>
+
+<p>
+  <strong>Cube uom:</strong>
+  <%= @item.cube_uom %>
+</p>
+
+<p>
+  <strong>Shipping orders:</strong>
+  <%= @item.shipping_orders %>
+</p>
+
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>

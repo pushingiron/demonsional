@@ -1,0 +1,15 @@
+<%= f.fields_for :references do |fr| %>
+<div class="row">
+  <div class="col">
+    <%= fr.check_box :_destroy %>
+  </div>
+  <div class="col">
+    <%= fr.text_field :reference_type %>
+  </div>
+  <div class="col">
+    <%= fr.text_field :reference_value %>
+  </div>
+</div>
+<% end %>
+<%= f.submit 'Add reference', :name => "add_reference" %>
+<%= f.submit 'Delete checked references', :name => "remove_reference" %>

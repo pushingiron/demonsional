@@ -1,0 +1,60 @@
+<%= f.fields_for :pickup_locations do |fp| %>
+  <%= fp.hidden_field :stop_type, :value => 'Pickup' %>
+  <div class="col">
+    <h2>Pickup Location</h2>
+  <div class="row">
+    <div class="col">
+      <%= fp.text_field :loc_code %>
+    </div>
+    <div class="col">
+      <%= fp.text_field :loc_type %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= fp.text_field :name %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= fp.text_field :address1 %>
+    </div>
+    <div class="col">
+      <%= fp.text_field :address2 %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= fp.text_field :city %>
+    </div>
+    <div class="col">
+      <%= fp.text_field :state %>
+    </div>
+    <div class="col">
+      <%= fp.text_field :postal %>
+    </div>
+    <div class="col">
+      <%= fp.text_field :country %>
+    </div>
+    <div class="col">
+      <%= fp.text_field :geo %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <%= fp.text_field :residential %>
+    </div>
+    <div class="col">
+      <%= fp.text_field :comments %>
+    </div>
+    <div class="col">
+      <%= fp.time_field :earliest_appt %>
+    </div>
+    <div class="col">
+      <%= fp.time_field :latest_appt %>
+    </div>
+  </div>
+<% end %>
+<%#= f.submit 'Add pickup location', :name => "add_pickup_location" %>
+<%#= f.submit 'Delete checked pickup locations', :name => "remove_pickup_location" %>
+</div>
