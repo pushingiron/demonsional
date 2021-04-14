@@ -38,7 +38,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <%= link_to "Sign In", new_user_session_path, class: "dropdown-item"  %>
-          <%= link_to "Sign Out", destroy_user_session_path, method: :DELETE, class: "dropdown-item" %>
+          <%= button_to "Sign Out", destroy_user_session_path, :method => :delete, class: "dropdown-item" %>
           <a class="dropdown-item" href="/users/edit">Profile</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Future release</a>
