@@ -12,7 +12,7 @@ one:
   quantity_uom: MyString
   cube: 1.5
   cube_uom: MyString
-  shipping_orders: 
+  shipping_orders: 1
 
 two:
   type: 
@@ -26,4 +26,4 @@ two:
   quantity_uom: MyString
   cube: 1.5
   cube_uom: MyString
-  shipping_orders: 
+  shipping_orders: 1

@@ -15,4 +15,18 @@ class ShippingOrder < ApplicationRecord
   has_many :items
   accepts_nested_attributes_for :items, allow_destroy: true
 
+  SHIPPING_ORDER_ATTRIBUTES = %w[payment_method cust_acct_num user_id].freeze
+  REFERENCE_ATTRIBUTES = %w[id reference_type reference_value is_primary shipping_order_id].freeze
+  LOCATION_ATTRIBUTES = %w[id shipping_order_id loc_code name address1 address2 city state postal country geo 
+                           residential comments earliest_appt latest_appt stop_type loc_type].freeze
+  ITEM_ATTRIBUTES = [].freeze
+
+  def self.import(file)
+    CSV.foreach(file.path, headers: true) do |row|
+      shipping_order = ShippingOrder.find_or_initialize_by(id: row['id'])
+      shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)
+      shipping_order.save!
+    end
+  end
+
 end

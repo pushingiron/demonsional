@@ -1,5 +1,6 @@
 class ShippingOrdersController < ApplicationController
   before_action :set_shipping_order, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /shipping_orders or /shipping_orders.json
   def index
@@ -25,7 +26,7 @@ class ShippingOrdersController < ApplicationController
 
     respond_to do |format|
       if @shipping_order.save
-        format.html { redirect_to @shipping_order, notice: "Shipping order was successfully created." }
+        format.html { redirect_to @shipping_order, notice: 'Shipping order was successfully created.' }
         format.json { render :show, status: :created, location: @shipping_order }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -51,9 +52,7 @@ class ShippingOrdersController < ApplicationController
 
   def update
     @shipping_order = current_user.shipping_orders.find(params[:id])
-    #    @pickup_locations = @shipping_order.locations.find_by(stop_type: :Pickup)
-    #@drop_locations = @shipping_order.locations.find_by(stop_type: :Drop)
-    # Reference Handling
+    p 'In update'
     if params[:add_reference]
       # rebuild the ingredient attributes that doesn't have an id
       unless params[:shipping_order][:references_attributes].blank?
@@ -69,7 +68,7 @@ class ShippingOrdersController < ApplicationController
       removed_references = params[:shipping_order][:references_attributes].to_unsafe_h.map { |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
       # physically delete the ingredients from database
       Reference.delete(removed_references)
-      flash[:notice] = "References removed."
+      flash[:notice] = 'References removed.'
       params[:shipping_order][:references_attributes].each do |attribute|
         # rebuild ingredients attributes that doesn't have an id and its _destroy attribute is not 1
         @shipping_order.references.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
@@ -89,7 +88,7 @@ class ShippingOrdersController < ApplicationController
       removed_pickup_locations = params[:shipping_order][:pickup_location_attributes].to_unsafe_h.map { |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
       # physically delete the ingredients from database
       Reference.delete(removed_pickup_locations)
-      flash[:notice] = "Pickup location removed."
+      flash[:notice] = 'Pickup location removed.'
       params[:shipping_order][:pickup_location_attributes].each do |attribute|
         # rebuild ingredients attributes that doesn't have an id and its _destroy attribute is not 1
         @shipping_order.pickup_locations.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
@@ -109,7 +108,7 @@ class ShippingOrdersController < ApplicationController
       removed_drop_locations = params[:shipping_order][:drop_location_attributes].to_unsafe_h.map { |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
       # physically delete the ingredients from database
       Reference.delete(removed_drop_locations)
-      flash[:notice] = "Drop location removed."
+      flash[:notice] = 'Drop location removed.'
       params[:shipping_order][:locations_attributes].each do |attribute|
           # rebuild ingredients attributes that doesn't have an id and its _destroy attribute is not 1
           @shipping_order.drop_locations.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
@@ -129,7 +128,7 @@ class ShippingOrdersController < ApplicationController
       removed_items = params[:shipping_order][:items_attributes].to_unsafe_h.map { |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
       # physically delete the ingredients from database
       Reference.delete(removed_items)
-      flash[:notice] = "Item removed."
+      flash[:notice] = 'Item removed.'
       params[:shipping_order][:items_attributes].each do |attribute|
         # rebuild ingredients attributes that doesn't have an id and its _destroy attribute is not 1
         @shipping_order.items.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
@@ -137,7 +136,7 @@ class ShippingOrdersController < ApplicationController
       else
         # save goes like usual
         if @shipping_order.update(shipping_order_params)
-          flash[:notice] = "Successfully updated ShippingOrder"
+          flash[:notice] = 'Successfully updated ShippingOrder'
           redirect_to @shipping_order and return
         end
     end
@@ -148,9 +147,14 @@ class ShippingOrdersController < ApplicationController
   def destroy
     @shipping_order.destroy
     respond_to do |format|
-      format.html { redirect_to shipping_orders_url, notice: "Shipping order was successfully destroyed." }
+      format.html { redirect_to shipping_orders_url, notice: 'Shipping order was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def import
+    current_user.shipping_orders.import(params[:file])
+    redirect_to root_url, notice: 'Shipping Orders Imported.'
   end
 
   private

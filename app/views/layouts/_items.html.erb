@@ -1,5 +1,7 @@
-<%= f.fields_for :items do |i| %>
-  <div class="row">
+<div class="col border border-secondary">
+  <h2>Items</h2>
+  <%= f.fields_for :items do |i| %>
+    <div class="row">
     <div class="col">
       <%= i.check_box :_destroy %>
     </div>
@@ -43,3 +45,4 @@
 <% end %>
 <%= f.submit 'Add item', :name => "add_item" %>
 <%= f.submit 'Delete item', :name => "remove_item" %>
+</div>

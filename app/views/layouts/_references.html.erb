@@ -1,3 +1,5 @@
+<div class="col border border-secondary">
+  <h2>References</h2>
 <%= f.fields_for :references do |fr| %>
 <div class="row">
   <div class="col">
@@ -13,3 +15,4 @@
 <% end %>
 <%= f.submit 'Add reference', :name => "add_reference" %>
 <%= f.submit 'Delete checked references', :name => "remove_reference" %>
+</div>

@@ -1,5 +1,6 @@
 class ShippingOrderDatesController < ApplicationController
   before_action :set_shipping_order_date, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /shipping_order_dates or /shipping_order_dates.json
   def index

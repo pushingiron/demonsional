@@ -1,5 +1,6 @@
 class ReferencesController < ApplicationController
   before_action :set_reference, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /references or /references.json
   def index

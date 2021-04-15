@@ -18,15 +18,11 @@
         <%= f.text_field :cust_acct_num %>
       </div>
     </div>
-    <h2>References</h2>
       <%= render '/layouts/references', f: f %>
     <div class="row">
-
       <%= render '/layouts/pickup_locations', f: f %>
-
       <%= render '/layouts/drop_locations', f: f %>
     </div>
-    <h2>Items</h2>
     <%= render '/layouts/items', f: f %>
     <%= f.submit %>
   <% end %>

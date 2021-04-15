@@ -1,7 +1,7 @@
+<div class="col border border-secondary">
   <%= f.fields_for :drop_locations do |fd| %>
     <%= fd.hidden_field :stop_type, :value => 'Drop' %>
-    <div class="col">
-      <h2>Drop Locations</h2>
+    <h2>Drop Locations</h2>
     <div class="row">
       <div class="col">
         <%= fd.text_field :loc_code %>
@@ -55,6 +55,6 @@
       </div>
     </div>
   <% end %>
-<!--  <%#= f.submit 'Add drop location', :name => "add_drop_location" %>
-  <%#= f.submit 'Delete checked drop locations', :name => "remove_drop_location" %>-->
-  </div>
+  <%= f.submit 'Add drop location', :name => "add_drop_location" %>
+  <%= f.submit 'Delete checked drop locations', :name => "remove_drop_location" %>
+</div>

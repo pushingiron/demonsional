@@ -1,2 +1,3 @@
 class ShippingOrderDate < ApplicationRecord
+
 end
