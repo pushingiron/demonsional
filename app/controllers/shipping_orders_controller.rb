@@ -8,8 +8,7 @@ class ShippingOrdersController < ApplicationController
   end
 
   # GET /shipping_orders/1 or /shipping_orders/1.json
-  def show
-  end
+  def show; end
 
   # GET /shipping_orders/new
   def new
@@ -17,8 +16,7 @@ class ShippingOrdersController < ApplicationController
   end
 
   # GET /shipping_orders/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /shipping_orders or /shipping_orders.json
   def create
@@ -110,10 +108,10 @@ class ShippingOrdersController < ApplicationController
       Reference.delete(removed_drop_locations)
       flash[:notice] = 'Drop location removed.'
       params[:shipping_order][:locations_attributes].each do |attribute|
-          # rebuild ingredients attributes that doesn't have an id and its _destroy attribute is not 1
-          @shipping_order.drop_locations.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
-        end
-      elsif params[:add_item]
+        # rebuild ingredients attributes that doesn't have an id and its _destroy attribute is not 1
+        @shipping_order.drop_locations.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
+      end
+    elsif params[:add_item]
       # rebuild the locations attributes that doesn't have an id
       unless params[:shipping_order][:items_attributes].blank?
         params[:shipping_order][:items_attributes].each do |attribute|
@@ -133,14 +131,14 @@ class ShippingOrdersController < ApplicationController
         # rebuild ingredients attributes that doesn't have an id and its _destroy attribute is not 1
         @shipping_order.items.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
       end
-      else
-        # save goes like usual
-        if @shipping_order.update(shipping_order_params)
-          flash[:notice] = 'Successfully updated ShippingOrder'
-          redirect_to @shipping_order and return
-        end
+    else
+      # save goes like usual
+      if @shipping_order.update(shipping_order_params)
+        flash[:notice] = 'Successfully updated ShippingOrder'
+        redirect_to @shipping_order and return
+      end
     end
-    render :action => 'edit'
+    render action: 'edit'
   end
 
   # DELETE /shipping_orders/1 or /shipping_orders/1.json
@@ -165,12 +163,19 @@ class ShippingOrdersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def shipping_order_params
-    p 'shipping order params!!!'
-    p params
     params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id, :update_attributes,
-                                           { pickup_locations_attributes: %i[id shipping_order_id loc_code name address1 address2 city state postal country geo residential comments earliest_appt latest_appt stop_type loc_type] },
-                                           { drop_locations_attributes: %i[id shipping_order_id loc_code name address1 address2 city state postal country geo residential comments earliest_appt latest_appt stop_type loc_type] },
-                                           { references_attributes: %i[id reference_type reference_value is_primary shipping_order_id _destroy] },
-                                           { items_attributes: %i[id type sequence line_number description freight_class weight weight_uom quantity quantity_uom cube cube_uom shipping_orders]})
+                                           { pickup_locations_attributes: %i[id shipping_order_id loc_code name address1
+                                                                             address2 city state postal country geo
+                                                                             residential comments earliest_appt
+                                                                             latest_appt stop_type loc_type] },
+                                           { drop_locations_attributes: %i[id shipping_order_id loc_code name address1
+                                                                           address2 city state postal country geo
+                                                                           residential comments earliest_appt
+                                                                           latest_appt stop_type loc_type] },
+                                           { references_attributes: %i[id reference_type reference_value is_primary
+                                                                       shipping_order_id _destroy] },
+                                           { items_attributes: %i[id type sequence line_number description freight_class
+                                                                  weight weight_uom quantity quantity_uom cube cube_uom
+                                                                  shipping_orders]})
   end
 end
