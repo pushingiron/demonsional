@@ -163,7 +163,7 @@ class ShippingOrdersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def shipping_order_params
-    params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id, :update_attributes,
+    params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id, so_match_ref, shipment_match_ref, :update_attributes,
                                            { pickup_locations_attributes: %i[id shipping_order_id loc_code name address1
                                                                              address2 city state postal country geo
                                                                              residential comments earliest_appt
