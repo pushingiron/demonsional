@@ -22,7 +22,7 @@
         <td><%= shipping_order.shipment_match_ref %></td>
         <td><%= link_to 'Show', shipping_order %></td>
         <td><%= link_to 'Edit', edit_shipping_order_path(shipping_order) %></td>
-        <td><%= link_to 'Destroy', shipping_order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Destroy', shipping_order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
