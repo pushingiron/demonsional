@@ -4,6 +4,9 @@
   <%= fp.hidden_field :stop_type, :value => 'Pickup' %>
     <div class="row">
       <div class="col">
+        <%= fp.check_box :_destroy %>
+      </div>
+      <div class="col">
         <%= fp.text_field :loc_code %>
       </div>
       <div class="col">

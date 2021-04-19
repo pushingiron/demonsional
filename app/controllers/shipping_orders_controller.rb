@@ -83,11 +83,13 @@ class ShippingOrdersController < ApplicationController
       @shipping_order.pickup_locations.build
     elsif params[:remove_pickup_location]
       # collect all marked for delete location ids
-      removed_pickup_locations = params[:shipping_order][:pickup_location_attributes].to_unsafe_h.map { |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
+      p '#######'
+      p params
+      removed_pickup_locations = params[:shipping_order][:pickup_locations_attributes].to_unsafe_h.map { |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
       # physically delete the ingredients from database
-      Reference.delete(removed_pickup_locations)
+      Location.delete(removed_pickup_locations)
       flash[:notice] = 'Pickup location removed.'
-      params[:shipping_order][:pickup_location_attributes].each do |attribute|
+      params[:shipping_order][:pickup_locations_attributes].each do |attribute|
         # rebuild ingredients attributes that doesn't have an id and its _destroy attribute is not 1
         @shipping_order.pickup_locations.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
       end
