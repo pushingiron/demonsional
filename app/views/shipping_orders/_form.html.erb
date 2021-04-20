@@ -18,6 +18,20 @@
         <%= f.text_field :cust_acct_num %>
       </div>
     </div>
+    <div class="row">
+      <div class="col bg-success">
+        <%= f.datetime_field :early_pickup_date %>
+      </div>
+      <div class="col bg-success">
+        <%= f.datetime_field :late_pickup_date %>
+      </div>
+      <div class="col bg-danger">
+        <%= f.datetime_field :early_delivery_date %>
+      </div>
+      <div class="col bg-danger">
+        <%= f.datetime_field :late_delivery_date %>
+      </div>
+    </div>
       <%= render '/layouts/references', f: f %>
     <div class="row">
       <%= render '/layouts/pickup_locations', f: f %>
