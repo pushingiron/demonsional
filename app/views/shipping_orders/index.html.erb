@@ -35,4 +35,6 @@
 <%= form_tag import_shipping_orders_path, multipart: true do %>
 <%= file_field_tag :file %>
 <%= submit_tag "Import" %>
+  <br>
+  <%= link_to 'Create in TMS', 'shipping_orders/post_xml'  %>
 <% end %>

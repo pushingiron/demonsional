@@ -1,6 +1,8 @@
 class ShippingOrdersController < ApplicationController
-  before_action :set_shipping_order, only: %i[ show edit update destroy ]
+
+  before_action :set_shipping_order, except: %i[index post_xml new create]
   before_action :authenticate_user!
+
 
   # GET /shipping_orders or /shipping_orders.json
   def index
@@ -33,20 +35,14 @@ class ShippingOrdersController < ApplicationController
     end
   end
 
-# PATCH/PUT /shipping_orders/1 or /shipping_orders/1.json
-=begin
-  def update
-    respond_to do |format|
-      if @shipping_order.update(shipping_order_params)
-        format.html { redirect_to @shipping_order, notice: "Shipping order was successfully updated." }
-        format.json { render :show, status: :ok, location: @shipping_order }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @shipping_order.errors, status: :unprocessable_entity }
-      end
-    end
+  def post_xml
+    p 'in post xml'
+    @shipping_orders = current_user.shipping_orders.all
+    @response = ShippingOrder.mg_post(@shipping_orders)
+    p 'headers!!! controller'
+    p @response
+    redirect_to static_pages_xml_response_path(@response)
   end
-=end
 
   def update
     @shipping_order = current_user.shipping_orders.find(params[:id])
@@ -163,6 +159,7 @@ class ShippingOrdersController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_shipping_order
+    p 'in set_shipping_order'
     @shipping_order = current_user.shipping_orders.find(params[:id])
   end
 

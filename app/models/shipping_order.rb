@@ -63,4 +63,67 @@ class ShippingOrder < ApplicationRecord
     location.latest_appt = row["#{prefix}_latest_appt"]
     location.save!
   end
+
+  def self.mg_post(shipping_order_list)
+    params = { userid: 'WSDemoID', password: 'demo1234', request: shipping_order_xml(shipping_order_list) }
+    encoded_params = URI.encode_www_form(params)
+    print encoded_params
+    response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params)
+    response.body.force_encoding('utf-8')
+  end
+
+end
+
+def shipping_order_xml(shipping_order_list)
+
+  # frozen_string_literal: true
+  xml = Builder::XmlMarkup.new
+  xml.instruct! :xml, version: '1.0'
+  xml.tag! 'service-request' do
+    xml.tag! 'service-id', 'ImportWeb'
+    xml.tag! 'request-id', '2021031909400044'
+    xml.tag! 'data' do
+      xml.tag! 'WebImport' do
+        xml.tag! 'WebImportHeader' do
+          xml.FileName 'SO-2021031909400044.xml'
+          xml.Type 'WebImportShippingOrder'
+          xml.UserName 'WSDemTopLoaderID'
+        end
+        xml.tag! 'WebImportFile'do
+          xml.tag! 'MercuryGate' do
+            xml.tag! 'Header' do
+              xml.SenderID 'MGSALES'
+              xml.ReceiverID 'MGSALES'
+              xml.OriginalFileName 'SO-2021031909400044.xml'
+              xml.Action 'UpdateOrAdd'
+              xml.DocTypeID 'ShippingOrder'
+              xml.DocCount '1'
+            end
+            shipping_order_list.each do |post|
+              xml.Load(type: 'CustomerLoad', action: 'UPDATEORADD') do
+                xml.ReferenceNumbers do
+                  Reference.where(shipping_order_id: post.id).each do |ref|
+                    xml.ReferenceNumber(type: ref.reference_type, isPrimary: ref.is_primary)
+                  end
+                end
+                xml.Payment do
+                  xml.Method(post.payment_method)
+                end
+                xml.Plan do
+                  xml.Events(count: '2') do
+                    xml.Event(type: :Pickup, sequenceNum: '1') do
+                      xml.Dates do
+                        xml.Date(type: 'planned')
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+    xml.target!
+  end
 end

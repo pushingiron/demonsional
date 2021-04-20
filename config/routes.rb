@@ -3,11 +3,13 @@ Rails.application.routes.draw do
   resources :items
   resources :shipping_order_dates
 
-
   resources :references
   resources :locations
   resources :shipping_orders do
     collection { post :import }
+    collection do
+      get :post_xml
+    end
   end
   devise_for :users, controllers: { sessions: 'users/sessions' }
 
