@@ -1,6 +1,6 @@
 class ShippingOrdersController < ApplicationController
 
-  before_action :set_shipping_order, except: %i[index post_xml new create]
+  before_action :set_shipping_order, except: %i[index post_xml new create import_page csv_example import]
   before_action :authenticate_user!
 
 
@@ -35,12 +35,16 @@ class ShippingOrdersController < ApplicationController
     end
   end
 
+  def import_page; end
+
+  def csv_example
+    send_file 'app/assets/examples/so.csv'
+  end
+
   def post_xml
     p 'in post xml'
     @shipping_orders = current_user.shipping_orders.all
     @response = ShippingOrder.mg_post(@shipping_orders)
-    p 'headers!!! controller'
-    p @response
     redirect_to static_pages_xml_response_path(@response)
   end
 
@@ -130,10 +134,7 @@ class ShippingOrdersController < ApplicationController
         @shipping_order.items.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
       end
     else
-      p '++++++++'
-      p 'saving SO'
       # save goes like usual
-      p shipping_order_params
       if @shipping_order.update(shipping_order_params)
         flash[:notice] = 'Successfully updated ShippingOrder'
         redirect_to @shipping_order and return

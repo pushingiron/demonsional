@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   resources :shipping_orders do
     collection do
       get :post_xml
+      get :import_page
+      post :import
+      get :csv_example
     end
   end
   
