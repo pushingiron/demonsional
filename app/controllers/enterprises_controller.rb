@@ -11,6 +11,7 @@ class EnterprisesController < ApplicationController
   def post_xml
     @enterprises = current_user.enterprises.all
     @response = Enterprise.mg_post(@enterprises)
+    p @response
     redirect_to static_pages_xml_response_path(@response)
   end
 
