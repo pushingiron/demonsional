@@ -17,9 +17,12 @@ class ShippingOrder < ApplicationRecord
 
   SHIPPING_ORDER_ATTRIBUTES = %w[payment_method cust_acct_num user_id so_match_ref shipment_match_ref early_pickup_date
                                  late_pickup_date early_delivery_date late_delivery_date].freeze
+
   REFERENCE_ATTRIBUTES = %w[id reference_type reference_value is_primary].freeze
+
   LOCATION_ATTRIBUTES = %w[id shipping_order_id loc_code name address1 address2 city state postal country geo
                            residential comments earliest_appt latest_appt stop_type loc_type].freeze
+
   ITEM_ATTRIBUTES = %w[type sequence line_number description freight_class weight weight_uom quantity quantity_uom
                        cube cube_uom].freeze
 
