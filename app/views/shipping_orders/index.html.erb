@@ -5,10 +5,12 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Payment method</th>
-      <th>Cust acct num</th>
-      <th>SO Match Reference</th>
-      <th>Shipment Match Reference</th>
+      <th>Customer Account Number</th>
+      <th>Early Pickup</th>
+      <th>Late Delivery</th>
+      <th>SO Match</th>
+      <th>Shipment Match</th>
+      <th>Terms</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,10 +18,12 @@
   <tbody>
     <% @shipping_orders.each do |shipping_order| %>
       <tr>
-        <td><%= shipping_order.payment_method %></td>
         <td><%= shipping_order.cust_acct_num %></td>
+        <td><%= shipping_order.early_pickup_date.strftime('%m/%d/%y %H:%M') %></td>
+        <td><%= shipping_order.late_delivery_date.strftime('%m/%d/%y %H:%M') %></td>
         <td><%= shipping_order.so_match_ref %></td>
         <td><%= shipping_order.shipment_match_ref %></td>
+        <td><%= shipping_order.payment_method %></td>
         <td><%= link_to 'Show', shipping_order %></td>
         <td><%= link_to 'Edit', edit_shipping_order_path(shipping_order) %></td>
         <td><%= button_to 'Destroy', shipping_order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
