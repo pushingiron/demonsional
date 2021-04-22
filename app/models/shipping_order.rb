@@ -2,17 +2,17 @@ class ShippingOrder < ApplicationRecord
 
   belongs_to :user
 
-  has_many :pickup_locations, -> { where stop_type: :Pickup}, class_name: 'Location'
-  has_many :delivery_locations,  -> { where stop_type: :Drop}, class_name: 'Location'
+  has_many :pickup_locations, -> { where stop_type: :Pickup}, class_name: 'Location', dependent: :delete_all
+  has_many :delivery_locations,  -> { where stop_type: :Drop}, class_name: 'Location', dependent: :delete_all
 
 
   accepts_nested_attributes_for :pickup_locations, allow_destroy: true
   accepts_nested_attributes_for :delivery_locations, allow_destroy: true
 
-  has_many :references
+  has_many :references, dependent: :delete_all
   accepts_nested_attributes_for :references, allow_destroy: true
 
-  has_many :items
+  has_many :items, dependent: :delete_all
   accepts_nested_attributes_for :items, allow_destroy: true
 
   SHIPPING_ORDER_ATTRIBUTES = %w[payment_method cust_acct_num user_id so_match_ref shipment_match_ref early_pickup_date

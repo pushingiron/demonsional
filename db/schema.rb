@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_20_193437) do
+ActiveRecord::Schema.define(version: 2021_04_22_213635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 2021_04_20_193437) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "ship_unit"
-    t.index ["shipping_order_id"], name: "index_items_on_shipping_order_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -71,7 +70,6 @@ ActiveRecord::Schema.define(version: 2021_04_20_193437) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "shipping_order_id"
     t.string "stop_type"
-    t.index ["shipping_order_id"], name: "index_locations_on_shipping_order_id"
   end
 
   create_table "references", force: :cascade do |t|
@@ -81,7 +79,6 @@ ActiveRecord::Schema.define(version: 2021_04_20_193437) do
     t.bigint "shipping_order_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["shipping_order_id"], name: "index_references_on_shipping_order_id"
   end
 
   create_table "shipping_orders", force: :cascade do |t|
@@ -112,4 +109,7 @@ ActiveRecord::Schema.define(version: 2021_04_20_193437) do
   end
 
   add_foreign_key "enterprises", "users"
+  add_foreign_key "items", "shipping_orders"
+  add_foreign_key "locations", "shipping_orders"
+  add_foreign_key "references", "shipping_orders"
 end
