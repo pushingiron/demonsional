@@ -29,7 +29,10 @@ class ShippingOrder < ApplicationRecord
       shipping_order.save!
       origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
       load_location(origin_location, row, "pickup")
-      load_location(origin_location, row, "delv")
+      origin_location.save!
+      delivery_location = shipping_order.delivery_locations.find_or_initialize_by(loc_code: row['delv_loc_code'])
+      load_location(delivery_location, row, "delv")
+      delivery_location.save!
       # start dealing with parsing out references and submitting to DB
       ref_list = row['references']
       CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|

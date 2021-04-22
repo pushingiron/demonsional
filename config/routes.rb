@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   resources :references
   resources :locations
-  
+
   resources :shipping_orders do
     collection do
       get :post_xml
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       get :csv_example
     end
   end
-  
+
   devise_for :users, controllers: { sessions: 'users/sessions' }
 
   resources :enterprises do
