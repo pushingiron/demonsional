@@ -32,7 +32,44 @@
         <%= f.datetime_field :late_delivery_date %>
       </div>
     </div>
-      <%= render '/layouts/references', f: f %>
+    <div class="col border border-secondary bg-info">
+
+      <h2>References</h2>
+      <div class="row">
+        <div class="col">
+          Select
+        </div>
+        <div class="col">
+          Reference Type
+        </div>
+        <div class="col">
+          Reference Value
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+          ShippingOrder Matching Reference
+        </div>
+        <div class="col">
+          <%= f.text_field :so_match_ref, hide_label: true %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+          Shipment Matching Reference
+        </div>
+        <div class="col">
+          <%= f.text_field :shipment_match_ref, hide_label: true %>
+        </div>
+      </div>
+      <div class="row">
+        <%= render '/layouts/references', f: f %>
+      </div>
+    </div>
     <div class="row">
       <%= render '/layouts/pickup_locations', f: f %>
       <%= render '/layouts/delivery_locations', f: f %>
