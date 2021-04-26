@@ -6,6 +6,8 @@
   <thead>
     <tr>
       <th>Customer Account Number</th>
+      <th>First Pickup</th>
+      <th>Last Delivery</th>
       <th>Early Pickup</th>
       <th>Late Delivery</th>
       <th>SO Match</th>
@@ -19,6 +21,8 @@
     <% @shipping_orders.each do |shipping_order| %>
       <tr>
         <td><%= shipping_order.cust_acct_num %></td>
+        <td><%= shipping_order.pickup_locations.first.name %></td>
+        <td><%= shipping_order.delivery_locations.last.name %></td>
         <td><%= shipping_order.early_pickup_date.strftime('%m/%d/%y %H:%M') %></td>
         <td><%= shipping_order.late_delivery_date.strftime('%m/%d/%y %H:%M') %></td>
         <td><%= shipping_order.so_match_ref %></td>
