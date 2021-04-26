@@ -6,7 +6,7 @@ class ShippingOrdersController < ApplicationController
 
   # GET /shipping_orders or /shipping_orders.json
   def index
-    @shipping_orders = ShippingOrder.all
+    @shipping_orders = current_user.shipping_orders.all
   end
 
   # GET /shipping_orders/1 or /shipping_orders/1.json
