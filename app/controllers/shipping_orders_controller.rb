@@ -45,7 +45,10 @@ class ShippingOrdersController < ApplicationController
     p 'in post xml'
     @shipping_orders = current_user.shipping_orders.all
     @response = ShippingOrder.mg_post(@shipping_orders)
-    redirect_to static_pages_xml_response_path(@response)
+    p @response
+    render inline: "<%= @response %><br><%= link_to 'back', shipping_orders_path %>"
+    # redirect_to static_page_xml_response_path
+    # redirect_to static_page_xml_response_path
   end
 
   def update

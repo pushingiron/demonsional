@@ -23,8 +23,13 @@ Rails.application.routes.draw do
   end
 
   root to: 'static_pages#index'
-  get 'static_pages/index'
-  get 'static_pages/xml_response'
+  # get 'static_pages/index'
+  # get 'static_pages/xml_response'
+  #
+  resources :static_pages do
+    get :index
+    get :xml_response
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   #
 
