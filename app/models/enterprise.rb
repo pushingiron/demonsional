@@ -1,15 +1,15 @@
 class Enterprise < ApplicationRecord
   belongs_to :user
 
-  def self.mg_post(enterprise_list)
-    params = { userid: 'WSDemoID', password: 'demo1234', request: enterprise_xml(enterprise_list) }
+  def self.mg_post(enterprise_list, user)
+    params = { userid: 'WSDemoID', password: 'demo1234', request: enterprise_xml(enterprise_list, user) }
     encoded_params = URI.encode_www_form(params)
     response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params)
     response.body.force_encoding('utf-8')
   end
 end
 
-def enterprise_xml(enterprise_list)
+def enterprise_xml(enterprise_list, user)
 
   # frozen_string_literal: true
   xml = Builder::XmlMarkup.new
@@ -35,7 +35,7 @@ def enterprise_xml(enterprise_list)
               xml.DocCount '1'
             end
             enterprise_list.each do | post |
-              xml.Enterprise(name: post.new_name, parentName: post.parent, active: post.active,
+              xml.Enterprise(name: post.new_name, parentName: user.configurations.first.parent, active: post.active,
                              action: :UpdateOrAdd) do
                 xml.MultiNational(false)
                 xml.Description

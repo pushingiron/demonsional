@@ -24,7 +24,7 @@ xml.tag! 'service-request' do
           xml.DocCount '1'
         end
         @enterprises.each do | post |
-          xml.Enterprise(name: post.new_name, parentName: post.parent, active: post.active,
+          xml.Enterprise(name: post.new_name, parentName: current_user.configurations.first.parent, active: post.active,
                          action: :UpdateOrAdd) do
             xml.MultiNational(false)
             xml.Description

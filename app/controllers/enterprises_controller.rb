@@ -10,9 +10,9 @@ class EnterprisesController < ApplicationController
 
   def post_xml
     @enterprises = current_user.enterprises.all
-    @response = Enterprise.mg_post(@enterprises)
+    @response = Enterprise.mg_post(@enterprises, current_user)
     p @response
-    redirect_to static_pages_xml_response_path(@response)
+    render inline: "<%= @response %><br><%= link_to 'back', enterprises_path %>"
   end
 
   # GET /enterprises/1 or /enterprises/1.json
@@ -74,6 +74,6 @@ class EnterprisesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
   def enterprise_params
-    params.require(:enterprise).permit(:new_name, :new_acct, :parent, :active, :location_code, :location_name, :address_1, :address_2, :city, :state, :postal, :country, :user_id)
+    params.require(:enterprise).permit(:new_name, :new_acct, :active, :location_code, :location_name, :address_1, :address_2, :city, :state, :postal, :country, :user_id)
   end
 end

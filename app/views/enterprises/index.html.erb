@@ -27,7 +27,7 @@
       <tr>
         <td><%= enterprise.new_name %></td>
         <td><%= enterprise.new_acct %></td>
-        <td><%= enterprise.parent %></td>
+        <td><%= current_user.configurations.first.parent %></td>
         <td><%= enterprise.active %></td>
         <td><%= enterprise.location_code %></td>
         <td><%= enterprise.location_name %></td>
