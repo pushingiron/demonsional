@@ -16,7 +16,7 @@ class ShippingOrder < ApplicationRecord
   accepts_nested_attributes_for :items, allow_destroy: true
 
   SHIPPING_ORDER_ATTRIBUTES = %w[payment_method cust_acct_num user_id so_match_ref shipment_match_ref early_pickup_date
-                                 late_pickup_date early_delivery_date late_delivery_date].freeze
+                                 late_pickup_date early_delivery_date late_delivery_date demo_type].freeze
 
   REFERENCE_ATTRIBUTES = %w[id reference_type reference_value is_primary].freeze
 

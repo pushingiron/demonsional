@@ -163,7 +163,6 @@ class ShippingOrdersController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_shipping_order
-    p 'in set_shipping_order'
     @shipping_order = current_user.shipping_orders.find(params[:id])
   end
 
@@ -171,7 +170,7 @@ class ShippingOrdersController < ApplicationController
   def shipping_order_params
     params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id, :so_match_ref,
                                            :shipment_match_ref, :update_attributes, :early_pickup_date,
-                                           :late_pickup_date, :early_delivery_date, :late_delivery_date,
+                                           :late_pickup_date, :early_delivery_date, :late_delivery_date, :demo_type,
                                            { pickup_locations_attributes: %i[id shipping_order_id loc_code name address1
                                                                              address2 city state postal country geo
                                                                              residential comments earliest_appt

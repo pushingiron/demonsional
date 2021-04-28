@@ -20,14 +20,12 @@ class EnterprisesController < ApplicationController
 
   # GET /enterprises/new
   def new
-    p 'in new!!!'
     @enterprise = current_user.enterprises.new
-    p @enterprise
   end
 
   # GET /enterprises/1/edit
   def edit
-    @user_id = current_user.id
+    @enterprise = current_user.enterprises.id
   end
 
   # POST /enterprises or /enterprises.json

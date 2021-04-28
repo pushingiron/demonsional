@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :references
   resources :locations
+  resources :configurations
 
   resources :shipping_orders do
     collection do

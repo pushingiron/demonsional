@@ -1,0 +1,24 @@
+<%= form_with(model: configuration) do |form| %>
+<!--
+  <%# if configuration.errors.any? %>
+    <div id="error_explanation">
+      <h2><%#= pluralize(configuration.errors.count, "error") %> prohibited this enterprise from being saved:</h2>
+
+      <ul>
+        <%# configuration.errors.each do |error| %>
+          <li><%#= error.full_message %></li>
+        <%# end %>
+      </ul>
+    </div>
+  <%# end %>
+-->
+
+  <div class="field">
+    <%= form.label :parent %>
+    <%= form.text_field :parent %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
