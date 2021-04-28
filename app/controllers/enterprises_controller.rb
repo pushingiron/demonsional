@@ -25,7 +25,6 @@ class EnterprisesController < ApplicationController
 
   # GET /enterprises/1/edit
   def edit
-    @enterprise = current_user.enterprises.id
   end
 
   # POST /enterprises or /enterprises.json
