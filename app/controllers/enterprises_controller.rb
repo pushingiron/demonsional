@@ -1,5 +1,5 @@
 class EnterprisesController < ApplicationController
-  before_action :set_enterprise, except: %i[index post_xml new create]
+  before_action :set_enterprise, except: %i[index post_xml new create import_page import]
   before_action :authenticate_user!
 
 
@@ -25,6 +25,13 @@ class EnterprisesController < ApplicationController
 
   # GET /enterprises/1/edit
   def edit
+  end
+
+  def import_page; end
+
+  def import
+    current_user.enterprises.import(params[:file])
+    redirect_to root_url, notice: 'Enterprises Imported.'
   end
 
   # POST /enterprises or /enterprises.json

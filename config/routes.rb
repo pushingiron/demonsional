@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  root to: 'static_pages#index'
+
   resources :items
 
   resources :references
@@ -20,10 +22,11 @@ Rails.application.routes.draw do
   resources :enterprises do
     collection do
       get :post_xml
+      post :import
+      get :import_page
     end
   end
 
-  root to: 'static_pages#index'
   # get 'static_pages/index'
   # get 'static_pages/xml_response'
   #
