@@ -41,6 +41,7 @@ xml.tag! 'service-request' do
                     end
                     post.pickup_locations.each do |pickup|
                       xml.Address(type: pickup.loc_type, isPrimary: false, isResidential: pickup.residential) do
+                        xml.LocationCode(pickup.loc_code)
                         xml.Name(pickup.name)
                         xml.AddrLine1(pickup.address1)
                         xml.AddrLine2(pickup.address2)
@@ -57,11 +58,12 @@ xml.tag! 'service-request' do
                     end
                   end
                   xml.Event(type: :Drop, sequenceNum: '2') do
-                    xml.Dates do
+                    xml.tag! 'Dates' do
                       xml.Date(post.early_delivery_date.strftime("%m/%d/%Y %H:%M"), type: 'planned')
                     end
                     post.delivery_locations.each do |delivery|
                       xml.Address(type: delivery.loc_type, isPrimary: false, isResidential: delivery.residential) do
+                        xml.LocationCode(delivery.loc_code)
                         xml.Name(delivery.name)
                         xml.AddrLine1(delivery.address1)
                         xml.AddrLine2(delivery.address2)
@@ -72,7 +74,7 @@ xml.tag! 'service-request' do
                       end
                       xml.tag! 'Shipments' do
                         xml.tag! 'ReferenceNumbers' do
-                          xml.ReferenceNumber(post.shipment_match_ref, type: 'Shipment Match')
+                          xml.ReferenceNumber(post.shipment_match_ref, type: 'Shipment Number')
                         end
                       end
                     end
@@ -83,7 +85,7 @@ xml.tag! 'service-request' do
                 xml.Shipment(type: 'REGULAR', action: 'UPDATEORADD') do
                   xml.Status('Pending')
                   xml.tag! 'ReferenceNumbers' do
-                    xml.ReferenceNumber(post.shipment_match_ref, type: 'Shipment Match')
+                    xml.ReferenceNumber(post.shipment_match_ref, type: 'Shipment Number')
                   end
                   xml.tag! 'Dates' do
                     xml.tag! 'Pickup' do
@@ -98,6 +100,7 @@ xml.tag! 'service-request' do
                   xml.tag! 'Shipper' do
                     post.pickup_locations.each do |pickup|
                       xml.Address(type: pickup.loc_type, isPrimary: false, isResidential: pickup.residential) do
+                        xml.LocationCode(pickup.loc_code)
                         xml.Name(pickup.name)
                         xml.AddrLine1(pickup.address1)
                         xml.AddrLine2(pickup.address2)
@@ -111,6 +114,7 @@ xml.tag! 'service-request' do
                   xml.tag! 'Consignee' do
                     post.delivery_locations.each do |delivery|
                       xml.Address(type: delivery.loc_type, isPrimary: false, isResidential: delivery.residential) do
+                        xml.LocationCode(delivery.loc_code)
                         xml.Name(delivery.name)
                         xml.AddrLine1(delivery.address1)
                         xml.AddrLine2(delivery.address2)
@@ -165,3 +169,4 @@ xml.tag! 'service-request' do
   end
   xml.target!
 end
+

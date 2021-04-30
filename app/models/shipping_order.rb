@@ -31,6 +31,7 @@ class ShippingOrder < ApplicationRecord
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'])
       shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)
       shipping_order.save!
+      after_save {so_id = id}
       origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
       load_location(origin_location, row, "pickup")
       origin_location.save!
@@ -40,6 +41,7 @@ class ShippingOrder < ApplicationRecord
       # start dealing with parsing out references and submitting to DB
       ref_list = row['references']
       unless ref_list.blank?
+        Reference.find_by(shipping_order_id: shipping_order.id).destroy
         CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
           reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
           reference.reference_type = ref_row[0]
@@ -49,6 +51,7 @@ class ShippingOrder < ApplicationRecord
         end
       end
       # deal with line items
+      Item.where(shipping_order_id: shipping_order.id).find_each(&:destroy)
       items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
       items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
       items.save!
@@ -124,6 +127,7 @@ def shipping_order_xml(shipping_order_list)
                       end
                       post.pickup_locations.each do |pickup|
                         xml.Address(type: pickup.loc_type, isPrimary: false, isResidential: pickup.residential) do
+                          xml.LocationCode(pickup.loc_code)
                           xml.Name(pickup.name)
                           xml.AddrLine1(pickup.address1)
                           xml.AddrLine2(pickup.address2)
@@ -145,6 +149,7 @@ def shipping_order_xml(shipping_order_list)
                       end
                       post.delivery_locations.each do |delivery|
                         xml.Address(type: delivery.loc_type, isPrimary: false, isResidential: delivery.residential) do
+                          xml.LocationCode(delivery.loc_code)
                           xml.Name(delivery.name)
                           xml.AddrLine1(delivery.address1)
                           xml.AddrLine2(delivery.address2)
@@ -181,6 +186,7 @@ def shipping_order_xml(shipping_order_list)
                     xml.tag! 'Shipper' do
                       post.pickup_locations.each do |pickup|
                         xml.Address(type: pickup.loc_type, isPrimary: false, isResidential: pickup.residential) do
+                          xml.LocationCode(pickup.loc_code)
                           xml.Name(pickup.name)
                           xml.AddrLine1(pickup.address1)
                           xml.AddrLine2(pickup.address2)
@@ -194,6 +200,7 @@ def shipping_order_xml(shipping_order_list)
                     xml.tag! 'Consignee' do
                       post.delivery_locations.each do |delivery|
                         xml.Address(type: delivery.loc_type, isPrimary: false, isResidential: delivery.residential) do
+                          xml.LocationCode(delivery.loc_code)
                           xml.Name(delivery.name)
                           xml.AddrLine1(delivery.address1)
                           xml.AddrLine2(delivery.address2)
