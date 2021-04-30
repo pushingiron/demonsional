@@ -1,7 +1,7 @@
 class Enterprise < ApplicationRecord
   belongs_to :user
 
-  ENTERPRISE_ATTRIBUTES = %w[new_name new_acct active location_code location_name address_1
+  ENTERPRISE_ATTRIBUTES = %w[company_name customer_account active location_code location_name address_1
                              address_2 city state postal country residential comments earliest_appt
                              latest_appt location_type contact_type contact_name contact_phone contact_fax
                              contact_email].freeze
@@ -15,7 +15,7 @@ class Enterprise < ApplicationRecord
 
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
-      enterprise = Enterprise.find_or_initialize_by(new_acct: row['new_acct'], location_code: row['location_code'])
+      enterprise = Enterprise.find_or_initialize_by(company_name: row['company_name'], location_code: row['location_code'])
       enterprise.attributes = row.to_hash.slice(*ENTERPRISE_ATTRIBUTES)
       enterprise.save!
     end
