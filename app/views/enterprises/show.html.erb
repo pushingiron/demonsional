@@ -1,18 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>New name:</strong>
-  <%= @enterprise.new_name %>
+  <strong>Enterprise:</strong>
+  <%= @enterprise.company_name %>
 </p>
 
 <p>
-  <strong>New acct:</strong>
-  <%= @enterprise.new_acct %>
-</p>
-
-<p>
-  <strong>Parent:</strong>
-  <%= @enterprise.parent %>
+  <strong>Customer Account:</strong>
+  <%= @enterprise.customer_account %>
 </p>
 
 <p>
@@ -58,11 +53,6 @@
 <p>
   <strong>Country:</strong>
   <%= @enterprise.country %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @enterprise.user_id %>
 </p>
 
 <%= link_to 'Edit', edit_enterprise_path(@enterprise) %> |

@@ -1,8 +1,8 @@
 class User < ApplicationRecord
 
-  has_many :enterprises
-  has_many :shipping_orders
-  has_many :configurations
+  has_many :enterprises, dependent: :destroy
+  has_many :shipping_orders, dependent: :destroy
+  has_many :configurations, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

@@ -24,14 +24,14 @@ xml.tag! 'service-request' do
           xml.DocCount '1'
         end
         @enterprises.each do | post |
-          xml.Enterprise(name: post.new_name, parentName: current_user.configurations.first.parent, active: post.active,
+          xml.Enterprise(name: post.company_name, parentName: current_user.configurations.first.parent, active: post.active,
                          action: :UpdateOrAdd) do
             xml.MultiNational(false)
             xml.Description
             xml.DisplayNotes
-            xml.CustomerAcctNum(post.new_acct)
+            xml.CustomerAcctNum(post.customer_account)
             xml.tag! 'ReferenceNumbers' do
-              xml.ReferenceNumber(post.new_acct, type: 'Cust Reference Num')
+              xml.ReferenceNumber(post.customer_account, type: 'Cust Reference Num')
             end
             xml.ReferenceNumbers
             xml.FederalEIN
@@ -42,7 +42,42 @@ xml.tag! 'service-request' do
             xml.Visibility(login: true, quote: true)
             xml.EnterpriseRoles
             xml.EnterpriseRoles(type: :customer, required: false)
-            xml.Locations
+            unless post.location_code.blank?
+              xml.tag! 'Locations' do
+                xml.Address(type: post.location_type, isResidential: post.residential, isPrimary: false ) do
+                  xml.LocationCode(post.location_code)
+                  xml.Alias(post.location_code)
+                  xml.Name(post.location_name)
+                  xml.AddrLine1(post.address_1)
+                  xml.AddrLine2(post.address_2)
+                  xml.City(post.city)
+                  xml.StateProvince(post.state)
+                  xml.PostalCode(post.postal)
+                  xml.CountryCode(post.country)
+                  xml.tag! 'Contacts' do
+                    unless post.contact_type.blank?
+                      xml.Contact(type: post.contact_type) do
+                        xml.Name(post.contact_name)
+                        xml.tag! 'ContactMethods' do
+                          i = 1
+                          unless post.contact_email.nil?
+                            xml.ContactMethod(post.contact_phone, sequenceNum: i, type: 'Phone')
+                            i += 1
+                          end
+                          unless  post.contact_fax.nil?
+                            xml.ContactMethod(post.contact_fax, sequenceNum: i, type: 'Fax')
+                            i += 1
+                          end
+                          unless post.contact_email.nil?
+                            xml.ContactMethod(post.contact_email, sequenceNum: i, type: 'Email')
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
           end
         end
       end

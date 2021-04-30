@@ -5,8 +5,8 @@
 <table class="table">
   <thead>
     <tr>
-      <th>New name</th>
-      <th>New acct</th>
+      <th>Enterprise</th>
+      <th>Customer Account</th>
       <th>Parent</th>
       <th>Active</th>
       <th>Location code</th>
@@ -25,8 +25,8 @@
   <tbody>
     <% @enterprises.each do |enterprise| %>
       <tr>
-        <td><%= enterprise.new_name %></td>
-        <td><%= enterprise.new_acct %></td>
+        <td><%= enterprise.company_name %></td>
+        <td><%= enterprise.customer_account %></td>
         <td><%= current_user.configurations.first.parent %></td>
         <td><%= enterprise.active %></td>
         <td><%= enterprise.location_code %></td>
@@ -51,3 +51,5 @@
 <%= link_to 'New Enterprise', new_enterprise_path %>
 <br>
 <%= link_to 'Create in TMS', 'enterprises/post_xml'  %>
+<br>
+<%= link_to 'Delete All', destroy_all_enterprises_path %>

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get :post_xml
       post :import
       get :import_page
+      get :destroy_all
     end
   end
 

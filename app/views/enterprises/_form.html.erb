@@ -11,19 +11,22 @@
     </div>
   <% end %>
 
+    <%= form.hidden_field :user_id %>
+
+
   <div class="field">
     <%= form.label :parent %>
     <%= ": #{current_user.configurations.first.parent}" %>
   </div>
 
   <div class="field">
-    <%= form.label :new_name %>
-    <%= form.text_field :new_name %>
+    <%= form.label :enterprise_name %>
+    <%= form.text_field :enterprise_name %>
   </div>
 
   <div class="field">
-    <%= form.label :new_acct %>
-    <%= form.text_field :new_acct %>
+    <%= form.label :customer_account %>
+    <%= form.text_field :customer_account %>
   </div>
 
   <div class="field">
@@ -76,11 +79,13 @@
     <%#= form.label :user_id %>
     <%#= form.text_field :user_id %>
   </div>
--->
+
 
   <div class="field">
-    <%= form.hidden_field :user_id, :value => @user_id %>
+    <%#= form.hidden_field :user_id, :value => @user_id %>
   </div>
+
+  -->
 
   <div class="actions">
     <%= form.submit %>

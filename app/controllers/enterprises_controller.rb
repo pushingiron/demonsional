@@ -1,6 +1,7 @@
 class EnterprisesController < ApplicationController
-  before_action :set_enterprise, except: %i[index post_xml new create import_page import]
+  before_action :set_enterprise, except: %i[index post_xml new create import_page import destroy_all]
   before_action :authenticate_user!
+
 
 
   # GET /enterprises or /enterprises.json or /enterprises.xml
@@ -27,6 +28,15 @@ class EnterprisesController < ApplicationController
   def edit
   end
 
+  def destroy_all
+    if current_user.enterprises.first.present?
+      current_user.enterprises.destroy_all
+      redirect_to enterprises_path, notice: 'All enterprises deleted'
+    else
+      redirect_to enterprises_path, notice: 'Nothing to deleted'
+    end
+  end
+
   def import_page; end
 
   def import
@@ -51,7 +61,6 @@ class EnterprisesController < ApplicationController
 
   # PATCH/PUT /enterprises/1 or /enterprises/1.json
   def update
-    @user_id = current_user.id
     respond_to do |format|
       if @enterprise.update(enterprise_params)
         format.html { redirect_to @enterprise, notice: "Enterprise was successfully updated." }
@@ -81,6 +90,9 @@ class EnterprisesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
   def enterprise_params
-    params.require(:enterprise).permit(:new_name, :new_acct, :active, :location_code, :location_name, :address_1, :address_2, :city, :state, :postal, :country, :user_id)
+    params.require(:enterprise).permit(:company_name, :customer_account, :active, :location_code,
+                                       :location_name, :address_1, :address_2, :city, :state, :postal, :country,
+                                       :user_id, :residential, :comments, :earliest_appt, :latest_appt, :location_type,
+                                       :contact_type, :contact_name, :contact_phone, :contact_fax, :contact_email)
   end
 end
