@@ -19,10 +19,10 @@
     <% @shipping_orders.each do |shipping_order| %>
       <tr>
         <td><%= shipping_order.cust_acct_num %></td>
-        <td><%= shipping_order.pickup_locations.first.name %></td>
-        <td><%= shipping_order.delivery_locations.last.name %></td>
-        <td><%= shipping_order.early_pickup_date.strftime('%m/%d/%y %H:%M') %></td>
-        <td><%= shipping_order.late_delivery_date.strftime('%m/%d/%y %H:%M') %></td>
+        <td><%= shipping_order.pickup_locations.first.loc_code %></td>
+        <td><%= shipping_order.delivery_locations.last.loc_code %></td>
+        <td><%= shipping_order.early_pickup_date.try(:strftime, '%m/%d/%y %H:%M') %></td>
+        <td><%= shipping_order.late_delivery_date.try(:strftime, '%m/%d/%y %H:%M') %></td>
         <td><%= shipping_order.so_match_ref %></td>
         <td><%= shipping_order.shipment_match_ref %></td>
         <td><%= shipping_order.payment_method %></td>
@@ -40,4 +40,4 @@
 <br>
 <%= link_to 'Create in TMS', 'shipping_orders/post_xml'  %>
 <br>
-<%= @response %>
+<%= link_to 'Delete All', destroy_all_shipping_orders_path %>

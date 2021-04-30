@@ -1,6 +1,6 @@
 class ShippingOrdersController < ApplicationController
 
-  before_action :set_shipping_order, except: %i[index post_xml new create import_page csv_example import]
+  before_action :set_shipping_order, except: %i[index post_xml new create import_page csv_example import destroy_all]
   before_action :authenticate_user!
 
 
@@ -49,6 +49,15 @@ class ShippingOrdersController < ApplicationController
     render inline: "<%= @response %><br><%= link_to 'back', shipping_orders_path %>"
     # redirect_to static_page_xml_response_path
     # redirect_to static_page_xml_response_path
+  end
+
+  def destroy_all
+    if current_user.shipping_orders.first.present?
+      current_user.shipping_orders.destroy_all
+      redirect_to shipping_orders_path, notice: 'All enterprises deleted'
+    else
+      redirect_to shipping_orders_path, notice: 'Nothing to deleted'
+    end
   end
 
   def update

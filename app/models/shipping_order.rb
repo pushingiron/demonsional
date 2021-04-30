@@ -39,12 +39,14 @@ class ShippingOrder < ApplicationRecord
       delivery_location.save!
       # start dealing with parsing out references and submitting to DB
       ref_list = row['references']
-      CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
-        reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
-        reference.reference_type = ref_row[0]
-        reference.reference_value = ref_row[1]
-        reference.is_primary = ref_row[2]
-        reference.save!
+      unless ref_list.blank?
+        CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
+          reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
+          reference.reference_type = ref_row[0]
+          reference.reference_value = ref_row[1]
+          reference.is_primary = ref_row[2]
+          reference.save!
+        end
       end
       # deal with line items
       items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
