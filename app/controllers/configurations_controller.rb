@@ -51,7 +51,7 @@ class ConfigurationsController < ApplicationController
   end
 
   def configurations_params
-    params.require(:configuration).permit(:parent, :user_id)
+    params.require(:configuration).permit(:parent, :user_id, :so_match, :shipment_match)
   end
 
 end
