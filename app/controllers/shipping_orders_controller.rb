@@ -44,7 +44,8 @@ class ShippingOrdersController < ApplicationController
   def post_xml
     p 'in post xml'
     @shipping_orders = current_user.shipping_orders.all
-    @response = ShippingOrder.mg_post(@shipping_orders)
+    @configs = current_user.configurations.first
+    @response = ShippingOrder.mg_post(@shipping_orders, @configs)
     p @response
     render inline: "<%= @response %><br><%= link_to 'back', shipping_orders_path %>"
     # redirect_to static_page_xml_response_path
@@ -62,7 +63,6 @@ class ShippingOrdersController < ApplicationController
 
   def update
     @shipping_order = current_user.shipping_orders.find(params[:id])
-    p 'In update'
     if params[:add_reference]
       # rebuild the ingredient attributes that doesn't have an id
       unless params[:shipping_order][:references_attributes].blank?
@@ -94,9 +94,6 @@ class ShippingOrdersController < ApplicationController
       # add one more empty loction attribute
       @shipping_order.pickup_locations.build
     elsif params[:remove_pickup_location]
-      # collect all marked for delete location ids
-      p '#######'
-      p params
       removed_pickup_locations = params[:shipping_order][:pickup_locations_attributes].to_unsafe_h.map { |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
       # physically delete the ingredients from database
       Location.delete(removed_pickup_locations)
@@ -180,6 +177,7 @@ class ShippingOrdersController < ApplicationController
     params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id, :so_match_ref,
                                            :shipment_match_ref, :update_attributes, :early_pickup_date,
                                            :late_pickup_date, :early_delivery_date, :late_delivery_date, :demo_type,
+                                           :equipment_code,
                                            { pickup_locations_attributes: %i[id shipping_order_id loc_code name address1
                                                                              address2 city state postal country geo
                                                                              residential comments earliest_appt

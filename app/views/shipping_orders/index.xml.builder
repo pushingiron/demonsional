@@ -28,7 +28,7 @@ xml.tag! 'service-request' do
                 Reference.where(shipping_order_id: post.id).each do |ref|
                   xml.ReferenceNumber(ref.reference_value, type: ref.reference_type, isPrimary: ref.is_primary)
                 end
-                xml.ReferenceNumber(post.so_match_ref, type: 'Cust Reference Number', isPrimary: false)
+                xml.ReferenceNumber(post.so_match_ref, type: current_user.configurations.first.so_match, isPrimary: false)
               end
               xml.tag! 'Payment' do
                 xml.Method(post.payment_method)
@@ -52,7 +52,7 @@ xml.tag! 'service-request' do
                       end
                       xml.tag! 'Shipments' do
                         xml.tag! 'ReferenceNumbers' do
-                          xml.ReferenceNumber(post.shipment_match_ref, type: 'Shipment Number')
+                          xml.ReferenceNumber(post.shipment_match_ref, type: current_user.configurations.first.shipment_match)
                         end
                       end
                     end
@@ -74,7 +74,7 @@ xml.tag! 'service-request' do
                       end
                       xml.tag! 'Shipments' do
                         xml.tag! 'ReferenceNumbers' do
-                          xml.ReferenceNumber(post.shipment_match_ref, type: 'Shipment Number')
+                          xml.ReferenceNumber(post.shipment_match_ref, type: current_user.configurations.first.shipment_match)
                         end
                       end
                     end
@@ -85,7 +85,7 @@ xml.tag! 'service-request' do
                 xml.Shipment(type: 'REGULAR', action: 'UPDATEORADD') do
                   xml.Status('Pending')
                   xml.tag! 'ReferenceNumbers' do
-                    xml.ReferenceNumber(post.shipment_match_ref, type: 'Shipment Number')
+                    xml.ReferenceNumber(post.shipment_match_ref, type: current_user.configurations.first.shipment_match)
                   end
                   xml.tag! 'Dates' do
                     xml.tag! 'Pickup' do
@@ -141,6 +141,9 @@ xml.tag! 'service-request' do
                         end
                       end
                     end
+                  end
+                  xml.tag! 'EquipmentList' do
+                    xml.Equipment(code: post.equipment_code)
                   end
                   xml.tag! 'Payment' do
                     xml.Method(post.payment_method)

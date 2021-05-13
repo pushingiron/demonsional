@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_211327) do
+ActiveRecord::Schema.define(version: 2021_05_10_200612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_211327) do
     t.datetime "early_delivery_date"
     t.datetime "late_delivery_date"
     t.string "demo_type"
+    t.string "equipment_code"
     t.index ["user_id"], name: "index_shipping_orders_on_user_id"
   end
 

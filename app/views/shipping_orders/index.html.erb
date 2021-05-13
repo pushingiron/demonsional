@@ -11,6 +11,7 @@
       <th>SO Match</th>
       <th>Shipment Match</th>
       <th>Terms</th>
+      <th>Equipment</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -26,6 +27,7 @@
         <td><%= shipping_order.so_match_ref %></td>
         <td><%= shipping_order.shipment_match_ref %></td>
         <td><%= shipping_order.payment_method %></td>
+        <td><%= shipping_order.equipment_code %></td>
         <td><%= link_to 'Show', shipping_order %></td>
         <td><%= link_to 'Edit', edit_shipping_order_path(shipping_order) %></td>
         <td><%= button_to 'Destroy', shipping_order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
