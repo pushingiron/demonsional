@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_10_200612) do
+ActiveRecord::Schema.define(version: 2021_05_17_044233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2021_05_10_200612) do
     t.integer "line_number"
     t.string "description"
     t.string "freight_class"
-    t.float "weight"
+    t.float "weight_actual"
     t.string "weight_uom"
     t.float "quantity"
     t.string "quantity_uom"
@@ -68,6 +68,14 @@ ActiveRecord::Schema.define(version: 2021_05_10_200612) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "ship_unit"
+    t.decimal "weight_plan"
+    t.decimal "weight_delivered"
+    t.string "country_of_origin"
+    t.string "country_of_manufacture"
+    t.decimal "customs_value"
+    t.string "customs_value_currency"
+    t.string "origination_country"
+    t.string "manufacturing_country"
   end
 
   create_table "locations", force: :cascade do |t|

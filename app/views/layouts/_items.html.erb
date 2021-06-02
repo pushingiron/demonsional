@@ -18,17 +18,29 @@
     </div>
   </div>
   <div class="row">
+
     <div class="col">
-      <%= i.text_field :freight_class %>
+      <%= i.number_field :weight_plan %>
     </div>
     <div class="col">
-      <%= i.number_field :weight %>
+      <%= i.number_field :weight_actual %>
+    </div>
+    <div class="col">
+      <%= i.number_field :weight_delivered %>
+    </div>
+    <div class="col">
+      <%= i.text_field :weight_uom %>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <%= i.text_field :weight_uom %>
+      <%= i.text_field :freight_class %>
     </div>
+    <div class="col">
+      <%= i.number_field :customs_value %>
+    </div>
+  </div>
+  <div class="row">
     <div class="col">
       <%= i.number_field :quantity %>
     </div>

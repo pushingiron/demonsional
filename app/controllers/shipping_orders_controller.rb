@@ -189,7 +189,10 @@ class ShippingOrdersController < ApplicationController
                                            { references_attributes: %i[id reference_type reference_value is_primary
                                                                        shipping_order_id _destroy] },
                                            { items_attributes: %i[id type sequence line_number description freight_class
-                                                                  weight weight_uom quantity quantity_uom cube cube_uom
-                                                                  shipping_orders_id _destroy] })
+                                                                  weight_actual weight_uom quantity quantity_uom cube
+                                                                  cube_uom shipping_orders_id _destroy weight_delivered
+                                                                  country_of_origin country_of_manufacture customs_value
+                                                                  customs_value_currency origination_country weight_plan
+                                                                  manufacturing_country] })
   end
 end

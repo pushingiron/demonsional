@@ -128,17 +128,37 @@ xml.tag! 'service-request' do
                   xml.tag! 'ItemGroups' do
                     post.items.each do |item|
                       xml.ItemGroup(sequence: item.sequence, id: item.id, isHandlingUnit: item.ship_unit) do
-                        xml.LineItem(lineNumber: item.line_number)
-                        xml.Description(item.description)
                         xml.FreightClasses do
                           xml.FreightClass(item.freight_class, type: 'ordered',)
                         end
                         xml.tag! 'Weights' do
-                          xml.Weight(item.weight, type: 'actual', uom: item.weight_uom)
+                          if item.weight_plan.positive?
+                            xml.Weight(item.weight_plan, type: 'planned', uom: item.weight_uom)
+                          end
+                          if item.weight_actual.positive?
+                            xml.Weight(item.weight_actual, type: 'actual', uom: item.weight_uom)
+                          end
+                          if item.weight_delivered.positive?
+                            xml.Weight(item.weight_delivered, type: 'delivered', uom: item.weight_uom)
+                          end
                         end
                         xml.tag! 'Quantities' do
-                          xml.Quantity(item.quantity, type: 'actual', uom: item.quantity_uom)
+                          if item.weight_plan.positive?
+                            xml.Quantity(item.quantity, type: 'planned', uom: item.quantity_uom)
+                          end
+                          if item.weight_actual.positive?
+                            xml.Quantity(item.quantity, type: 'actual', uom: item.quantity_uom)
+                          end
+                          if item.weight_delivered.positive?
+                            xml.Quantity(item.quantity, type: 'delivered', uom: item.quantity_uom)
+                          end
                         end
+                        xml.Description(item.description)
+                        xml.LineItem(lineNumber: item.line_number) do
+                          xml.CustomsValue(item.customs_value) if item.customs_value.positive?
+                          xml.ManufacturingCountry(item.manufacturing_country) unless item.manufacturing_country.nil?
+                        end
+
                       end
                     end
                   end

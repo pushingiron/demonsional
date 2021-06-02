@@ -23,8 +23,9 @@ class ShippingOrder < ApplicationRecord
   LOCATION_ATTRIBUTES = %w[id shipping_order_id loc_code name address1 address2 city state postal country geo
                            residential comments earliest_appt latest_appt stop_type loc_type].freeze
 
-  ITEM_ATTRIBUTES = %w[type sequence line_number description freight_class weight weight_uom quantity quantity_uom
-                       cube cube_uom].freeze
+  ITEM_ATTRIBUTES = %w[type sequence line_number description freight_class weight_actual weight_uom quantity quantity_uom
+                       cube cube_uom weight_plan weight_delivered country_of_origin country_of_manufacture customs_value
+                       customs_value_currency origination_country manufacturing_country].freeze
 
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
@@ -41,13 +42,16 @@ class ShippingOrder < ApplicationRecord
       # start dealing with parsing out references and submitting to DB
       ref_list = row['references']
       unless ref_list.blank?
-        Reference.find_by(shipping_order_id: shipping_order.id).destroy
-        CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
-          reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
-          reference.reference_type = ref_row[0]
-          reference.reference_value = ref_row[1]
-          reference.is_primary = ref_row[2]
-          reference.save!
+        begin
+          Reference.find_by(shipping_order_id: shipping_order.id).destroy
+        rescue NoMethodError
+          CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
+            reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
+            reference.reference_type = ref_row[0]
+            reference.reference_value = ref_row[1]
+            reference.is_primary = ref_row[2]
+            reference.save!
+          end
         end
       end
       # deal with line items
@@ -217,16 +221,51 @@ def shipping_order_xml(shipping_order_list, configs)
                     xml.tag! 'ItemGroups' do
                       post.items.each do |item|
                         xml.ItemGroup(sequence: item.sequence, id: item.id, isHandlingUnit: item.ship_unit) do
-                          xml.LineItem(lineNumber: item.line_number)
-                          xml.Description(item.description)
                           xml.FreightClasses do
                             xml.FreightClass(item.freight_class, type: 'ordered',)
                           end
                           xml.tag! 'Weights' do
-                            xml.Weight(item.weight, type: 'actual', uom: item.weight_uom)
+                            unless item.weight_plan.nil?
+                              if item.weight_plan.positive?
+                                xml.Weight(item.weight_plan, type: 'planned', uom: item.weight_uom)
+                              end
+                            end
+                            unless item.weight_actual.nil?
+                              if item.weight_actual.positive?
+                                xml.Weight(item.weight_actual, type: 'actual', uom: item.weight_uom)
+                              end
+                            end
+                            unless item.weight_delivered.nil?
+                              if item.weight_delivered.positive?
+                                xml.Weight(item.weight_delivered, type: 'delivered', uom: item.weight_uom)
+                              end
+                            end
                           end
                           xml.tag! 'Quantities' do
-                            xml.Quantity(item.quantity, type: 'actual', uom: item.quantity_uom)
+                            unless item.weight_plan.nil?
+                              if item.weight_plan.positive?
+                                xml.Quantity(item.quantity, type: 'planned', uom: item.quantity_uom)
+                              end
+                            end
+                            unless item.weight_actual.nil?
+                              if item.weight_actual.positive?
+                                xml.Quantity(item.quantity, type: 'actual', uom: item.quantity_uom)
+                              end
+                            end
+                            unless item.weight_delivered.nil?
+                              if item.weight_delivered.positive?
+                                xml.Quantity(item.quantity, type: 'delivered', uom: item.quantity_uom)
+                              end
+                            end
+                          end
+                          xml.Description(item.description)
+                          xml.LineItem(lineNumber: item.line_number) do
+                            unless item.customs_value.nil?
+                              xml.CustomsValue(item.customs_value) if item.customs_value.positive?
+                            end
+                            unless item.manufacturing_country.nil?
+                              xml.ManufacturingCountry(item.manufacturing_country) unless item.manufacturing_country.nil?
+                            end
                           end
                         end
                       end

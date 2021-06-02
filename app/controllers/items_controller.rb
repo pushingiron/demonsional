@@ -65,6 +65,9 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:type, :sequence, :line_number, :description, :freight_class, :weight, :weight_uom, :quantity, :quantity_uom, :cube, :cube_uom, :shipping_orders)
+      params.require(:item).permit(:type, :sequence, :line_number, :description, :freight_class, :weight_actual,
+                                   :weight_uom, :quantity, :quantity_uom, :cube, :cube_uom, :shipping_orders, :weight_plan,
+                                   :weight_delivered, :country_of_origin, :country_of_manufacture, :customs_value,
+                                   :customs_value_currency, :origination_country, manufacturing_country)
     end
 end
