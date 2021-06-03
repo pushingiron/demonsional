@@ -28,37 +28,45 @@ class ShippingOrder < ApplicationRecord
                        customs_value_currency origination_country manufacturing_country].freeze
 
   def self.import(file)
+    so_prev = nil
     CSV.foreach(file.path, headers: true) do |row|
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'])
-      shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)
-      shipping_order.save!
-      after_save {so_id = id}
-      origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
-      load_location(origin_location, row, "pickup")
-      origin_location.save!
-      delivery_location = shipping_order.delivery_locations.find_or_initialize_by(loc_code: row['delv_loc_code'])
-      load_location(delivery_location, row, "delv")
-      delivery_location.save!
-      # start dealing with parsing out references and submitting to DB
-      ref_list = row['references']
-      unless ref_list.blank?
-        begin
-          Reference.find_by(shipping_order_id: shipping_order.id).destroy
-        rescue NoMethodError
-          CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
-            reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
-            reference.reference_type = ref_row[0]
-            reference.reference_value = ref_row[1]
-            reference.is_primary = ref_row[2]
-            reference.save!
+      if row['so_match_ref'] != so_prev
+        shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)
+        shipping_order.save!
+        after_save {so_id = id}
+        origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
+        load_location(origin_location, row, "pickup")
+        origin_location.save!
+        delivery_location = shipping_order.delivery_locations.find_or_initialize_by(loc_code: row['delv_loc_code'])
+        load_location(delivery_location, row, "delv")
+        delivery_location.save!
+        # start dealing with parsing out references and submitting to DB
+        ref_list = row['references']
+        unless ref_list.blank?
+          begin
+            Reference.find_by(shipping_order_id: shipping_order.id).destroy
+          rescue NoMethodError
+            CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
+              reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
+              reference.reference_type = ref_row[0]
+              reference.reference_value = ref_row[1]
+              reference.is_primary = ref_row[2]
+              reference.save!
+            end
           end
         end
+        # deal with line items
+        Item.where(shipping_order_id: shipping_order.id).find_each(&:destroy)
+        items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
+        items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
+        items.save!
+      else
+        items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
+        items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
+        items.save!
       end
-      # deal with line items
-      Item.where(shipping_order_id: shipping_order.id).find_each(&:destroy)
-      items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
-      items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
-      items.save!
+      so_prev = row['so_match_ref']
     end
   end
 
@@ -222,7 +230,7 @@ def shipping_order_xml(shipping_order_list, configs)
                       post.items.each do |item|
                         xml.ItemGroup(sequence: item.sequence, id: item.id, isHandlingUnit: item.ship_unit) do
                           xml.FreightClasses do
-                            xml.FreightClass(item.freight_class, type: 'ordered',)
+                            xml.FreightClass(item.freight_class, type: 'ordered')
                           end
                           xml.tag! 'Weights' do
                             unless item.weight_plan.nil?
