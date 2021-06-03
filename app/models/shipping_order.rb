@@ -226,10 +226,10 @@ def shipping_order_xml(shipping_order_list, configs)
                         end
                       end
                     end
-                    item_seq = 1
+                    item_seq = 0
                     xml.tag! 'ItemGroups' do
-                      item_seq = + 1
                       post.items.each do |item|
+                        item_seq += 1
                         xml.ItemGroup(sequence: item_seq, id: item.id, isHandlingUnit: item.ship_unit) do
                           xml.FreightClasses do
                             xml.FreightClass(item.freight_class, type: 'ordered')
