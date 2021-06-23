@@ -15,7 +15,11 @@
       <h1>Dashboard</h1>
       <h2>Current Shipping Orders: <%= current_user.shipping_orders.count %></h2>
       <h2>Current Enterprises: <%= current_user.enterprises.count %></h2>
-      <h2>Parent Enterprise: <%= current_user.configurations.first.parent unless current_user.configurations.blank? %></h2>
+      <% if current_user.configurations.blank? %>
+        <h2>Parent Enterprise: <%= link_to 'Configuration Needed', new_configuration_path %></h2>
+      <% else %>
+        <h2>Parent Enterprise: <%= current_user.configurations.first.parent %></h2>
+      <% end %>
     </div>
   </div>
 
