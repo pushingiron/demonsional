@@ -193,6 +193,6 @@ class ShippingOrdersController < ApplicationController
                                                                   cube_uom shipping_orders_id _destroy weight_delivered
                                                                   country_of_origin country_of_manufacture customs_value
                                                                   customs_value_currency origination_country weight_plan
-                                                                  manufacturing_country] })
+                                                                  manufacturing_country item_id] })
   end
 end

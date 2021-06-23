@@ -25,7 +25,7 @@ class ShippingOrder < ApplicationRecord
 
   ITEM_ATTRIBUTES = %w[type sequence line_number description freight_class weight_actual weight_uom quantity quantity_uom
                        cube cube_uom weight_plan weight_delivered country_of_origin country_of_manufacture customs_value
-                       customs_value_currency origination_country manufacturing_country].freeze
+                       customs_value_currency origination_country manufacturing_country item_id].freeze
 
   def self.import(file)
     so_prev = nil
@@ -48,21 +48,23 @@ class ShippingOrder < ApplicationRecord
             Reference.find_by(shipping_order_id: shipping_order.id).destroy
           rescue NoMethodError
             CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
-              reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
-              reference.reference_type = ref_row[0]
-              reference.reference_value = ref_row[1]
-              reference.is_primary = ref_row[2]
-              reference.save!
+              unless ref_row[1].blank?
+                reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
+                reference.reference_type = ref_row[0]
+                reference.reference_value = ref_row[1]
+                reference.is_primary = ref_row[2]
+                reference.save!
+              end
             end
           end
         end
         # deal with line items
         Item.where(shipping_order_id: shipping_order.id).find_each(&:destroy)
-        items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
+        items = shipping_order.items.find_or_initialize_by(line_number: row['item_id'])
         items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
         items.save!
       else
-        items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
+        items = shipping_order.items.find_or_initialize_by(line_number: row['item_id'])
         items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
         items.save!
       end
@@ -270,6 +272,9 @@ def shipping_order_xml(shipping_order_list, configs)
                           end
                           xml.Description(item.description)
                           xml.LineItem(lineNumber: item.line_number) do
+                            if item.cube > 0
+                              xml.Cube(item.cube, uom: item.cube_uom)
+                            end
                             unless item.customs_value.nil?
                               xml.CustomsValue(item.customs_value) if item.customs_value.positive?
                             end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_17_044233) do
+ActiveRecord::Schema.define(version: 2021_06_03_192834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2021_05_17_044233) do
     t.string "customs_value_currency"
     t.string "origination_country"
     t.string "manufacturing_country"
+    t.string "item_id"
   end
 
   create_table "locations", force: :cascade do |t|
