@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'users/index'
   root to: 'static_pages#index'
 
   resources :items
@@ -19,6 +20,9 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: { sessions: 'users/sessions' }
+  # match '/users',   to: 'users#index',   via: 'get'
+  resources :users
+
 
   resources :enterprises do
     collection do

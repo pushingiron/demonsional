@@ -8,8 +8,7 @@ class ReferencesController < ApplicationController
   end
 
   # GET /references/1 or /references/1.json
-  def show
-  end
+  def show; end
 
   # GET /references/new
   def new
@@ -17,8 +16,7 @@ class ReferencesController < ApplicationController
   end
 
   # GET /references/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /references or /references.json
   def create
