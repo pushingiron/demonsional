@@ -42,7 +42,6 @@ class ShippingOrdersController < ApplicationController
   end
 
   def post_xml
-    p 'in post xml'
     @shipping_orders = current_user.shipping_orders.all
     @configs = current_user.configurations.first
     @response = ShippingOrder.mg_post(@shipping_orders, @configs)

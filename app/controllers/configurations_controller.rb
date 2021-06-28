@@ -23,7 +23,7 @@ class ConfigurationsController < ApplicationController
 
     respond_to do |format|
       if @configuration.save
-        format.html { redirect_to @configuration, notice: "Configuration was successfully created." }
+        format.html { redirect_to @configuration, notice: 'Configuration was successfully created.' }
         format.json { render :show, status: :created, location: @configuration }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -35,7 +35,7 @@ class ConfigurationsController < ApplicationController
   def update
     respond_to do |format|
       if @configuration.update(configurations_params)
-        format.html { redirect_to @configuration, notice: "Configuration was successfully updated." }
+        format.html { redirect_to @configuration, notice: 'Configuration was successfully updated.' }
         format.json { render :show, status: :ok, location: @configuration }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -47,7 +47,11 @@ class ConfigurationsController < ApplicationController
   private
 
   def set_configuration
-    @configuration = current_user.configurations.find(params[:id])
+    begin
+      @configuration = current_user.configurations.find(params[:id])
+    rescue => e
+        redirect_to new_configuration_path
+    end
   end
 
   def configurations_params
