@@ -1,7 +1,6 @@
 <div class="container">
 
   <h2>Sign up</h2>
-
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -23,11 +22,27 @@
       <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
     </div>
 
+    <div class="field">
+      <%= f.label :cust_acct %><br />
+      <%= f.text_field :cust_acct, autocomplete: "new-password" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :so_match_reference %><br />
+      <%= f.text_field :so_match_reference, value: "SO Number" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :shipment_match_reference %><br />
+      <%= f.text_field :shipment_match_reference, value: "Shipment Number" %>
+    </div>
+
+
     <div class="actions">
       <%= f.submit "Sign up" %>
     </div>
   <% end %>
 
   <%= render "devise/shared/links" %>
-</div>
 
+</div>

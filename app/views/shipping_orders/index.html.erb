@@ -1,5 +1,15 @@
 <h1>Shipping Orders</h1>
 
+<%= link_to 'New Shipping Order', new_shipping_order_path %>
+<br>
+<% if current_user.cust_acct.blank? %>
+  <%= link_to 'Complete configurations before importing', "users/edit" %>
+<% else %>
+  <%= link_to 'Create in TMS', 'shipping_orders/post_xml'  %>
+<% end %>
+<br>
+<%= link_to 'Delete All', destroy_all_shipping_orders_path %>
+<br><br>
 <table class="table">
   <thead>
     <tr>
@@ -40,6 +50,10 @@
 
 <%= link_to 'New Shipping Order', new_shipping_order_path %>
 <br>
-<%= link_to 'Create in TMS', 'shipping_orders/post_xml'  %>
+<% if current_user.cust_acct.blank? %>
+  <%= link_to 'Complete configurations before importing', "users/edit" %>
+<% else %>
+  <%= link_to 'Create in TMS', 'shipping_orders/post_xml'  %>
+<% end %>
 <br>
 <%= link_to 'Delete All', destroy_all_shipping_orders_path %>

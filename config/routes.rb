@@ -7,7 +7,6 @@ Rails.application.routes.draw do
 
   resources :references
   resources :locations
-  resources :configurations
 
   resources :shipping_orders do
     collection do
@@ -21,7 +20,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { sessions: 'users/sessions' }
   # match '/users',   to: 'users#index',   via: 'get'
-  resources :users
+  # resources :users
 
 
   resources :enterprises do
