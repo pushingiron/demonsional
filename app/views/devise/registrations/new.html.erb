@@ -21,10 +21,12 @@
       <%= f.label :password_confirmation %><br />
       <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
     </div>
-
+<div class="container bg-light">
+  <p>Customer account number is required if using automated demo setup.  The enterprise you select should be at least 1 enterprise levels under an existing boost setup.  2 enterprises levels is recommended.</p>
+  <%= image_tag('enterrpise.jpg') %>
     <div class="field">
       <%= f.label :cust_acct %><br />
-      <%= f.text_field :cust_acct, autocomplete: "new-password" %>
+      <%= f.text_field :cust_acct, placeholder: 'TMS cust acct' %>
     </div>
 
     <div class="field">
@@ -38,6 +40,8 @@
     </div>
 
 
+
+</div>
     <div class="actions">
       <%= f.submit "Sign up" %>
     </div>

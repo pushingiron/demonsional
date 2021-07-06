@@ -25,17 +25,18 @@
 
     <div class="field">
       <%= f.label :password_confirmation %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      <%= f.password_field :password_confirmation, placeholder: "new-password" %>
     </div>
 
     <div class="field">
-      <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+      <%= f.label :current_password %> <i>(we need your current password to confirm your changes below)</i><br />
       <%= f.password_field :current_password, autocomplete: "current-password" %>
     </div>
+<div class="container">
 
     <div class="field">
       <%= f.label :cust_acct %><br />
-      <%= f.text_field :cust_acct, autocomplete: "new-password" %>
+      <%= f.text_field :cust_acct, placeholder: 'TMS cust acct' %>
     </div>
 
     <div class="field">
@@ -47,6 +48,7 @@
       <%= f.label :shipment_match_reference %><br />
       <%= f.text_field :shipment_match_reference %>
     </div>
+</div>
 
     <div class="actions">
       <%= f.submit "Update" %>
