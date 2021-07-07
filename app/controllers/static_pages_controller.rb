@@ -19,6 +19,10 @@ class StaticPagesController < ApplicationController
       e.active = true
       e.user_id = current_user.id
     end
+    @enterprises = current_user.enterprises.all
+    @response = Enterprise.mg_post(@enterprises, current_user)
+    p @response
+    render inline: "<%= @response %><br><%= link_to 'back', enterprises_path %>"
   end
 
   def xml_response

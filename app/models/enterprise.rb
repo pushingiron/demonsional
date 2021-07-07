@@ -48,7 +48,7 @@ def enterprise_xml(enterprise_list, user)
               xml.DocCount '1'
             end
             enterprise_list.each do | post |
-              xml.Enterprise(name: post.company_name, parentName: user.configurations.first.parent, active: post.active,
+              xml.Enterprise(name: post.company_name, parentName: user.cust_acct, active: post.active,
                              action: :UpdateOrAdd) do
                 xml.MultiNational(false)
                 xml.Description
