@@ -10,7 +10,15 @@ class StaticPagesController < ApplicationController
   end
 
   def create_demo
-    p params
+    @enterprise = params[:enterprise]
+    p @enterprise
+    Enterprise.destroy_all
+    Enterprise.create(company_name: @enterprise) do |e|
+      p 'loop'
+      e.customer_account = "#{@enterprise}_acct"
+      e.active = true
+      e.user_id = current_user.id
+    end
   end
 
   def xml_response

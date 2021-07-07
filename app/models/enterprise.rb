@@ -22,8 +22,6 @@ class Enterprise < ApplicationRecord
   end
 end
 
-
-
 def enterprise_xml(enterprise_list, user)
 
   # frozen_string_literal: true

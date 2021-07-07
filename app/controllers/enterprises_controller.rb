@@ -1,5 +1,5 @@
 class EnterprisesController < ApplicationController
-  before_action :set_enterprise, except: %i[index post_xml new create import_page import destroy_all]
+  before_action :set_enterprise, except: %i[index post_xml new create import_page import destroy_all create_enterprise_demo]
   before_action :authenticate_user!
 
 
@@ -84,6 +84,7 @@ class EnterprisesController < ApplicationController
   def csv_example
     send_file 'app/assets/examples/enterprises_example.csv'
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
