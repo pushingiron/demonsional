@@ -81,11 +81,15 @@ class EnterprisesController < ApplicationController
     end
   end
 
+  def csv_example
+    send_file 'app/assets/examples/enterprises_example.csv'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
   def set_enterprise
     p 'set enterprise!!!!!'
-    @enterprise = current_user.enterprises.find(params[:id])
+    @enterprise = current_user.cust_acct
   end
 
     # Only allow a list of trusted parameters through.

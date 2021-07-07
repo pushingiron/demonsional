@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       post :import
       get :import_page
       get :destroy_all
+      get :csv_example
     end
   end
 

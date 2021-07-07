@@ -1,0 +1,2 @@
+﻿blank,company_name,customer_account,location_code,location_type,location_name,address_1,address_2,city,state,postal,country,contact_type,contact_name,contact_phone,contact_fax,contact_email
+,Mass Location Test,MLT,AK101,ShipTo/From,Acme Worldwide ANCHORAGE         ,515 E TUDOR ROAD        ,,ANCHORAGE         ,AK,99503,US,Dispatch,Dispatch Manager,800-967-1111,214-905-0708,info@noemail.com
