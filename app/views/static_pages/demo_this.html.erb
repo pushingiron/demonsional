@@ -1,0 +1,10 @@
+<div class="container-fluid">
+      <h1>Demonsional!</h1>
+      <h2>Creating a new demo environment will delete all existing shipping orders in this application</h2>
+  <%= form_with model: @session, url: create_demo_url do |form| %>
+    <%= form.label :Customer %>
+    <%= form.text_field :customer %>
+    <%= form.submit %>
+  <% end %>
+
+</div>
