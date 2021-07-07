@@ -22,6 +22,10 @@ class StaticPagesController < ApplicationController
     @enterprises = current_user.enterprises.all
     @response = Enterprise.mg_post(@enterprises, current_user)
     p @response
+    ShippingOrder.destroy_all
+    file = File.join(Rails.root, 'app/assets', 'examples', 'so.csv')
+    p file
+    current_user.shipping_orders.import(file)
     render inline: "<%= @response %><br><%= link_to 'back', enterprises_path %>"
   end
 

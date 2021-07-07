@@ -29,7 +29,14 @@ class ShippingOrder < ApplicationRecord
 
   def self.import(file)
     so_prev = nil
-    CSV.foreach(file.path, headers: true) do |row|
+    begin
+      file_path = file.path
+    rescue StandardError
+      file_path = file
+      p 'in file path error'
+      p file_path
+    end
+    CSV.foreach(file_path, headers: true) do |row|
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'])
       if row['so_match_ref'] != so_prev
         shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)

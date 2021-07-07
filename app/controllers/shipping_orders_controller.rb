@@ -160,7 +160,7 @@ class ShippingOrdersController < ApplicationController
   end
 
   def import
-    current_user.shipping_orders.import(params[:file])
+    p current_user.shipping_orders.import(params[:file])
     redirect_to root_url, notice: 'Shipping Orders Imported.'
   end
 

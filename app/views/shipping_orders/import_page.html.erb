@@ -2,7 +2,7 @@
   <h3>Shipping Order Import Page</h3>
   <p>
     Make sure your file is a CSV format.  So commas need to separate the columns in the spreadsheet.  You can download an
-    example <%= link_to 'here', csv %>.</p>
+    example <%= link_to 'here', csv_example_shipping_orders_path %>.</p>
 
   <%= form_tag import_shipping_orders_path, multipart: true do %>
     <%= file_field_tag :file %>
