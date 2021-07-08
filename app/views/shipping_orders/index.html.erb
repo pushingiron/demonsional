@@ -30,8 +30,14 @@
     <% @shipping_orders.each do |shipping_order| %>
       <tr>
         <td><%= shipping_order.cust_acct_num %></td>
-        <td><%= shipping_order.pickup_locations.first.loc_code %></td>
-        <td><%= shipping_order.delivery_locations.last.loc_code %></td>
+        <% begin %>
+          <td><%= shipping_order.pickup_locations.first.loc_code %></td>
+        <% rescue StandardError => e %>
+        <% end %>
+        <% begin %>
+          <td><%= shipping_order.delivery_locations.last.loc_code %></td>
+        <% rescue StandardError => e %>
+        <% end %>
         <td><%= shipping_order.early_pickup_date.try(:strftime, '%m/%d/%y %H:%M') %></td>
         <td><%= shipping_order.late_delivery_date.try(:strftime, '%m/%d/%y %H:%M') %></td>
         <td><%= shipping_order.so_match_ref %></td>

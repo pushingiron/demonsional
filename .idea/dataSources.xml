@@ -35,5 +35,20 @@
       <jdbc-url>jdbc:postgresql://127.0.0.1:5432/demonsional_production</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Production - PostgreSQL" uuid="da12b8c2-b83c-484b-9979-7105a06de9de">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>postgres://qnnpgcuibdoxza:ccc148524f92bf4331c60900569a826341d169149b217508a6ba417baf5bd9ab@ec2-52-7-115-250.compute-1.amazonaws.com:5432/d8tatvfl7jqblh</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="d8tatvfl7jqblh@ec2-52-7-115-250.compute-1.amazonaws.com" uuid="9759456a-2cf1-487c-938d-6995f0971bac">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-52-7-115-250.compute-1.amazonaws.com:5432/d8tatvfl7jqblh</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
