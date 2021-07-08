@@ -23,14 +23,12 @@ class StaticPagesController < ApplicationController
     @response = Enterprise.mg_post(@enterprises, current_user)
     p @response
     ShippingOrder.destroy_all
-    file = File.join(Rails.root, 'app/assets', 'examples', 'so.csv')
+    file = File.join(Rails.root, 'app/assets', 'data', 'SO Automation.csv')
     p file
     current_user.shipping_orders.import(file)
     @shipping_orders = current_user.shipping_orders.all
     @response = ShippingOrder.mg_post(@shipping_orders, current_user.so_match_reference, current_user.shipment_match_reference)
     p @response
-    render inline: "<%= @response %><br><%= link_to 'back', shipping_orders_path %>"
-    render inline: "<%= @response %><br><%= link_to 'back', enterprises_path %>"
   end
 
   def xml_response
