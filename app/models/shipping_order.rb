@@ -97,15 +97,16 @@ class ShippingOrder < ApplicationRecord
     location.save!
   end
 
-  def self.mg_post(shipping_order_list)
-    params = { userid: 'WSDemoID', password: 'demo1234', request: shipping_order_xml(shipping_order_list) }
+  def self.mg_post(shipping_order_list, so_match, sh_match)
+    params = { userid: 'WSDemoID', password: 'demo1234', request: shipping_order_xml(shipping_order_list, so_match, sh_match) }
     encoded_params = URI.encode_www_form(params)
     response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params)
     response.body.force_encoding('utf-8')
   end
+
 end
 
-def shipping_order_xml(shipping_order_list)
+def shipping_order_xml(shipping_order_list, so_match, sh_match)
 
   xml = Builder::XmlMarkup.new
   xml.instruct! :xml, version: '1.0'
@@ -135,7 +136,7 @@ def shipping_order_xml(shipping_order_list)
                   Reference.where(shipping_order_id: post.id).each do |ref|
                     xml.ReferenceNumber(ref.reference_value, type: ref.reference_type, isPrimary: ref.is_primary)
                   end
-                  xml.ReferenceNumber(post.so_match_ref, type: current_user.so_match_reference, isPrimary: false)
+                  xml.ReferenceNumber(post.so_match_ref, type: so_match, isPrimary: false)
                 end
                 xml.tag! 'Payment' do
                   xml.Method(post.payment_method)
@@ -162,7 +163,7 @@ def shipping_order_xml(shipping_order_list)
                         end
                         xml.tag! 'Shipments' do
                           xml.tag! 'ReferenceNumbers' do
-                            xml.ReferenceNumber(post.shipment_match_ref, type: current_user.shipment_match_reference)
+                            xml.ReferenceNumber(post.shipment_match_ref, type: sh_match)
                           end
                         end
                       end
@@ -184,7 +185,7 @@ def shipping_order_xml(shipping_order_list)
                         end
                         xml.tag! 'Shipments' do
                           xml.tag! 'ReferenceNumbers' do
-                            xml.ReferenceNumber(post.shipment_match_ref, type: current_user.shipment_match_reference)
+                            xml.ReferenceNumber(post.shipment_match_ref, type: sh_match)
                           end
                         end
                       end
@@ -195,7 +196,7 @@ def shipping_order_xml(shipping_order_list)
                   xml.Shipment(type: 'REGULAR', action: 'UPDATEORADD') do
                     xml.Status('Pending')
                     xml.tag! 'ReferenceNumbers' do
-                      xml.ReferenceNumber(post.shipment_match_ref, type: current_user.shipment_match_reference)
+                      xml.ReferenceNumber(post.shipment_match_ref, type: sh_match)
                     end
                     xml.tag! 'Dates' do
                       xml.tag! 'Pickup' do
