@@ -10,20 +10,35 @@ class StaticPagesController < ApplicationController
   end
 
   def create_demo
+
+    @ent = %w[Admin Planning Execution Visibility POD FAP Analytics]
+    # create enterprises for demo
+    # ###########################
     @enterprise = params[:enterprise]
     @pickup_date = params[:pickup_date]
-    p @enterprise
-    p @pickup_date
+    @parent = current_user.cust_acct
     Enterprise.destroy_all
-    Enterprise.create(company_name: @enterprise) do |e|
-      p 'loop'
-      e.customer_account = "#{@enterprise}_acct"
-      e.active = true
-      e.user_id = current_user.id
+    @ent.each do |t|
+      p '**'
+      p t
+      p @parent
+      @enterprise_name = "#{@enterprise} #{t}"
+      Enterprise.create(company_name: @enterprise_name) do |e|
+        e.customer_account = "#{@enterprise}_#{t}_acct".downcase
+        e.active = true
+        e.user_id = current_user.id
+        @active_parent = e.company_name if t == 'Admin'
+      end
+      @enterprises = current_user.enterprises.all
+      p @enterprise
+      @response = Enterprise.mg_post(@enterprises, @parent, current_user.cust_acct)
+      @parent = @active_parent
+      Enterprise.destroy_all
     end
-    @enterprises = current_user.enterprises.all
-    @response = Enterprise.mg_post(@enterprises, current_user)
-    p @response
+
+    # create shipping orders for demo
+    # ###########################
+=begin
     ShippingOrder.destroy_all
     file = File.join(Rails.root, 'app/assets', 'data', 'SO Automation.csv')
     p file
@@ -38,6 +53,7 @@ class StaticPagesController < ApplicationController
     end
     @response = ShippingOrder.mg_post(@shipping_orders, current_user.so_match_reference, current_user.shipment_match_reference)
     p @response
+=end
   end
 
   def xml_response
