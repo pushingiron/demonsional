@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_many :configurations, dependent: :destroy
 
   serialize :preferences, HashSerializer
-  store_accessor :config, :cust_acct, :so_match_reference, :shipment_match_reference
+  store_accessor :config, :cust_acct, :so_match_reference, :shipment_match_reference, :edge_pack_url, :edge_pack_id, :edge_pack_pwd
 
 
   # Include default devise modules. Others available are:
