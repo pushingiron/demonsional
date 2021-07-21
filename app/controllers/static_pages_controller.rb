@@ -54,4 +54,16 @@ class StaticPagesController < ApplicationController
     @xml = params[:format]
   end
 
+  def edge_status
+    @user = current_user
+    p @user
+    json = { authentication: { username: @user.edge_pack_id, password: @user.edge_pack_pwd } }.to_json
+    p json
+    uri = URI "https://#{@user.edge_pack_url}/execjs"
+    http = Net::HTTP.new uri.host, uri.port
+    http.use_ssl = false
+    res = http.post2 uri.path, json, 'Content-Type' => 'application/json'
+    p res.body
+  end
+
 end

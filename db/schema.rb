@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_30_185135) do
+ActiveRecord::Schema.define(version: 2021_07_21_153952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,40 @@ ActiveRecord::Schema.define(version: 2021_06_30_185135) do
     t.string "stop_type"
   end
 
+  create_table "rates", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "contract_id"
+    t.string "lane_calc"
+    t.string "from_loccode"
+    t.string "from_city"
+    t.string "from_state"
+    t.string "from_zip"
+    t.string "from_country"
+    t.string "to_loccode"
+    t.string "to_city"
+    t.string "to_state"
+    t.string "to_zip"
+    t.string "to_country"
+    t.string "scac"
+    t.string "service"
+    t.string "mode"
+    t.string "break_1_field"
+    t.decimal "break_1_min"
+    t.decimal "break_1_max"
+    t.string "rate_field"
+    t.string "rate_calc"
+    t.decimal "rate"
+    t.string "accessorial1_field"
+    t.string "accessorial1_calc"
+    t.decimal "accessorial1_rate"
+    t.decimal "total_min"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "break_2_field"
+    t.decimal "break_2_min"
+    t.decimal "break_2_max"
+  end
+
   create_table "references", force: :cascade do |t|
     t.string "reference_type"
     t.string "reference_value"
@@ -145,5 +179,6 @@ ActiveRecord::Schema.define(version: 2021_06_30_185135) do
   add_foreign_key "enterprises", "users"
   add_foreign_key "items", "shipping_orders"
   add_foreign_key "locations", "shipping_orders"
+  add_foreign_key "rates", "users"
   add_foreign_key "references", "shipping_orders"
 end
