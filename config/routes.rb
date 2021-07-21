@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   resources :rates
+  get 'load_rates' => 'rates#load_rates'
+
   get 'users/index'
   root to: 'static_pages#index'
 
@@ -43,7 +45,7 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   #
-  get "demo_this" => "static_pages#demo_this"
-  get "edge_status" => "static_pages#edge_status"
-  post "create_demo" => "static_pages#create_demo"
+  get 'demo_this' => 'static_pages#demo_this'
+  get 'edge_status' => 'static_pages#edge_status'
+  post 'create_demo' => 'static_pages#create_demo'
 end
