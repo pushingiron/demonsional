@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :rates
-  get 'load_rates' => 'rates#load_rates'
+  resources :rates do
+    collection do
+      get :load_rates
+      get :destroy_all
+    end
+  end
 
   get 'users/index'
   root to: 'static_pages#index'
