@@ -1,0 +1,86 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Rates</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Contract</th>
+      <th>Lane calc</th>
+      <th>From loccode</th>
+      <th>From city</th>
+      <th>From state</th>
+      <th>From zip</th>
+      <th>From country</th>
+      <th>To loccode</th>
+      <th>To city</th>
+      <th>To state</th>
+      <th>To zip</th>
+      <th>To country</th>
+      <th>Scac</th>
+      <th>Service</th>
+      <th>Mode</th>
+      <th>Break 1 field</th>
+      <th>Break 1 min</th>
+      <th>Break 1 max</th>
+      <th>Break 2 field</th>
+      <th>Break 2 min</th>
+      <th>Break 2 max</th>
+      <th>Rate field</th>
+      <th>Rate calc</th>
+      <th>Rate</th>
+      <th>Accessorial1 field</th>
+      <th>Accessorial1 calc</th>
+      <th>Accessorial1 rate</th>
+      <th>Total min</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rates.each do |rate| %>
+      <tr>
+        <td><%= rate.user_id %></td>
+        <td><%= rate.contract_id %></td>
+        <td><%= rate.lane_calc %></td>
+        <td><%= rate.from_loccode %></td>
+        <td><%= rate.from_city %></td>
+        <td><%= rate.from_state %></td>
+        <td><%= rate.from_zip %></td>
+        <td><%= rate.from_country %></td>
+        <td><%= rate.to_loccode %></td>
+        <td><%= rate.to_city %></td>
+        <td><%= rate.to_state %></td>
+        <td><%= rate.to_zip %></td>
+        <td><%= rate.to_country %></td>
+        <td><%= rate.scac %></td>
+        <td><%= rate.service %></td>
+        <td><%= rate.mode %></td>
+        <td><%= rate.break_1_field %></td>
+        <td><%= rate.break_1_min %></td>
+        <td><%= rate.break_1_max %></td>
+        <td><%= rate.break_2_field %></td>
+        <td><%= rate.break_2_min %></td>
+        <td><%= rate.break_2_max %></td>
+        <td><%= rate.rate_field %></td>
+        <td><%= rate.rate_calc %></td>
+        <td><%= rate.rate %></td>
+        <td><%= rate.accessorial1_field %></td>
+        <td><%= rate.accessorial1_calc %></td>
+        <td><%= rate.accessorial1_rate %></td>
+        <td><%= rate.total_min %></td>
+        <td><%= link_to 'Show', rate %></td>
+        <td><%= link_to 'Edit', edit_rate_path(rate) %></td>
+        <td><%= link_to 'Destroy', rate, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'Load Rates', load_rates_rates_path %>
+<br>
+<%= link_to 'New Rate', new_rate_path %>
+<br>
+<%= link_to 'Delete All', destroy_all_rates_path %>

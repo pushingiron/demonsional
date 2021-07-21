@@ -1,0 +1,2 @@
+json.extract! rate, :id, :user_id, :contract_id, :lane_calc, :from_loccode, :from_city, :from_state, :from_zip, :from_country, :to_loccode, :to_city, :to_state, :to_zip, :to_country, :scac, :service, :mode, :break_1_field, :break_1_min, :break_1_max, :break_2_field, :break_2_min, :break_2_max, :rate_field, :rate_calc, :rate, :accessorial1_field, :accessorial1_calc, :accessorial1_rate, :total_min, :created_at, :updated_at
+json.url rate_url(rate, format: :json)

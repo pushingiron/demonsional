@@ -1,0 +1,57 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  contract_id: MyString
+  lane_calc: MyString
+  from_loccode: MyString
+  from_city: MyString
+  from_state: MyString
+  from_zip: MyString
+  from_country: MyString
+  to_loccode: MyString
+  to_city: MyString
+  to_state: MyString
+  to_zip: MyString
+  to_country: MyString
+  scac: MyString
+  service: MyString
+  mode: MyString
+  break_1_field: MyString
+  break_1_min: 
+  break_1_max: 
+  rate_field: MyString
+  rate_calc: MyString
+  rate: 
+  accessorial1_field: MyString
+  accessorial1_calc: MyString
+  accessorial1_rate: 
+  total_min: 
+
+two:
+  user_id: 1
+  contract_id: MyString
+  lane_calc: MyString
+  from_loccode: MyString
+  from_city: MyString
+  from_state: MyString
+  from_zip: MyString
+  from_country: MyString
+  to_loccode: MyString
+  to_city: MyString
+  to_state: MyString
+  to_zip: MyString
+  to_country: MyString
+  scac: MyString
+  service: MyString
+  mode: MyString
+  break_1_field: MyString
+  break_1_min: 
+  break_1_max: 
+  rate_field: MyString
+  rate_calc: MyString
+  rate: 
+  accessorial1_field: MyString
+  accessorial1_calc: MyString
+  accessorial1_rate: 
+  total_min: 
