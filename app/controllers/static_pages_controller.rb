@@ -75,8 +75,9 @@ class StaticPagesController < ApplicationController
               }
     json = hash.to_json
     uri = URI "https://#{@user.edge_pack_url}/execjs"
-    http = Net::HTTP.new uri.host, uri.port, read_timeout: 500
+    http = Net::HTTP.new uri.host, uri.port
     http.use_ssl = false
+    http.write_timeout = 500
     res = http.post2 uri.path, json.to_s, 'Content-Type' => 'application/json'
     redirect_to(root_path)
 
