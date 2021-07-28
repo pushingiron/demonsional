@@ -48,6 +48,7 @@ class StaticPagesController < ApplicationController
       # ###########################
       ShippingOrder.destroy_all
       so_demos(cust_acct) unless t == 'Admin'
+      edge_status(@enterprise)
     end
   end
 
@@ -55,7 +56,7 @@ class StaticPagesController < ApplicationController
     @xml = params[:format]
   end
 
-  def edge_status
+  def edge_status(enterprise)
     @user = current_user
     rates = current_user.rates.pluck(:contract_id, :lane_calc, :from_loccode, :from_city, :from_state, :from_zip,
                                      :from_country, :to_loccode, :to_city, :to_state, :to_zip, :to_country, :scac,
@@ -71,7 +72,7 @@ class StaticPagesController < ApplicationController
     hash = { authentication: { username: @user.edge_pack_id, password: @user.edge_pack_pwd },
              inputReports: [ { name: 'Rates', type: 'RateTable',
                                headers: @headers, data: rates } ],
-             script: "Edge.switchCompany('test4 Planning'); ship = Edge.getServerReport('Shipment', 'Planning', true); Edge.mojoExecute(ship, 'test', false)"
+             script: "Edge.switchCompany('#{enterprise} Planning'); ship = Edge.getServerReport('Shipment', 'Planning', true); Edge.mojoExecute(ship, 'test', false)"
               }
     json = hash.to_json
     uri = URI "https://#{@user.edge_pack_url}/execjs"
