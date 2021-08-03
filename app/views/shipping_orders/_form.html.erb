@@ -12,7 +12,7 @@
     <% end %>
     <div class="row">
       <div class="col">
-        <%= f.select :payment_method, ['Prepaid', 'Collect', 'Third Party'] %>
+        <%= f.select :payment_method, ['Prepaid', 'Collect', 'Third Party'], include_blank: true %>
       </div>
       <div class="col">
         <%= f.text_field :cust_acct_num %>

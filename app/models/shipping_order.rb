@@ -40,6 +40,13 @@ class ShippingOrder < ApplicationRecord
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'])
       if row['so_match_ref'] != so_prev
         shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)
+        p row.to_hash
+        p 'attribues'
+        p shipping_order.attributes
+        p SHIPPING_ORDER_ATTRIBUTES
+        p row
+        p shipping_order.attributes
+        p '*****'
         shipping_order.save!
         after_save {so_id = id}
         origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
@@ -56,7 +63,8 @@ class ShippingOrder < ApplicationRecord
           rescue NoMethodError
             CSV.parse(ref_list, col_sep: '.', row_sep: '|') do |ref_row|
               unless ref_row[1].blank?
-                reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id, reference_type: ref_row[0])
+                reference = Reference.find_or_initialize_by(shipping_order_id: shipping_order.id,
+                                                            reference_type: ref_row[0])
                 reference.reference_type = ref_row[0]
                 reference.reference_value = ref_row[1]
                 reference.is_primary = ref_row[2]
@@ -98,7 +106,8 @@ class ShippingOrder < ApplicationRecord
   end
 
   def self.mg_post(shipping_order_list, so_match, sh_match)
-    params = { userid: 'WSDemoID', password: 'demo1234', request: shipping_order_xml(shipping_order_list, so_match, sh_match) }
+    params = { userid: 'WSDemoID', password: 'demo1234',
+               request: shipping_order_xml(shipping_order_list, so_match, sh_match), timeout: 2000}
     encoded_params = URI.encode_www_form(params)
     response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params)
     response.body.force_encoding('utf-8')
