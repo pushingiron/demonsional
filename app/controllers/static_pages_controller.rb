@@ -6,6 +6,7 @@ class StaticPagesController < ApplicationController
 
 
   def create_demo
+    GuestsCleanupJob.perform_later 'easy'
     @ent = %w[Admin Planning Execution Visibility POD FAP Analytics]
     # create enterprises for demo
     # ###########################
@@ -30,7 +31,7 @@ class StaticPagesController < ApplicationController
       # ###########################
       ShippingOrder.destroy_all
       so_demos(cust_acct) unless t == 'Admin'
-      run_mmo(@enterprise) if t == 'Planning'
+      run_mmo(@enterprise) if t == 'Execution'
     end
     redirect_to root_path
   end
@@ -81,7 +82,9 @@ class StaticPagesController < ApplicationController
     uri = URI "https://#{@user.edge_pack_url}/execjs"
     http = Net::HTTP.new uri.host, uri.port
     http.use_ssl = false
-    http.write_timeout = 500
+    http.write_timeout = 5000
+    http.open_timeout = 5000
+    http.read_timeout = 5000
     res = http.post2 uri.path, json.to_s, 'Content-Type' => 'application/json'
   end
 
