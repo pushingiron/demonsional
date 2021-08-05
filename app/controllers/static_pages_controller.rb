@@ -6,6 +6,7 @@ class StaticPagesController < ApplicationController
 
 
   def create_demo
+    job_delay = 0.0
     GuestsCleanupJob.perform_later 'easy'
     @ent = %w[Admin Planning Execution Visibility POD FAP Analytics]
     # create enterprises for demo
@@ -30,8 +31,8 @@ class StaticPagesController < ApplicationController
       # create shipping orders for demo
       # ###########################
       ShippingOrder.destroy_all
-      so_demos(cust_acct) unless t == 'Admin'
-      run_mmo(@enterprise) if t == 'Execution'
+      CreateSoJob.set(wait: job_delay.minutes).perform_later(cust_acct, current_user, @pickup_date, @enterprise, t) unless t == 'Admin'
+      job_delay += 0.5
     end
     redirect_to root_path
   end
@@ -42,6 +43,7 @@ class StaticPagesController < ApplicationController
 
   private
 
+=begin
   def so_demos(enterprise)
     file = File.join(Rails.root, 'app/assets', 'data', 'SO Automation.csv')
     current_user.shipping_orders.import(file)
@@ -56,6 +58,7 @@ class StaticPagesController < ApplicationController
     @response = ShippingOrder.mg_post(@shipping_orders, current_user.so_match_reference,
                                       current_user.shipment_match_reference)
   end
+=end
 
   def run_mmo(enterprise)
     @user = current_user
