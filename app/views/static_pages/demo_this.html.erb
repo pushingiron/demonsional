@@ -8,6 +8,11 @@
     <%= form.label "Pickup Date: " %>
     <%= form.date_field :pickup_date %>
     <br>
+    <br>
+    <h3>Adding a file is optional.</h3>
+    <%= file_field_tag :file %>
+    <br>
+    <br>
     <%= form.submit %>
   <% end %>
 
