@@ -1,13 +1,14 @@
 <div class="container-fluid">
       <h1>Demonsional!</h1>
       <h2>Creating a new demo environment will delete all existing enterprise and shipping order records in this application</h2>
-  <%= form_with model: @session, url: create_demo_url do |form| %>
+  <%= form_with model: @session, url: create_demo_url, multipart: true do |form| %>
     <%= form.label "Enterprise Name (Customer): " %>
     <%= form.text_field :enterprise %>
     <br>
     <%= form.label "Pickup Date: " %>
-    <%= form.date_field :pickup_date %>
     <br>
+    <%= form.date_field :pickup_date %>
+    <p>Leave date input field blank to use dates provided in the upload file.</p>
     <br>
     <h3>Adding a file is optional.</h3>
     <%= file_field_tag :file %>

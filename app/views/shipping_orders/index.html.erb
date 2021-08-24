@@ -31,11 +31,11 @@
       <tr>
         <td><%= shipping_order.cust_acct_num %></td>
         <% begin %>
-          <td><%= shipping_order.pickup_locations.first.loc_code %></td>
+          <td><%= shipping_order.pickup_locations.first.name %></td>
         <% rescue StandardError => e %>
         <% end %>
         <% begin %>
-          <td><%= shipping_order.delivery_locations.last.loc_code %></td>
+          <td><%= shipping_order.delivery_locations.last.name %></td>
         <% rescue StandardError => e %>
         <% end %>
         <td><%= shipping_order.early_pickup_date.try(:strftime, '%m/%d/%y %H:%M') %></td>
