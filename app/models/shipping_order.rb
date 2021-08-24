@@ -2,8 +2,8 @@ class ShippingOrder < ApplicationRecord
 
   belongs_to :user
 
-  has_many :pickup_locations, -> { where stop_type: :Pickup}, class_name: 'Location', dependent: :delete_all
-  has_many :delivery_locations,  -> { where stop_type: :Drop}, class_name: 'Location', dependent: :delete_all
+  has_many :pickup_locations, -> { where stop_type: :Pickup }, class_name: 'Location', dependent: :delete_all
+  has_many :delivery_locations,  -> { where stop_type: :Drop }, class_name: 'Location', dependent: :delete_all
 
 
   accepts_nested_attributes_for :pickup_locations, allow_destroy: true
@@ -48,7 +48,7 @@ class ShippingOrder < ApplicationRecord
         p shipping_order.attributes
         p '*****'
         shipping_order.save!
-        after_save {so_id = id}
+        after_save { so_id = id }
         origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
         load_location(origin_location, row, 'pickup')
         origin_location.save!
