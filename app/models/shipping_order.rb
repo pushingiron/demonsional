@@ -50,10 +50,10 @@ class ShippingOrder < ApplicationRecord
         shipping_order.save!
         after_save {so_id = id}
         origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
-        load_location(origin_location, row, "pickup")
+        load_location(origin_location, row, 'pickup')
         origin_location.save!
         delivery_location = shipping_order.delivery_locations.find_or_initialize_by(loc_code: row['delv_loc_code'])
-        load_location(delivery_location, row, "delv")
+        load_location(delivery_location, row, 'delv')
         delivery_location.save!
         # start dealing with parsing out references and submitting to DB
         ref_list = row['references']
@@ -105,13 +105,39 @@ class ShippingOrder < ApplicationRecord
     location.save!
   end
 
+
   def self.mg_post(shipping_order_list, so_match, sh_match)
-    params = { userid: 'WSDemoID', password: 'demo1234',
-               request: shipping_order_xml(shipping_order_list, so_match, sh_match), timeout: 2000}
+    params = { userid: 'WSDemoID', password: 'demo1234', request: shipping_order_xml(shipping_order_list, so_match, sh_match) }
     encoded_params = URI.encode_www_form(params)
-    response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params)
-    response.body.force_encoding('utf-8')
+
+
+    #response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params) do |req|
+      #req.params = params
+      #req.headers['Content-Type'] = 'application/text'
+      #req.body = shipping_order_xml(shipping_order_list, so_match, sh_match)
+      # req.params = params
+    #req.write_timeout = 3000
+    #end
+    #p '****response****'
+    #p response
+
+    uri = URI 'https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp'
+    http = Net::HTTP.new uri.host, uri.port
+    http.use_ssl = true
+    http.write_timeout = 5000
+    http.open_timeout = 5000
+    http.read_timeout = 5000
+    res = http.post2 uri.path, encoded_params
+    p '********'
+    p res.body
   end
+
+
+
+
+  #response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params, { timeout: 2000 })
+  # response.body.force_encoding('utf-8')
+
 
 end
 
@@ -157,7 +183,7 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                   xml.Events(count: '2') do
                     xml.Event(type: :Pickup, sequenceNum: '1') do
                       xml.tag! 'Dates' do
-                        xml.Date(post.early_pickup_date.strftime("%m/%d/%Y %H:%M"), type: 'planned')
+                        xml.Date(post.early_pickup_date.strftime('%m/%d/%Y %H:%M'), type: 'planned')
                       end
                       post.pickup_locations.each do |pickup|
                         xml.Address(type: pickup.loc_type, isPrimary: false, isResidential: pickup.residential) do
@@ -179,7 +205,7 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                     end
                     xml.Event(type: :Drop, sequenceNum: '2') do
                       xml.tag! 'Dates' do
-                        xml.Date(post.early_delivery_date.strftime("%m/%d/%Y %H:%M"), type: 'planned')
+                        xml.Date(post.early_delivery_date.strftime('%m/%d/%Y %H:%M'), type: 'planned')
                       end
                       post.delivery_locations.each do |delivery|
                         xml.Address(type: delivery.loc_type, isPrimary: false, isResidential: delivery.residential) do
@@ -209,12 +235,12 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                     end
                     xml.tag! 'Dates' do
                       xml.tag! 'Pickup' do
-                        xml.Date(post.early_pickup_date.strftime("%m/%d/%Y %H:%M"), type: 'earliest')
-                        xml.Date(post.late_pickup_date.strftime("%m/%d/%Y %H:%M"), type: 'latest')
+                        xml.Date(post.early_pickup_date.strftime('%m/%d/%Y %H:%M'), type: 'earliest')
+                        xml.Date(post.late_pickup_date.strftime('%m/%d/%Y %H:%M'), type: 'latest')
                       end
                       xml.tag! 'Drop' do
-                        xml.Date(post.early_delivery_date.strftime("%m/%d/%Y %H:%M"), type: 'earliest')
-                        xml.Date(post.late_delivery_date.strftime("%m/%d/%Y %H:%M"), type: 'latest')
+                        xml.Date(post.early_delivery_date.strftime('%m/%d/%Y %H:%M'), type: 'earliest')
+                        xml.Date(post.late_delivery_date.strftime('%m/%d/%Y %H:%M'), type: 'latest')
                       end
                     end
                     xml.tag! 'Shipper' do
