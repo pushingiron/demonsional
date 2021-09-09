@@ -32,9 +32,8 @@ class ShippingOrder < ApplicationRecord
     begin
       file_path = file.path
     rescue StandardError
-      file_path = file
-      p 'in file path error'
-      p file_path
+      file = open(Rails.root.join('app', 'assets', 'data', 'SO Automation.csv'))
+      file_path = file.path
     end
     CSV.foreach(file_path, headers: true) do |row|
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'])

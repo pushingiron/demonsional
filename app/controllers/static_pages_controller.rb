@@ -14,13 +14,10 @@ class StaticPagesController < ApplicationController
     @enterprise = params[:enterprise]
     @pickup_date = params[:pickup_date]
     @parent = current_user.cust_acct
-    @file = params[:file].path
-    p '****file*****'
-    p @file
     # create shipping orders for demo
     # ###########################
     ShippingOrder.destroy_all
-    current_user.shipping_orders.import(params[:file].path)
+    current_user.shipping_orders.import(params[:file])
     sleep(10)
     Enterprise.destroy_all
     cust_acct = nil
@@ -37,7 +34,7 @@ class StaticPagesController < ApplicationController
       @response = Enterprise.mg_post(@enterprises, @parent, current_user.cust_acct)
       @parent = @active_parent
       unless t == 'Admin'
-        CreateSoJob.set(wait: job_delay.minutes).perform_later(cust_acct, current_user, @pickup_date, @enterprise, t, @file)
+        CreateSoJob.set(wait: job_delay.minutes).perform_later(cust_acct, current_user, @pickup_date, @enterprise, t)
       end
       job_delay += 0.5
     end
