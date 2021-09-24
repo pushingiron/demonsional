@@ -18,7 +18,7 @@ class MmoJob < ApplicationJob
              inputReports: [{ name: 'Rates', type: 'RateTable',
                               headers: @headers, data: rates }],
              script: "Edge.switchCompany('#{enterprise} #{ent_suf}');
-                      ship = Edge.getServerReport('Shipment', 'Planning', true);
+                      ship = Edge.getServerReport('Shipment', 'Planning Template', true);
                       Edge.mojoExecute(ship, 'test', false);
                       Edge.mojoCreateServerLoads(false)"
     }
