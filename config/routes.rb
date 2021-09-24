@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   resources :items
 
+  resources :contracts
+
   resources :references
   resources :locations
 

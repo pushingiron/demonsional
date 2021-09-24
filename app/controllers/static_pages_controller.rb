@@ -8,12 +8,12 @@ class StaticPagesController < ApplicationController
   def create_demo
     job_delay = 0.0
     GuestsCleanupJob.perform_later 'easy'
-    @ent = %w[Admin Planning Execution Visibility POD FAP Analytics]
+    @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
     # create enterprises for demo
     # ###########################
-    @enterprise = params[:enterprise]
+    @new_ent = params[:enterprise]
     @pickup_date = params[:pickup_date]
-    @parent = current_user.cust_acct
+    @parent_ent = current_user.cust_acct
     # create shipping orders for demo
     # ###########################
     ShippingOrder.destroy_all
@@ -21,23 +21,26 @@ class StaticPagesController < ApplicationController
     sleep(10)
     Enterprise.destroy_all
     cust_acct = nil
-    @ent.each do |t|
-      @enterprise_name = "#{@enterprise} #{t}"
-      Enterprise.create(company_name: @enterprise_name) do |e|
-        cust_acct = "#{@enterprise}_#{t}_acct".downcase
+
+    # Create enterprises in database
+    @ent_sub_list.each do |sub|
+      @enterprise_name = "#{@new_ent} #{sub}"
+      Enterprise.create(company_name: @new_ent) do |e|
+        cust_acct = "#{@new_ent}_#{sub}_acct".downcase
         e.customer_account = cust_acct
         e.active = true
         e.user_id = current_user.id
-        @active_parent = e.company_name if t == 'Admin'
+        @admin_name = e.company_name if sub == 'Admin'
       end
-      @enterprises = current_user.enterprises.all
-      @response = Enterprise.mg_post(@enterprises, @parent, current_user.cust_acct)
-      @parent = @active_parent
-      unless t == 'Admin'
-        CreateSoJob.set(wait: job_delay.minutes).perform_later(cust_acct, current_user, @pickup_date, @enterprise, t)
+      @all_ent = current_user.enterprises.all
+      @response = Enterprise.mg_post(@all_ent, @parent_ent, current_user.cust_acct)
+      @parent = @admin_name
+      unless sub == 'Admin'
+        CreateSoJob.set(wait: job_delay.minutes).perform_later(cust_acct, current_user, @pickup_date, @new_ent, sub)
       end
       job_delay += 0.5
     end
+    Enterprise.mg_post_con(@parent, @ent_sub_list, @new_ent)
     redirect_to root_path
   end
 
