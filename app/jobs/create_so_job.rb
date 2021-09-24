@@ -23,7 +23,7 @@ class CreateSoJob < ApplicationJob
                                       current_user.shipment_match_reference)
     p '****MMO*****'
     p level
-    MmoJob.set(wait: 3.minutes).perform_later(current_user, enterprise, level) unless %w[Admin Planning].include?(level)
+    MmoJob.set(wait: 1.minutes).perform_later(current_user, enterprise, level) unless %w[Admin Planning].include?(level)
   end
 
   private

@@ -50,9 +50,9 @@ class Enterprise < ApplicationRecord
     puts data_csv.text
     n = 0
     ent_name = ''
-    CSV.parse(data_csv.text, headers: true, col_sep: ",") do |row|
+    CSV.parse(data_csv.text, headers: true, col_sep: ',') do |row|
       n += 1
-      ent_name = row["Name"]
+      ent_name = row['Name']
     end
     if n == 1 && ent_name == 'Geer Automated Setup'
       true
@@ -195,13 +195,13 @@ def contract_xml(parent, enterprises, new_ent, ws_user_id)
               xml.IsWebService true
               xml.Service 'Standard'
               xml.ServiceDays 0
-              xml.Mode "LTL"
-              xml.EffectiveDate "01/01/2012"
-              xml.ExpirationDate "01/01/2099"
+              xml.Mode 'TL'
+              xml.EffectiveDate '01/01/2012'
+              xml.ExpirationDate '01/01/2099'
               xml.ExpirationReason
               xml.Type 'CARRIER CONTRACT'
               xml.Role
-              xml.IsMultiStopTruckload false
+              xml.IsMultiStopTruckload true
               xml.DisableMultiStopDistanceCalcNonMGRateTable false
               xml.DisableMultiStopDistanceCalcMGRateTable false
               xml.IsGainshare false
@@ -245,7 +245,7 @@ def contract_xml(parent, enterprises, new_ent, ws_user_id)
                   xml.IsExclusionary false
                   xml.ServiceAreaMethod 'CC'
                   xml.ScoreAdjustment 0
-                  xml.Discount type: "Flat" do
+                  xml.Discount type: 'Flat' do
                     xml.FlatValue 0
                     xml.SMCMinChargeDiscountEnabled false
                   end
@@ -287,8 +287,8 @@ def contract_xml(parent, enterprises, new_ent, ws_user_id)
                           xml.DestCountry 'US'
                           xml.Approved false
                           xml.Preferred false
-                          xml.EffectiveDate "09/13/2001 13:31"
-                          xml.ExpirationDate "09/13/2099 13:31"
+                          xml.EffectiveDate '09/13/2001 13:31'
+                          xml.ExpirationDate '09/13/2099 13:31'
                         end
                       end
                     end
@@ -296,7 +296,7 @@ def contract_xml(parent, enterprises, new_ent, ws_user_id)
                 end
               end
               xml.ReferenceNumbers do
-                xml.ReferenceNumber "Per_Mile_MultiStopV3Acc.xls", type: :AltRateDoc, isPrimary: :false
+                xml.ReferenceNumber 'Per_Mile_MultiStopV3Acc.xls', type: :AltRateDoc, isPrimary: :false
               end
             end
           end
