@@ -165,6 +165,7 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
               xml.DocCount '1'
             end
             shipping_order_list.each do |post|
+              references = Reference.where(shipping_order_id: post.id)
               xml.Load(type: 'CustomerLoad', action: 'UPDATEORADD') do
                 xml.tag! 'ReferenceNumbers' do
                   Reference.where(shipping_order_id: post.id).each do |ref|
@@ -231,6 +232,9 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                     xml.Status('Pending')
                     xml.tag! 'ReferenceNumbers' do
                       xml.ReferenceNumber(post.shipment_match_ref, type: sh_match)
+                      references.each do |ref|
+                        xml.ReferenceNumber(ref.reference_value, type: ref.reference_type)
+                      end
                     end
                     xml.tag! 'Dates' do
                       xml.tag! 'Pickup' do
