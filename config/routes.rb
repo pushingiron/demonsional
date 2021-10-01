@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: 'users/sessions' }
   # match '/users',   to: 'users#index',   via: 'get'
   # resources :users
-
+  resources :paths
 
   resources :enterprises do
     collection do

@@ -1,0 +1,21 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Description</th>
+    <th>Object</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @paths.each do |paths| %>
+    <tr>
+      <td><%= paths.created_at %></td>
+      <td><%= paths.description %></td>
+      <td><%= paths.object %></td>
+      <td><%= paths.action %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

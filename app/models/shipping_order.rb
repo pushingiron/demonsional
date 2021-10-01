@@ -108,18 +108,6 @@ class ShippingOrder < ApplicationRecord
   def self.mg_post(shipping_order_list, so_match, sh_match)
     params = { userid: 'WSDemoID', password: 'demo1234', request: shipping_order_xml(shipping_order_list, so_match, sh_match) }
     encoded_params = URI.encode_www_form(params)
-
-
-    #response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params) do |req|
-      #req.params = params
-      #req.headers['Content-Type'] = 'application/text'
-      #req.body = shipping_order_xml(shipping_order_list, so_match, sh_match)
-      # req.params = params
-    #req.write_timeout = 3000
-    #end
-    #p '****response****'
-    #p response
-
     uri = URI 'https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp'
     http = Net::HTTP.new uri.host, uri.port
     http.use_ssl = true
@@ -130,13 +118,6 @@ class ShippingOrder < ApplicationRecord
     p '********'
     p res.body
   end
-
-
-
-
-  #response = Faraday.post('https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp', encoded_params, { timeout: 2000 })
-  # response.body.force_encoding('utf-8')
-
 
 end
 

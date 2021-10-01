@@ -3,12 +3,14 @@ class StaticPagesController < ApplicationController
 
   before_action :authenticate_user!
 
-  def index; end
+  def index
+    @paths = current_user.paths.all
+  end
 
 
   def create_demo
     job_delay = 0.0
-    GuestsCleanupJob.perform_later 'easy'
+    # GuestsCleanupJob.perform_later 'easy'
     @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
     # create enterprises for demo
     # ###########################
@@ -18,9 +20,10 @@ class StaticPagesController < ApplicationController
     # create shipping orders for demo
     # ###########################
     ShippingOrder.destroy_all
+    Path.create(description: 'Remove shipping orders', object: 'ShippingOrder', action: 'destroy_all', user_id: current_user.id)
     current_user.shipping_orders.import(params[:file])
-    sleep(10)
     Enterprise.destroy_all
+    Path.create(description: 'Remove enterprises orders', object: 'Enterprise', action: 'destroy_all', user_id: current_user.id)
     cust_acct = nil
 
     # Create enterprises in database
@@ -37,11 +40,14 @@ class StaticPagesController < ApplicationController
       @parent = @admin_name
       unless sub == 'Admin'
         CreateSoJob.set(wait: job_delay.minutes).perform_later(cust_acct, current_user, @pickup_date, @new_ent, sub)
+        Path.create(description: "Create Shipping Order job for #{sub}", object: 'Job', action: 'schedule', user_id: current_user.id)
       end
       job_delay += 0.5
+      Path.create(description: "Create #{@enterprise_name}", object: 'Enterprise', action: 'create', user_id: current_user.id)
     end
     mg_post_xml(contract_xml(@ent_sub_list, @new_ent))
-    redirect_to root_path
+    Path.create(description: 'Create contract', object: 'Contract', action: 'create', user_id: current_user.id)
+    redirect_to paths_path
   end
 
   def xml_response
