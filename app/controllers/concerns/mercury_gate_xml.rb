@@ -2,7 +2,7 @@ module MercuryGateXml
 
   WS_USER_ID = 'geer_shipper_ws'.freeze
 
-  def xml_tender_response(data)
+  def xml_tender_response(data, code)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -32,7 +32,7 @@ module MercuryGateXml
                   xml.ReferenceNumber data['PRO Number'], isPrimary: false, type: 'PRO Number'
                   xml.ReferenceNumber data['SCAC'], isPrimary: false, type: 'SCAC'
                 end
-                xml.ResponseCode 'D'
+                xml.ResponseCode code
               end
             end
           end
