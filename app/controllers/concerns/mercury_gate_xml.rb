@@ -2,6 +2,58 @@ module MercuryGateXml
 
   WS_USER_ID = 'geer_shipper_ws'.freeze
 
+  def xml_status(data, status_code)
+    request_id = Time.now.strftime('%Y%m%d%H%M%L')
+    xml = Builder::XmlMarkup.new
+    xml.instruct! :xml, version: '1.0'
+    xml.tag! 'service-request' do
+      xml.tag! 'service-id', 'ImportWeb'
+      xml.tag! 'request-id', request_id
+      xml.tag! 'data' do
+        xml.tag! 'WebImport' do
+          xml.tag! 'WebImportHeader' do
+            xml.FileName "TENDER-RESPONSE-#{request_id}.xml"
+            xml.Type 'WebImportTenderResponse'
+            xml.UserName WS_USER_ID
+          end
+          xml.tag! 'WebImportFile'do
+            xml.tag! 'MercuryGate' do
+              xml.tag! 'Header' do
+                xml.SenderID 'MGSALES'
+                xml.ReceiverID 'MGSALES'
+                xml.OriginalFileName "ENT#{request_id}.xml"
+                xml.Action 'UpdateOrAdd'
+                xml.DocTypeID 'Status'
+              end
+              xml.Status do
+                xml.ReferenceNumbers do
+                  xml.ReferenceNumber data['Primary Reference'].chomp(' (Load ID)'), isPrimary: true,
+                                                                                     type: 'Shipment ID'
+                  xml.ReferenceNumber data['PRO Number'], isPrimary: false, type: 'PRO Number'
+                  xml.ReferenceNumber data['SCAC'], isPrimary: false, type: 'SCAC'
+                end
+                xml.Locations do
+                  xml.Location addr1: data['Origin Addr1'], addr2: data['Origin Addr2'], city: data['Origin City'],
+                               countryCode: data['Origin Ctry'], postalCode: data['Origin Zip'],
+                               state: data['Origin State'], type: data['SH']
+                end
+                xml.StatusDetails do
+                  xml.StatusDetail address: data['Origin Addr1'], apptCode: '', apptReasonCode: '',
+                                   cityName: data['Origin City'], countryCode: data['Origin Ctry'],
+                                   date: data['Target Ship (Early)'], equipNum: '', equipNumCheckDigit: '',
+                                   equipDescCode: '', index: '', podName: '', scacCode: ['SCAC'],
+                                   stateCode: data['Origin State'], statusCode: status_code, statusReasonCode: '',
+                                   stopNum: '', time: '0800'
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+    xml.target!
+  end
+
   def xml_tender_response(data, code)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
@@ -28,7 +80,7 @@ module MercuryGateXml
               xml.TenderResponse do
                 xml.ReferenceNumbers do
                   xml.ReferenceNumber data['Primary Reference'].chomp(' (Load ID)'), isPrimary: true,
-                                      type: 'Shipment ID'
+                                                                                     type: 'Shipment ID'
                   xml.ReferenceNumber data['PRO Number'], isPrimary: false, type: 'PRO Number'
                   xml.ReferenceNumber data['SCAC'], isPrimary: false, type: 'SCAC'
                 end
