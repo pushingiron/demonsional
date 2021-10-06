@@ -4,4 +4,8 @@ class ExternalCarrierController < ApplicationController
 
   end
 
+  def index
+
+  end
+
 end
