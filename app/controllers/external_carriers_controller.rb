@@ -1,4 +1,4 @@
-class ExternalCarrierController < ApplicationController
+class ExternalCarriersController < ApplicationController
 
   def tender_reject
 
