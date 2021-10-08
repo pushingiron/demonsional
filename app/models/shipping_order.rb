@@ -2,6 +2,8 @@ class ShippingOrder < ApplicationRecord
 
   belongs_to :user
 
+  validates :payment_method, presence: true
+
   has_many :pickup_locations, -> { where stop_type: :Pickup }, class_name: 'Location', dependent: :delete_all
   has_many :delivery_locations,  -> { where stop_type: :Drop }, class_name: 'Location', dependent: :delete_all
 
@@ -264,49 +266,35 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                             xml.FreightClass(item.freight_class, type: 'ordered')
                           end
                           xml.tag! 'Weights' do
-                            unless item.weight_plan.nil?
-                              if item.weight_plan.positive?
-                                xml.Weight(item.weight_plan, type: 'planned', uom: item.weight_uom)
-                              end
+                            if !item.weight_plan.nil? && item.weight_plan.positive?
+                              xml.Weight(item.weight_plan, type: 'planned', uom: item.weight_uom)
                             end
-                            unless item.weight_actual.nil?
-                              if item.weight_actual.positive?
-                                xml.Weight(item.weight_actual, type: 'actual', uom: item.weight_uom)
-                              end
+                            if !item.weight_actual.nil? && item.weight_actual.positive?
+                              xml.Weight(item.weight_actual, type: 'actual', uom: item.weight_uom)
                             end
-                            unless item.weight_delivered.nil?
-                              if item.weight_delivered.positive?
-                                xml.Weight(item.weight_delivered, type: 'delivered', uom: item.weight_uom)
-                              end
+                            if !item.weight_delivered.nil? && item.weight_delivered.positive?
+                              xml.Weight(item.weight_delivered, type: 'delivered', uom: item.weight_uom)
                             end
                           end
                           xml.tag! 'Quantities' do
-                            unless item.weight_plan.nil?
-                              if item.weight_plan.positive?
-                                xml.Quantity(item.quantity, type: 'planned', uom: item.quantity_uom)
-                              end
+                            if !item.weight_plan.nil? && item.weight_plan.positive?
+                              xml.Quantity(item.quantity, type: 'planned', uom: item.quantity_uom)
                             end
-                            unless item.weight_actual.nil?
-                              if item.weight_actual.positive?
-                                xml.Quantity(item.quantity, type: 'actual', uom: item.quantity_uom)
-                              end
+                            if !item.weight_actual.nil? && item.weight_actual.positive?
+                              xml.Quantity(item.quantity, type: 'actual', uom: item.quantity_uom)
                             end
-                            unless item.weight_delivered.nil?
-                              if item.weight_delivered.positive?
-                                xml.Quantity(item.quantity, type: 'delivered', uom: item.quantity_uom)
-                              end
+                            if !item.weight_delivered.nil? && item.weight_delivered.positive?
+                              xml.Quantity(item.quantity, type: 'delivered', uom: item.quantity_uom)
                             end
                           end
                           xml.Description(item.description)
                           xml.LineItem(lineNumber: item.line_number) do
-                            if item.cube > 0
-                              xml.Cube(item.cube, uom: item.cube_uom)
+                            xml.Cube(item.cube, uom: item.cube_uom) if !item.cube.nil? && item.cube.positive?
+                            if !item.customs_value.nil? && item.customs_value.positive?
+                              xml.CustomsValue(item.customs_value)
                             end
-                            unless item.customs_value.nil?
-                              xml.CustomsValue(item.customs_value) if item.customs_value.positive?
-                            end
-                            unless item.manufacturing_country.nil?
-                              xml.ManufacturingCountry(item.manufacturing_country) unless item.manufacturing_country.nil?
+                            if !item.manufacturing_country.nil? && !item.manufacturing_country.nil?
+                              xml.ManufacturingCountry(item.manufacturing_country)
                             end
                           end
                         end
