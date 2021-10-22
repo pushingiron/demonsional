@@ -30,7 +30,7 @@ module MercuryGateXml
                 xml.ReferenceNumbers do
                   xml.ReferenceNumber data['Primary Reference'].chomp(' (Load ID)'), isPrimary: true,
                                                                                      type: 'Shipment ID'
-                  xml.ReferenceNumber data['PRO Number'], isPrimary: false, type: 'PRO Number'
+                  xml.ReferenceNumber data['PRO'], isPrimary: false, type: 'PRO Number'
                   xml.ReferenceNumber data['SCAC'], isPrimary: false, type: 'SCAC'
                 end
                 xml.Locations do
@@ -52,7 +52,7 @@ module MercuryGateXml
         end
       end
     end
-    xml.target!
+    p xml.target!
   end
 
   def xml_tender_response(data, code)
@@ -350,5 +350,4 @@ module MercuryGateXml
       xml.target!
     end
   end
-
 end
