@@ -99,6 +99,9 @@ class ShippingOrder < ApplicationRecord
     location.postal = row["#{prefix}_postal"]
     location.country = row["#{prefix}_country"]
     location.geo = row["#{prefix}_geo"]
+    location.contact_name = row["#{prefix}_contact_name"]
+    location.contact_phone = row["#{prefix}_contact_phone"]
+    location.contact_email = row["#{prefix}_contact_email"]
     location.residential = row["#{prefix}_residential"]
     location.comments = row["#{prefix}_comments"]
     location.earliest_appt = row["#{prefix}_earliest_appt"]
@@ -107,8 +110,10 @@ class ShippingOrder < ApplicationRecord
   end
 
 
-  def self.mg_post(shipping_order_list, so_match, sh_match)
-    params = { userid: 'WSDemoID', password: 'demo1234', request: shipping_order_xml(shipping_order_list, so_match, sh_match) }
+  def self.mg_post(shipping_order_list, so_match, sh_match, current_user)
+    request_xml = shipping_order_xml(shipping_order_list, so_match, sh_match)
+    Path.create(description: "SO XML Prepost", object: 'SO', action: 'Post', user_id: current_user.id, data: request_xml)
+    params = { userid: 'WSDemoID', password: 'demo1234', request: request_xml }
     encoded_params = URI.encode_www_form(params)
     uri = URI 'https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp'
     http = Net::HTTP.new uri.host, uri.port
@@ -178,6 +183,15 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                           xml.StateProvince(pickup.state)
                           xml.PostalCode(pickup.postal)
                           xml.CountryCode(pickup.country)
+                          xml.Contacts do
+                            xml.Contact(type: '') do
+                              xml.Name(pickup.contact_name)
+                              xml.ContactMethods do
+                                xml.ContactMethod(pickup.contact_phone, type: 'Phone', sequenceNun: '1')
+                                xml.ContactMethod(pickup.contact_email, type: 'Email', sequenceNun: '2')
+                              end
+                            end
+                          end
                         end
                         xml.tag! 'Shipments' do
                           xml.tag! 'ReferenceNumbers' do
@@ -200,6 +214,17 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                           xml.StateProvince(delivery.state)
                           xml.PostalCode(delivery.postal)
                           xml.CountryCode(delivery.country)
+                          xml.Contacts do
+                            xml.Contacts do
+                              xml.Contact(type: '') do
+                                xml.Name(delivery.contact_name)
+                                xml.ContactMethods do
+                                  xml.ContactMethod(delivery.contact_phone, type: 'Phone', sequenceNun: '1')
+                                  xml.ContactMethod(delivery.contact_email, type: 'Email', sequenceNun: '2')
+                                end
+                              end
+                            end
+                          end
                         end
                         xml.tag! 'Shipments' do
                           xml.tag! 'ReferenceNumbers' do
@@ -240,6 +265,15 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                           xml.StateProvince(pickup.state)
                           xml.PostalCode(pickup.postal)
                           xml.CountryCode(pickup.country)
+                          xml.Contacts do
+                            xml.Contact(type: '') do
+                              xml.Name(pickup.contact_name)
+                              xml.ContactMethods do
+                                xml.ContactMethod(pickup.contact_phone, type: 'Phone', sequenceNun: '1')
+                                xml.ContactMethod(pickup.contact_email, type: 'Email', sequenceNun: '2')
+                              end
+                            end
+                          end
                         end
                       end
                     end
@@ -254,6 +288,15 @@ def shipping_order_xml(shipping_order_list, so_match, sh_match)
                           xml.StateProvince(delivery.state)
                           xml.PostalCode(delivery.postal)
                           xml.CountryCode(delivery.country)
+                          xml.Contacts do
+                            xml.Contact(type: '') do
+                              xml.Name(delivery.contact_name)
+                              xml.ContactMethods do
+                                xml.ContactMethod(delivery.contact_phone, type: 'Phone', sequenceNun: '1')
+                                xml.ContactMethod(delivery.contact_email, type: 'Email', sequenceNun: '2')
+                              end
+                            end
+                          end
                         end
                       end
                     end

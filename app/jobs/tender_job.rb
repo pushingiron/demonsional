@@ -15,6 +15,6 @@ class TenderJob < ApplicationJob
       n += 1
       mg_post_xml(xml_tender_response(row, 'A'))
     end
-    PickupJob.set(wait: 1.0.minutes).perform_later
+    PickupJob.set(wait: 3.minutes).perform_later
   end
 end

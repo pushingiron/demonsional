@@ -44,7 +44,7 @@ class ShippingOrdersController < ApplicationController
 
   def post_xml
     @shipping_orders = current_user.shipping_orders.all
-    @response = ShippingOrder.mg_post(@shipping_orders, current_user.so_match_reference, current_user.shipment_match_reference)
+    @response = ShippingOrder.mg_post(@shipping_orders, current_user.so_match_reference, current_user.shipment_match_reference, current_user)
     p @response
     render inline: "<%= @response %><br><%= link_to 'back', shipping_orders_path %>"
     # redirect_to static_page_xml_response_path
@@ -180,11 +180,13 @@ class ShippingOrdersController < ApplicationController
                                            { pickup_locations_attributes: %i[id shipping_order_id loc_code name address1
                                                                              address2 city state postal country geo
                                                                              residential comments earliest_appt
-                                                                             latest_appt stop_type loc_type _destroy] },
+                                                                             latest_appt stop_type loc_type contact_name
+                                                                             contact_phone contact_email _destroy] },
                                            { delivery_locations_attributes: %i[id shipping_order_id loc_code name address1
                                                                                address2 city state postal country geo
                                                                                residential comments earliest_appt
-                                                                               latest_appt stop_type loc_type _destroy] },
+                                                                               latest_appt stop_type loc_type contact_name
+                                                                             contact_phone contact_email _destroy] },
                                            { references_attributes: %i[id reference_type reference_value is_primary
                                                                        shipping_order_id _destroy] },
                                            { items_attributes: %i[id type sequence line_number description freight_class

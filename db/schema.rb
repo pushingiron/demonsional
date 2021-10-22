@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_30_181306) do
+ActiveRecord::Schema.define(version: 2021_10_22_161559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,9 @@ ActiveRecord::Schema.define(version: 2021_09_30_181306) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "shipping_order_id"
     t.string "stop_type"
+    t.string "contact_name"
+    t.string "contact_phone"
+    t.string "contact_email"
   end
 
   create_table "paths", force: :cascade do |t|
@@ -115,6 +118,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_181306) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
+    t.xml "data"
   end
 
   create_table "rates", force: :cascade do |t|

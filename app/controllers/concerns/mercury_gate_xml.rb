@@ -3,6 +3,7 @@ module MercuryGateXml
   WS_USER_ID = 'geer_shipper_ws'.freeze
 
   def xml_status(data, status_code)
+    p '***xml status***'
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -12,8 +13,8 @@ module MercuryGateXml
       xml.tag! 'data' do
         xml.tag! 'WebImport' do
           xml.tag! 'WebImportHeader' do
-            xml.FileName "TENDER-RESPONSE-#{request_id}.xml"
-            xml.Type 'WebImportTenderResponse'
+            xml.FileName "STATUS-#{request_id}.xml"
+            xml.Type 'WebImportStatus'
             xml.UserName WS_USER_ID
           end
           xml.tag! 'WebImportFile'do

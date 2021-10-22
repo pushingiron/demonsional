@@ -65,17 +65,20 @@ class LocationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def location_params
-    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, 
-                                     :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type)
+    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country,
+                                     :geo, :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type,
+                                     :contact_name, :contact_phone, :contact_email)
   end
 
   def pickup_location_params
-    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, 
-                                     :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type)
+    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country,
+                                     :geo, :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type,
+                                     :contact_name, :contact_phone, :contact_email)
   end
 
   def drop_location_params
-    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country, :geo, 
-                                     :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type)
+    params.require(:location).permit(:loc_code, :name, :address1, :address2, :city, :state, :postal, :country,
+                                     :geo, :residential, :comments, :earliest_appt, :latest_appt, :stop_type, :loc_type,
+                                     :contact_name, :contact_phone, :contact_email)
   end
 end

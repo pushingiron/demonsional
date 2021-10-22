@@ -25,7 +25,7 @@ class CreateSoJob < ApplicationJob
       so.cust_acct_num = cust_acct
     end
     @response = ShippingOrder.mg_post(@shipping_orders, current_user.so_match_reference,
-                                      current_user.shipment_match_reference)
+                                      current_user.shipment_match_reference, current_user)
     Path.create(description: "Finish creating SO's in #{level}", object: 'Job', action: 'end', user_id: current_user.id)
     Path.create(description: "Create MMO job for #{level}", object: 'Job', action: 'schedule', user_id: current_user.id)
     MmoJob.set(wait: 1.minutes).perform_later(current_user, enterprise, level) unless %w[Admin Planning].include?(level)

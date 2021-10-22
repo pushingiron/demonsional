@@ -21,11 +21,13 @@ module MercuryGateService
   end
 
   def mg_post_xml(payload)
+    p '***mg_post_xml***'
     params = { userid: WS_USER_ID, password: WS_PASSWORD, request: payload }
     encoded_params = URI.encode_www_form(params)
     response = Faraday.post(WS_URL, encoded_params)
     response.body.force_encoding('utf-8')
     xml_results = Document.new(response.body)
+    p xml_results
   end
 
 end

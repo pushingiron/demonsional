@@ -10,7 +10,7 @@ class PathsController < ApplicationController
   private
 
   def path_params
-    params.require(:path).permit(:description, :object, :action, :user_id)
+    params.require(:path).permit(:description, :object, :action, :user_id, data)
   end
 
 end
