@@ -2,7 +2,7 @@ class MmoJob < ApplicationJob
   queue_as :mmo
 
   def perform(user, enterprise, ent_suf)
-    Path.create(description: "Starting MMO for #{ent_suf}", object: 'Job', action: 'begin', user_id: user.id)
+    Path.create(description: "Starting MMO for #{enterprise}", object: 'Job', action: 'begin', user_id: user.id)
     @user = user
     rates = user.rates.pluck(:contract_id, :lane_calc, :from_loccode, :from_city, :from_state, :from_zip,
                                      :from_country, :to_loccode, :to_city, :to_state, :to_zip, :to_country, :scac,
@@ -18,7 +18,7 @@ class MmoJob < ApplicationJob
     hash = { authentication: { username: @user.edge_pack_id, password: @user.edge_pack_pwd },
              inputReports: [{ name: 'Rates', type: 'RateTable',
                               headers: @headers, data: rates }],
-             script: "Edge.switchCompany('#{enterprise} #{ent_suf}');
+             script: "Edge.switchCompany('#{enterprise}');
                       ship = Edge.getServerReport('Shipment', 'Planning Template', true);
                       Edge.mojoExecute(ship, 'test', false);
                       Edge.mojoCreateServerLoads(false)"
@@ -32,8 +32,8 @@ class MmoJob < ApplicationJob
     http.open_timeout = 5000
     http.read_timeout = 5000
     res = http.post2 uri.path, json.to_s, 'Content-Type' => 'application/json'
-    Path.create(description: "MMO complete for #{ent_suf}", object: 'job', action: 'end', user_id: user.id)
-    TenderJob.set(wait: 4.minutes).perform_later if ent_suf == 'Analytics'
+    Path.create(description: "MMO complete for #{enterprise}", object: 'job', action: 'end', user_id: user.id)
+    TenderJob.set(wait: 1.minutes).perform_later if enterprise.include? 'Analytics'
   end
 
 end

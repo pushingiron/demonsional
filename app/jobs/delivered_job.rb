@@ -1,10 +1,10 @@
-class PickupJob < ApplicationJob
+class DeliveredJob < ApplicationJob
 
   include MercuryGateService
 
   REPORT_TYPE = 'Transport'.freeze
-  REPORT_NAME = 'AD_In_Transit'.freeze
-  STATUS_CODE = 'AF'.freeze
+  REPORT_NAME = 'AD_Delivered'.freeze
+  STATUS_CODE = 'D1'.freeze
 
   def perform
     @transports = mg_post_list_report REPORT_TYPE, REPORT_NAME
@@ -13,6 +13,5 @@ class PickupJob < ApplicationJob
       n += 1
       mg_post_xml(xml_status(row, STATUS_CODE))
     end
-    DeliveredJob.set(wait: 3.minutes).perform_later
   end
 end

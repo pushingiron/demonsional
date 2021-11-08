@@ -15,37 +15,41 @@ class StaticPagesController < ApplicationController
     # create enterprises for demo
     # ###########################
     @new_ent = params[:enterprise]
-    @pickup_date = params[:pickup_date]
+    @pickup_date = Date.parse(params[:pickup_date])
     @parent_ent = current_user.cust_acct
     # create shipping orders for demo
     # ###########################
     ShippingOrder.destroy_all
     Path.create(description: 'Remove shipping orders', object: 'ShippingOrder', action: 'destroy_all', user_id: current_user.id)
-    current_user.shipping_orders.import(params[:file])
+    current_user.shipping_orders.import(params[:file], @pickup_date)
     Enterprise.destroy_all
     Path.create(description: 'Remove enterprises orders', object: 'Enterprise', action: 'destroy_all', user_id: current_user.id)
     cust_acct = nil
 
-    # Create enterprises in database
+    p 'Create enterprises in database'
     @ent_sub_list.each do |sub|
       @enterprise_name = "#{@new_ent} #{sub}"
-      Enterprise.create(company_name: @new_ent) do |e|
+      Enterprise.create(company_name: @enterprise_name) do |e|
         cust_acct = "#{@new_ent}_#{sub}_acct".downcase
         e.customer_account = cust_acct
         e.active = true
         e.user_id = current_user.id
         @admin_name = e.company_name if sub == 'Admin'
       end
-      @response = mg_post_xml(enterprise_xml(current_user.enterprises.all, @parent_ent, current_user.cust_acct))
-      @parent = @admin_name
-      unless sub == 'Admin'
-        CreateSoJob.set(wait: job_delay.minutes).perform_later(cust_acct, current_user, @pickup_date, @new_ent, sub)
-        Path.create(description: "Create Shipping Order job for #{sub}", object: 'Job', action: 'schedule', user_id: current_user.id)
+    end
+    current_user.enterprises.all.each do |e|
+      @response = mg_post_xml(enterprise_xml(e, @parent_ent, current_user.cust_acct))
+      p 'enterprise post'
+      p @response
+      @parent = e.company_name
+      mg_post_xml(contract_xml(@ent_sub_list, @new_ent))
+      Path.create(description: "Create #{@enterprise_name}", object: 'Enterprise', action: 'create', user_id: current_user.id)
+      unless e.company_name.include? 'Admin'
+        CreateSoJob.set(wait: job_delay.minutes).perform_later(e.customer_account, current_user, @pickup_date, e.company_name)
+        Path.create(description: "Create Shipping Order job for #{@enterprise_name}", object: 'Job', action: 'schedule', user_id: current_user.id)
       end
       job_delay += 0.5
-      Path.create(description: "Create #{@enterprise_name}", object: 'Enterprise', action: 'create', user_id: current_user.id)
     end
-    mg_post_xml(contract_xml(@ent_sub_list, @new_ent))
     Path.create(description: 'Create contract', object: 'Contract', action: 'create', user_id: current_user.id)
     redirect_to paths_path
   end

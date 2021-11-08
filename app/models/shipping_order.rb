@@ -2,7 +2,7 @@ class ShippingOrder < ApplicationRecord
 
   belongs_to :user
 
-  validates :payment_method, presence: true
+  #validates :payment_method, presence: true
 
   has_many :pickup_locations, -> { where stop_type: :Pickup }, class_name: 'Location', dependent: :delete_all
   has_many :delivery_locations,  -> { where stop_type: :Drop }, class_name: 'Location', dependent: :delete_all
@@ -29,7 +29,7 @@ class ShippingOrder < ApplicationRecord
                        cube cube_uom weight_plan weight_delivered country_of_origin country_of_manufacture customs_value
                        customs_value_currency origination_country manufacturing_country item_id].freeze
 
-  def self.import(file)
+  def self.import(file, pickup_date)
     so_prev = nil
     begin
       file_path = file.path
@@ -41,6 +41,10 @@ class ShippingOrder < ApplicationRecord
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'])
       if row['so_match_ref'] != so_prev
         shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)
+        shipping_order['early_pickup_date'] = (pickup_date + 8.hours)
+        shipping_order['late_pickup_date'] = (pickup_date + 7.days + 16.hours)
+        shipping_order['early_delivery_date'] = (pickup_date + 7.days + 8.hours)
+        shipping_order['late_delivery_date'] = (pickup_date + 7.days + 16.hours)
         p row.to_hash
         p 'attribues'
         p shipping_order.attributes
