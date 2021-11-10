@@ -1,7 +1,7 @@
 class MmoJob < ApplicationJob
   queue_as :mmo
 
-  def perform(user, enterprise, ent_suf)
+  def perform(user, enterprise)
     Path.create(description: "Starting MMO for #{enterprise}", object: 'Job', action: 'begin', user_id: user.id)
     @user = user
     rates = user.rates.pluck(:contract_id, :lane_calc, :from_loccode, :from_city, :from_state, :from_zip,
