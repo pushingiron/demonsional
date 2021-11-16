@@ -9,7 +9,7 @@ module Bing
   end
 
   def self.say_hi
-    puts 'hi bing'
+    puts 'hi bing a'
   end
 
 end
