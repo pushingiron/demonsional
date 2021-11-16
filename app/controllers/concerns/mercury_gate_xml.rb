@@ -2,6 +2,20 @@ module MercuryGateXml
 
   WS_USER_ID = 'geer_shipper_ws'.freeze
 
+  def xml_extract(oid)
+    request_id = Time.now.strftime('%Y%m%d%H%M%L')
+    xml = Builder::XmlMarkup.new
+    xml.instruct! :xml, version: '1.0'
+    xml.tag! 'service-request' do
+      xml.tag! 'service-id', 'ImportWeb'
+      xml.tag! 'request-id', request_id
+      xml.tag! 'data' do
+        xml.oid oid
+      end
+    end
+    p xml.target!
+  end
+
   def xml_status(data, status_code)
     p '***xml status***'
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
