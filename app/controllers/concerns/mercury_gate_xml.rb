@@ -38,10 +38,10 @@ module MercuryGateXml
                 xml.StatusDetails do
                   xml.StatusDetail address: data['Origin Addr1'], apptCode: '', apptReasonCode: '',
                                    cityName: data['Origin City'], countryCode: data['Origin Ctry'],
-                                   date: data['Target Ship (Early)'].to_datetime.strftime('%Y%m%d'), equipNum: '', equipNumCheckDigit: '',
-                                   equipDescCode: '', index: '', podName: '', scacCode: '',
-                                   stateCode: data['Origin State'], statusCode: status_code, statusReasonCode: '',
-                                   stopNum: '', time: '0800'
+                                   date: date_format(data['Target Ship (Early)']).to_datetime.strftime('%Y%m%d'),
+                                   equipNum: '', equipNumCheckDigit: '', equipDescCode: '', index: '', podName: '',
+                                   scacCode: '', stateCode: data['Origin State'], statusCode: status_code,
+                                   statusReasonCode: '', stopNum: '', time: '0800'
                 end
               end
             end
@@ -92,7 +92,8 @@ module MercuryGateXml
     xml.target!
   end
 
-  def xml_list_report_one_prompt(type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
+  def xml_list_report(type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
+    p 'parmaters xml_list report'
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -347,4 +348,27 @@ module MercuryGateXml
       xml.target!
     end
   end
+
+  def object_lookup(object_type, search_by, search_value, search_modifier = nil)
+    request_id = Time.now.strftime('%Y%m%d%H%M%L')
+    xml = Builder::XmlMarkup.new
+    xml.instruct! :xml, version: '1.0'
+    xml.tag! 'service-request' do
+      xml.tag! 'service-id', 'OidLookup'
+      xml.tag! 'request-id', request_id
+      xml.tag! 'data' do
+        xml.objectType object_type
+        xml.searchBy search_by
+        xml.searchValue search_value
+        xml.searchModifier search_modifier unless search_modifier.nil?
+      end
+      puts xml.target!
+    end
+  end
+
+  def date_format(date)
+    DateTime.strptime(date, '%m/%d/%Y %I:%M%p')
+  end
+
 end
+

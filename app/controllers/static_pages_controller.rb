@@ -5,6 +5,8 @@ class StaticPagesController < ApplicationController
 
   def index
     @paths = current_user.paths.all
+    #@test = Transport.transport_oid
+    p @test
   end
 
 
