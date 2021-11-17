@@ -2,13 +2,15 @@ module MercuryGateService
   include REXML
   include MercuryGateXml
 
-  WS_USER_ID = 'geer_shipper_ws'.freeze
-    WS_PASSWORD = 'geer1234'.freeze
   WS_URL = 'https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp'.freeze
 
-  def mg_post_list_report(type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
+  def mg_post_list_report(user, type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
+
+    ws_user_id = user.ws_user_id.freeze
+    ws_password = user.ws_user_pwd.freeze
+
     p 'mg post list report'
-    params = { userid: WS_USER_ID, password: WS_PASSWORD, 
+    params = { userid: ws_user_id, password: ws_password,
                request: xml_list_report(type, name, count, value1, value2, value3) }
     encoded_params = URI.encode_www_form(params)
     response = Faraday.post(WS_URL, encoded_params)
@@ -21,9 +23,10 @@ module MercuryGateService
     report_data
   end
 
-  def mg_post_xml(payload)
-    puts payload
-    params = { userid: WS_USER_ID, password: WS_PASSWORD, request: payload }
+  def mg_post_xml(user, payload)
+    ws_user_id = user.ws_user_id
+    ws_password = user.ws_user_pwd
+    params = { userid: ws_user_id, password: ws_password, request: payload }
     encoded_params = URI.encode_www_form(params)
     response = Faraday.post(WS_URL, encoded_params)
     response.body.force_encoding('utf-8')

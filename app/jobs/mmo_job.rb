@@ -33,7 +33,7 @@ class MmoJob < ApplicationJob
     http.read_timeout = 5000
     res = http.post2 uri.path, json.to_s, 'Content-Type' => 'application/json'
     Path.create(description: "MMO complete for #{enterprise}", object: 'job', action: 'end', user_id: user.id)
-    TenderJob.set(wait: 1.minutes).perform_later if enterprise.include? 'Analytics'
+    TenderJob.set(wait: 1.minutes).perform_later(user) if enterprise.include? 'Analytics'
   end
 
 end

@@ -11,6 +11,8 @@ class StaticPagesController < ApplicationController
 
 
   def create_demo
+    user = current_user
+    puts user
     job_delay = 0.0
     # GuestsCleanupJob.perform_later 'easy'
     @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
@@ -39,11 +41,9 @@ class StaticPagesController < ApplicationController
       current_user.shipping_orders.import(params[:file], @pickup_date, cust_acct) unless sub == 'Admin'
     end
     current_user.enterprises.all.each do |e|
-      @response = mg_post_xml(enterprise_xml(e, @parent_ent, current_user.cust_acct))
-      p 'enterprise post'
-      p @response
+      @response = mg_post_xml(user, enterprise_xml(e, @parent_ent, current_user.cust_acct))
       @parent = e.company_name
-      mg_post_xml(contract_xml(@ent_sub_list, @new_ent))
+      mg_post_xml(user, contract_xml(@ent_sub_list, @new_ent))
       Path.create(description: "Create #{@enterprise_name}", object: 'Enterprise', action: 'create', user_id: current_user.id)
     end
     CreateSoJob.set(wait: job_delay.minutes).perform_later(current_user)
