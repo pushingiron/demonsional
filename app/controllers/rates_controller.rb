@@ -4,7 +4,7 @@ class RatesController < ApplicationController
 
   # GET /rates or /rates.json
   def index
-    @rates = Rate.all
+    @rates = current_user.rates.all
   end
 
   # GET /rates/1 or /rates/1.json
