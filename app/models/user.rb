@@ -14,7 +14,8 @@ class User < ApplicationRecord
                  :edge_pack_id,
                  :edge_pack_pwd,
                  :ws_user_id,
-                 :ws_user_pwd
+                 :ws_user_pwd,
+                 :report_user
 
 
   # Include default devise modules. Others available are:

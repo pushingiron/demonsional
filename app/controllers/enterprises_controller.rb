@@ -98,6 +98,7 @@ class EnterprisesController < ApplicationController
     params.require(:enterprise).permit(:company_name, :customer_account, :active, :location_code,
                                        :location_name, :address_1, :address_2, :city, :state, :postal, :country,
                                        :user_id, :residential, :comments, :earliest_appt, :latest_appt, :location_type,
-                                       :contact_type, :contact_name, :contact_phone, :contact_fax, :contact_email)
+                                       :contact_type, :contact_name, :contact_phone, :contact_fax, :contact_email,
+                                       :parent)
   end
 end

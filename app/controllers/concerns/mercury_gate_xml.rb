@@ -16,7 +16,7 @@ module MercuryGateXml
     p xml.target!
   end
 
-  def xml_status(data, status_code)
+  def xml_status(user, data, status_code)
     p '***xml status***'
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
@@ -29,7 +29,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName "STATUS-#{request_id}.xml"
             xml.Type 'WebImportStatus'
-            xml.UserName WS_USER_ID
+            xml.UserName user.ws_user_id
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do
@@ -66,7 +66,7 @@ module MercuryGateXml
     p xml.target!
   end
 
-  def xml_tender_response(data, code)
+  def xml_tender_response(user, data, code)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -78,7 +78,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName "TENDER-RESPONSE-#{request_id}.xml"
             xml.Type 'WebImportTenderResponse'
-            xml.UserName WS_USER_ID
+            xml.UserName user.ws_user_id
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do
@@ -106,7 +106,7 @@ module MercuryGateXml
     xml.target!
   end
 
-  def xml_list_report(type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
+  def xml_list_report(user, type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
     p 'parmaters xml_list report'
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
@@ -117,7 +117,7 @@ module MercuryGateXml
       xml.tag! 'data' do
         xml.listScreenType type
         xml.reportName name
-        xml.UserName 'GeerAutomation'
+        xml.UserName user.report_user
         if count.positive?
           xml.PromptFieldCount count
           if count >= 1
@@ -134,7 +134,7 @@ module MercuryGateXml
     end
   end
 
-  def enterprise_xml(enterprise, parent, ws_user_id)
+  def enterprise_xml(user, enterprise)
 
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
@@ -147,7 +147,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName "ENT#{request_id}.xml"
             xml.Type 'WebImportEnterprise'
-            xml.UserName WS_USER_ID
+            xml.UserName user.ws_user_id
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do
@@ -159,7 +159,7 @@ module MercuryGateXml
                 xml.DocTypeID 'Enterprise'
                 xml.DocCount '1'
               end
-              xml.Enterprise(name: enterprise.company_name, parentName: parent, active: enterprise.active,
+              xml.Enterprise(name: enterprise.company_name, parentName: enterprise.parent, active: enterprise.active,
                                action: :UpdateOrAdd) do
               xml.MultiNational(false)
               xml.Description
@@ -221,7 +221,7 @@ module MercuryGateXml
     p xml.target!
   end
 
-  def contract_xml(enterprises, new_ent)
+  def contract_xml(user, enterprises, new_ent)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -233,7 +233,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName "CONTRACT-#{request_id}.xml"
             xml.Type 'WebImportContract'
-            xml.UserName WS_USER_ID
+            xml.UserName user.ws_user_id
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do

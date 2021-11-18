@@ -11,7 +11,7 @@ class PickupJob < ApplicationJob
     n = 0
     CSV.parse(@transports, headers: true, col_sep: ',') do |row|
       n += 1
-      mg_post_xml(user, xml_status(row, STATUS_CODE))
+      mg_post_xml(user, xml_status(user, row, STATUS_CODE))
     end
     DeliveredJob.set(wait: 1.minutes).perform_later(user)
   end

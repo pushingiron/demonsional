@@ -11,7 +11,7 @@ module MercuryGateService
 
     p 'mg post list report'
     params = { userid: ws_user_id, password: ws_password,
-               request: xml_list_report(type, name, count, value1, value2, value3) }
+               request: xml_list_report(user, type, name, count, value1, value2, value3) }
     encoded_params = URI.encode_www_form(params)
     response = Faraday.post(WS_URL, encoded_params)
     response.body.force_encoding('utf-8')

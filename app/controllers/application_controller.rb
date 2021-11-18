@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
                :edge_pack_pwd,
                :ws_user_id,
                :ws_user_pwd,
+               :report_user,
                :email, :password,
                :password_confirmation,
                :remember_me)
@@ -28,6 +29,7 @@ class ApplicationController < ActionController::Base
                :edge_pack_pwd,
                :ws_user_id,
                :ws_user_pwd,
+               :report_user,
                :email,
                :password,
                :password_confirmation,
