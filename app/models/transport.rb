@@ -21,10 +21,8 @@ class Transport < ApplicationRecord
   end
 
   def self.transport_oid
-    p 'oid'
     # oid = Transport.first.object_lookup('transport', 'primaryReference', '1234')
     results = mg_post_xml(Transport.first.object_lookup('transport', 'primaryReference', 'LD8833'))
-    puts results
   end
 
 end

@@ -12,7 +12,6 @@ class StaticPagesController < ApplicationController
 
   def create_demo
     user = current_user
-    puts user.report_user
     job_delay = 0.0
     # GuestsCleanupJob.perform_later 'easy'
     @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]

@@ -13,11 +13,10 @@ module MercuryGateXml
         xml.oid oid
       end
     end
-    p xml.target!
+    xml.target!
   end
 
   def xml_status(user, data, status_code)
-    p '***xml status***'
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -63,7 +62,7 @@ module MercuryGateXml
         end
       end
     end
-    p xml.target!
+    xml.target!
   end
 
   def xml_tender_response(user, data, code)
@@ -107,7 +106,6 @@ module MercuryGateXml
   end
 
   def xml_list_report(user, type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
-    p 'parmaters xml_list report'
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -216,9 +214,7 @@ module MercuryGateXml
           end
         end
       end
-
     xml.target!
-    p xml.target!
   end
 
   def contract_xml(user, enterprises, new_ent)
@@ -376,7 +372,6 @@ module MercuryGateXml
         xml.searchValue search_value
         xml.searchModifier search_modifier unless search_modifier.nil?
       end
-      puts xml.target!
     end
   end
 
