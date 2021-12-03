@@ -116,7 +116,7 @@ class ShippingOrder < ApplicationRecord
     location.save!
   end
 
-  def self.mg_post(shipping_order_list, so_match, sh_match, current_user)
+  def self.mg_post_dep(shipping_order_list, so_match, sh_match, current_user)
     request_xml = shipping_order_xml(current_user, shipping_order_list, so_match, sh_match)
     Path.create(description: "SO XML Prepost", object: 'SO', action: 'Post', user_id: current_user.id, data: request_xml)
     params = { userid: current_user.ws_user_id, password: current_user.ws_user_pwd, request: request_xml }
@@ -134,7 +134,7 @@ class ShippingOrder < ApplicationRecord
 
 end
 
-def shipping_order_xml(user, shipping_order_list, so_match, sh_match)
+def shipping_order_xml_dep(user, shipping_order_list, so_match, sh_match)
 
   xml = Builder::XmlMarkup.new
   xml.instruct! :xml, version: '1.0'

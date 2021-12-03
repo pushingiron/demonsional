@@ -1,4 +1,7 @@
 class CreateSoJob < ApplicationJob
+
+  include MercuryGateService
+
   queue_as :so
 
   #around_perform
@@ -11,8 +14,7 @@ class CreateSoJob < ApplicationJob
 
     Path.create(description: "Starting to creating SO's", object: 'Job', action: 'begin', user_id: user.id)
     @shipping_orders = user.shipping_orders.all
-    @response = ShippingOrder.mg_post(@shipping_orders, user.so_match_reference,
-                                      user.shipment_match_reference, user)
+    @response = mg_post_xml(user, shipping_order_xml(user, @shipping_orders))
     Path.create(description: "Finish creating SO's in", object: 'Job', action: 'end', user_id: user.id)
     Path.create(description: "Create MMO job for", object: 'Job', action: 'schedule', user_id: user.id)
     enterprise = Enterprise.all

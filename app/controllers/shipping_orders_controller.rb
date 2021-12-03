@@ -1,5 +1,7 @@
 class ShippingOrdersController < ApplicationController
 
+  include MercuryGateService
+
   before_action :set_shipping_order, except: %i[index post_xml new create import_page csv_example import destroy_all]
   before_action :authenticate_user!
 
@@ -44,7 +46,8 @@ class ShippingOrdersController < ApplicationController
 
   def post_xml
     @shipping_orders = current_user.shipping_orders.all
-    @response = ShippingOrder.mg_post(@shipping_orders, current_user.so_match_reference, current_user.shipment_match_reference, current_user)
+    @response = mg_post_xml(current_user, shipping_order_xml(current_user, @shipping_orders))
+    #@response = ShippingOrder.mg_post(@shipping_orders, current_user.so_match_reference, current_user.shipment_match_reference, current_user)
     p @response
     render inline: "<%= @response %><br><%= link_to 'back', shipping_orders_path %>"
     # redirect_to static_page_xml_response_path

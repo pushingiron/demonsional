@@ -42,9 +42,9 @@ class StaticPagesController < ApplicationController
     current_user.enterprises.all.each do |e|
       @response = mg_post_xml(user, enterprise_xml(user, e))
       @parent = e.company_name
-      mg_post_xml(user, contract_xml(user, @ent_sub_list, @new_ent))
       Path.create(description: "Create #{@enterprise_name}", object: 'Enterprise', action: 'create', user_id: user.id)
     end
+    mg_post_xml(user, contract_xml(user, @ent_sub_list, @new_ent))
     CreateSoJob.set(wait: job_delay.minutes).perform_later(user)
     Path.create(description: "Create Shipping Order job for #{@enterprise_name}", object: 'Job', action: 'schedule', user_id: user.id)
     Path.create(description: 'Create contract', object: 'Contract', action: 'create', user_id: user.id)

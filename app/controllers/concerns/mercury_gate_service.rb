@@ -23,9 +23,13 @@ module MercuryGateService
     ws_password = user.ws_user_pwd
     params = { userid: ws_user_id, password: ws_password, request: payload }
     encoded_params = URI.encode_www_form(params)
-    response = Faraday.post(WS_URL, encoded_params)
+    faraday = Faraday.new do |f|
+      f.options.timeout = 1000
+    end
+    response = faraday.post(WS_URL, encoded_params)
     response.body.force_encoding('utf-8')
-    Document.new(response.body)
+    p 'mg_post_xml'
+    puts Document.new(response.body)
   end
 
 
