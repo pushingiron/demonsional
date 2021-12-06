@@ -13,12 +13,14 @@ class StaticPagesController < ApplicationController
   def create_demo
     user = current_user
     job_delay = 0.0
+    Path.max_records(user)
     # GuestsCleanupJob.perform_later 'easy'
     @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
     @new_ent = params[:enterprise]
     @pickup_date = Date.parse(params[:pickup_date])
     @parent_ent = current_user.cust_acct
     ShippingOrder.destroy_all
+    path = Path
     Path.create(description: 'Remove shipping orders', object: 'ShippingOrder', action: 'destroy_all', user_id: current_user.id)
     Enterprise.destroy_all
     Path.create(description: 'Remove enterprises orders', object: 'Enterprise', action: 'destroy_all', user_id: current_user.id)
