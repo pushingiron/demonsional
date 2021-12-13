@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   # resources :users
   resources :paths
 
+  resources :contracts
+
   resources :enterprises do
     collection do
       get :post_xml

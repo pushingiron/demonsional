@@ -1,0 +1,207 @@
+<%= form_with(model: contract) do |form| %>
+  <% if contract.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(rate.errors.count, "error") %> prohibited this contract from being saved:</h2>
+
+      <ul>
+        <% contract.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :contract_name %>
+    <%= form.text_field :contract_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :owner %>
+    <%= form.text_field :owner, value: 'stub' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :web_service %>
+    <%= form.check_box :web_service,  {checked: true } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :service %>
+    <%= form.text_field :service, value: 'Standard' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :service_days %>
+    <%= form.number_field :service_days, value: 0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mode %>
+    <%= form.text_field :mode, value: 'TL' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :effective_date %>
+    <%= form.date_field :effective_date, value: '01/01/2001'.to_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :expiration_date %>
+    <%= form.date_field :expiration_date, value: '01/01/2099'.to_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :type %>
+    <%= form.text_field :type, value: 'CARRIER CONTRACT' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_multi_stop %>
+    <%= form.check_box :is_multi_stop, {checked: true } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :disable_distance_non_mg %>
+    <%= form.check_box :disable_distance_non_mg, {checked: true } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :disable_distance_mg %>
+    <%= form.check_box :disable_distance_mg, {checked: true } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_gain_share %>
+    <%= form.check_box :is_gain_share, {checked: true } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :discount_type %>
+    <%= form.text_field :discount_type, value: 'Flat' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :discount_flat_value %>
+    <%= form.number_field :discount_flat_value, value: 0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :smc_min_dis_enabled %>
+    <%= form.check_box :smc_min_dis_enabled, {checked: true} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :minimum %>
+    <%= form.number_field :minimum, value: 99 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :re_rate_date_type %>
+    <%= form.text_field :re_rate_date_type, value: 'PlannedShipDate' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :distance_determiner %>
+    <%= form.text_field :distance_determiner, value: 'PCMiler19' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :distance_route_type %>
+    <%= form.text_field :distance_route_type, value: 'Practical' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :transit_time %>
+    <%= form.text_field :transit_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :weekend_holiday_adj %>
+    <%= form.text_field :weekend_holiday_adj, value: 'Default' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :oversize_charges %>
+    <%= form.check_box :oversize_charges, {checked: false} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :show_zero %>
+    <%= form.check_box :show_zero, { checked: false } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dim_factor %>
+    <%= form.text_field :dim_factor, value: 0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dim_weight_calc %>
+    <%= form.text_field :dim_weight_calc, value: 'Default' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dimensional_rounding %>
+    <%= form.check_box :dimensional_rounding, {checked: false } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dim_weight_min_cube %>
+    <%= form.number_field :dim_weight_min_cube, default: 0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :include_rto_miles %>
+    <%= form.check_box :include_rto_miles, {checked: false} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :require_dimensions %>
+    <%= form.check_box :require_dimensions, {checked: false} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :qty_density_weight %>
+    <%= form.number_field :qty_density_weight, default: 0.0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :do_not_return_indirect_charges %>
+    <%= form.check_box :do_not_return_indirect_charges, {checked: false} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :uplift_per %>
+    <%= form.number_field :uplift_per, default: 0.0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :uplift_type %>
+    <%= form.text_field :uplift_type, value: 'UPLIFT LINE HAUL' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :uplift_min %>
+    <%= form.number_field :uplift_min, default: 0.0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :uplift_max %>
+    <%= form.number_field :uplift_max, default: 0.0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :exclude_pct_acc_from_uplift %>
+    <%= form.check_box :exclude_pct_acc_from_uplift, {checked: false} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :uplift %>
+    <%= form.text_field :uplift %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

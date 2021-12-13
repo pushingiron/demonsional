@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_17_191720) do
+ActiveRecord::Schema.define(version: 2021_12_07_230253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,51 @@ ActiveRecord::Schema.define(version: 2021_11_17_191720) do
     t.string "so_match"
     t.string "shipment_match"
     t.index ["user_id"], name: "index_configurations_on_user_id"
+  end
+
+  create_table "contracts", force: :cascade do |t|
+    t.string "contract_name"
+    t.string "owner"
+    t.boolean "web_service"
+    t.string "service"
+    t.decimal "service_days"
+    t.string "mode"
+    t.date "effective_date"
+    t.date "expiration_date"
+    t.string "type"
+    t.boolean "is_multi_stop"
+    t.boolean "disable_distance_non_mg"
+    t.boolean "disable_distance_mg"
+    t.boolean "is_gain_share"
+    t.string "discount_type"
+    t.decimal "discount_flat_value"
+    t.boolean "smc_min_dis_enabled"
+    t.decimal "minimum"
+    t.string "re_rate_date_type"
+    t.string "distance_determiner"
+    t.string "distance_route_type"
+    t.decimal "transit_time"
+    t.string "weekend_holiday_adj"
+    t.boolean "oversize_charges"
+    t.boolean "show_zero"
+    t.decimal "dim_factor"
+    t.string "dim_weight_calc"
+    t.boolean "dimensional_rounding"
+    t.decimal "dim_weight_min_cube"
+    t.boolean "include_rto_miles"
+    t.boolean "require_dimensions"
+    t.decimal "qty_density_weight"
+    t.boolean "do_not_return_indirect_charges"
+    t.decimal "uplift_per"
+    t.string "uplift_type"
+    t.decimal "uplift_min"
+    t.decimal "uplift_max"
+    t.boolean "exclude_pct_acc_from_uplift"
+    t.decimal "uplift"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_contracts_on_user_id"
   end
 
   create_table "enterprises", force: :cascade do |t|
@@ -206,6 +251,7 @@ ActiveRecord::Schema.define(version: 2021_11_17_191720) do
   end
 
   add_foreign_key "configurations", "users"
+  add_foreign_key "contracts", "users"
   add_foreign_key "enterprises", "users"
   add_foreign_key "items", "shipping_orders"
   add_foreign_key "locations", "shipping_orders"

@@ -1,0 +1,83 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  contract_name: MyString
+  owner: MyString
+  web_service: false
+  service: MyString
+  service_days: 9.99
+  mode: MyString
+  effective_date: 2021-12-06
+  expiration_date: 2021-12-06
+  type: 
+  is_multi_stop: false
+  disable_distance_non_mg: false
+  disable_distance_mg: false
+  is_gain_share: false
+  discount_type: MyString
+  discount_flat_value: 9.99
+  smc_min_dis_enabled: false
+  minimum: 9.99
+  re_rate_date_type: MyString
+  distance_determiner: MyString
+  distance_route_type: MyString
+  transit_time: 9.99
+  weekend_holiday_adj: MyString
+  oversize_charges: false
+  show_zero: false
+  dim_factor: 9.99
+  dim_weight_calc: MyString
+  dimensional_rounding: false
+  dim_weight_min_cube: 9.99
+  include_rto_miles: false
+  require_deimensions: false
+  qty_density_weight: 9.99
+  do_not_return_indirect_charges: false
+  uplift_per: 9.99
+  uplift_type: MyString
+  uplift_min: 9.99
+  uplift_max: 9.99
+  exclude_pct_acc_from_uplift: false
+  uplift: 9.99
+  reference: 
+
+two:
+  contract_name: MyString
+  owner: MyString
+  web_service: false
+  service: MyString
+  service_days: 9.99
+  mode: MyString
+  effective_date: 2021-12-06
+  expiration_date: 2021-12-06
+  type: 
+  is_multi_stop: false
+  disable_distance_non_mg: false
+  disable_distance_mg: false
+  is_gain_share: false
+  discount_type: MyString
+  discount_flat_value: 9.99
+  smc_min_dis_enabled: false
+  minimum: 9.99
+  re_rate_date_type: MyString
+  distance_determiner: MyString
+  distance_route_type: MyString
+  transit_time: 9.99
+  weekend_holiday_adj: MyString
+  oversize_charges: false
+  show_zero: false
+  dim_factor: 9.99
+  dim_weight_calc: MyString
+  dimensional_rounding: false
+  dim_weight_min_cube: 9.99
+  include_rto_miles: false
+  require_deimensions: false
+  qty_density_weight: 9.99
+  do_not_return_indirect_charges: false
+  uplift_per: 9.99
+  uplift_type: MyString
+  uplift_min: 9.99
+  uplift_max: 9.99
+  exclude_pct_acc_from_uplift: false
+  uplift: 9.99
+  reference: 
