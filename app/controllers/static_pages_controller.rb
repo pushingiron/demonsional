@@ -2,15 +2,14 @@ class StaticPagesController < ApplicationController
   include MercuryGateService
 
   before_action :authenticate_user!
-
   def index
     @paths = current_user.paths.all
     #@test = Transport.transport_oid
     p @test
   end
 
-
   def create_demo
+    redirect_to paths_path
     user = current_user
     job_delay = 0.0
     Path.max_records(user)
@@ -50,7 +49,6 @@ class StaticPagesController < ApplicationController
     CreateSoJob.set(wait: job_delay.minutes).perform_later(user)
     Path.create(description: "Create Shipping Order job for #{@enterprise_name}", object: 'Job', action: 'schedule', user_id: user.id)
     Path.create(description: 'Create contract', object: 'Contract', action: 'create', user_id: user.id)
-    redirect_to paths_path
   end
 
   def xml_response
@@ -62,7 +60,6 @@ class StaticPagesController < ApplicationController
   end
 
   private
-
 
 
 end
