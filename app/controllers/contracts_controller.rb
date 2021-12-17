@@ -32,7 +32,7 @@ class ContractsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @contract.update(rate_params)
+      if @contract.update(contract_params)
         format.html { redirect_to @contract, notice: "Contract was successfully updated." }
         format.json { render :show, status: :ok, location: @contract }
       else
@@ -52,13 +52,15 @@ class ContractsController < ApplicationController
     params.require(:contract).permit(
       :contract_name,
       :owner,
+      :carrier_name,
+      :carrier_enterprise,
       :web_service,
       :service,
       :service_days,
       :mode,
       :effective_date,
       :expiration_date,
-      :type,
+      :contract_type,
       :is_multi_stop,
       :disable_distance_non_mg,
       :disable_distance_mg,

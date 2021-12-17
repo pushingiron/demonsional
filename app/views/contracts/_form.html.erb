@@ -22,6 +22,16 @@
   </div>
 
   <div class="field">
+    <%= form.label :carrier_name %>
+    <%= form.text_field :carrier_name, value: 'stub' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :carrier_enterprise %>
+    <%= form.text_field :carrier_enterprise, value: 'stub' %>
+  </div>
+
+  <div class="field">
     <%= form.label :web_service %>
     <%= form.check_box :web_service,  {checked: true } %>
   </div>

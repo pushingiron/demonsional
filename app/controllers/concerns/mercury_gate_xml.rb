@@ -217,7 +217,7 @@ module MercuryGateXml
     xml.target!
   end
 
-  def contract_xml(user, enterprises, new_ent)
+  def contract_xml(user, enterprises, new_ent, contract)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -241,49 +241,50 @@ module MercuryGateXml
                 xml.DocTypeID 'Contract'
                 xml.DocCount 1
               end
-              xml.Contract name: 'Test 1' do
+              xml.Contract name: contract.contract_name do
                 xml.Owner "#{new_ent} #{enterprises[0]}"
-                xml.Carrier 'Swift Transport', ownEntName: 'Demo Top'
-                xml.IsWebService true
-                xml.Service 'Standard'
-                xml.ServiceDays 0
-                xml.Mode 'TL'
-                xml.EffectiveDate '01/01/2012'
-                xml.ExpirationDate '01/01/2099'
+                xml.Carrier contract.carrier_name, ownEntName: contract.carrier_enterprise
+                xml.IsWebService contract.web_service
+                xml.Service contract.service
+                xml.ServiceDays contract.service_days.round(0)
+                xml.Mode contract.mode
+                xml.EffectiveDate contract.effective_date.strftime("%m/%d/%y")
+                xml.ExpirationDate contract.expiration_date.strftime("%m/%d/%y")
                 xml.ExpirationReason
-                xml.Type 'CARRIER CONTRACT'
+                xml.Type contract.contract_type
                 xml.Role
-                xml.IsMultiStopTruckload true
-                xml.DisableMultiStopDistanceCalcNonMGRateTable false
-                xml.DisableMultiStopDistanceCalcMGRateTable false
-                xml.IsGainshare false
+                xml.IsMultiStopTruckload contract.is_multi_stop
+                xml.DisableMultiStopDistanceCalcNonMGRateTable contract.disable_distance_non_mg
+                xml.DisableMultiStopDistanceCalcMGRateTable contract.disable_distance_mg
+                xml.IsGainshare contract.is_gain_share
                 xml.AssociatedCarrierContract
-                xml.Discount type: 'Flat' do
-                  xml.FlatValue 0
-                  xml.SMCMinChargeDiscountEnabled false
+                xml.Discount type: contract.discount_type do
+                  xml.FlatValue contract.discount_flat_value
+                  xml.SMCMinChargeDiscountEnabled contract.smc_min_dis_enabled
+                  xml.SMCMinChargeDiscountValue 0
                 end
-                xml.Minimum 100
-                xml.ReRateDateType 'PlannedShipDate'
-                xml.DistanceDeterminer 'PCMiler19', routeType: 'Practical'
+                xml.Minimum contract.minimum
+                xml.ReRateDateType contract.re_rate_date_type
+                xml.DistanceDeterminer contract.distance_determiner, routeType: contract.distance_route_type
                 xml.TransitTime
-                xml.WeekendHolidayAdjusment 'Default'
-                xml.ApplyOversizeCharges false
-                xml.ShowZeroRate true
-                xml.DimFactor 0.0
-                xml.DimWeightCalcMethod 'Default'
-                xml.DimensionalRounding false
-                xml.DimWeightRounding false
-                xml.DimWeightCalcMinCube 0.0
-                xml.IncludeRTOMiles false
-                xml.RequireDimensions false
-                xml.QtyDensityWeight 0.0
-                xml.DoNotReturnIndirectCharges false
+                xml.WeekendHolidayAdjusment contract.weekend_holiday_adj
+                xml.ApplyOversizeCharges contract.oversize_charges
+                xml.ShowZeroRate contract.show_zero
+                xml.DimFactor contract.dim_factor
+                xml.DimWeightCalcMethod contract.dim_weight_calc
+                xml.DimensionalRounding contract.dimensional_rounding
+                xml.DimWeightRounding contract.dimensional_rounding
+                xml.DimWeightCalcMinCube contract.dim_weight_min_cube
+                xml.IncludeRTOMiles contract.include_rto_miles
+                xml.RequireDimensions contract.require_dimensions
+                xml.QtyDensityWeight contract.qty_density_weight
+                xml.DoNotReturnIndirectCharges contract.do_not_return_indirect_charges
                 xml.Uplift do
-                  xml.Percentage 0.0
-                  xml.Type 'UPLIFT LINE HAUL'
-                  xml.Minimum 0.0
-                  xml.Maximum 0.0
-                  xml.ExcludePctAccFromUplift false
+                  xml.Percentage contract.uplift_per
+                  xml.Type contract.uplift_type
+                  xml.Minimum contract.uplift_min
+                  xml.Maximum contract.uplift_max
+                  xml.ExcludePctAccFromUplift contract.exclude_pct_acc_from_uplift
                 end
                 xml.Uplift
                 xml.GrantedCompanies do

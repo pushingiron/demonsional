@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_07_230253) do
+ActiveRecord::Schema.define(version: 2021_12_17_171651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2021_12_07_230253) do
     t.string "mode"
     t.date "effective_date"
     t.date "expiration_date"
-    t.string "type"
+    t.string "contract_type"
     t.boolean "is_multi_stop"
     t.boolean "disable_distance_non_mg"
     t.boolean "disable_distance_mg"
@@ -67,6 +67,9 @@ ActiveRecord::Schema.define(version: 2021_12_07_230253) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
+    t.string "carrier_name"
+    t.string "carrier_enterprise"
+    t.decimal "smc_minimum"
     t.index ["user_id"], name: "index_contracts_on_user_id"
   end
 
