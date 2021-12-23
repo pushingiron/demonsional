@@ -28,8 +28,7 @@ module MercuryGateService
     end
     response = faraday.post(WS_URL, encoded_params)
     response.body.force_encoding('utf-8')
-    p 'mg_post_xml'
-    puts Document.new(response.body)
+    Document.new(response.body)
   end
 
 

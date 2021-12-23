@@ -1,7 +1,7 @@
 <%= form_with(model: contract) do |form| %>
   <% if contract.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(rate.errors.count, "error") %> prohibited this contract from being saved:</h2>
+      <h2><%= pluralize(contract.errors.count, "error") %> prohibited this contract from being saved:</h2>
 
       <ul>
         <% contract.errors.each do |error| %>
@@ -10,25 +10,26 @@
       </ul>
     </div>
   <% end %>
-
+<form>
+  <div class="form-group">
   <div class="field">
     <%= form.label :contract_name %>
     <%= form.text_field :contract_name %>
   </div>
-
+  </div>
   <div class="field">
     <%= form.label :owner %>
-    <%= form.text_field :owner, value: 'stub' %>
+    <%= form.text_field :owner %>
   </div>
 
   <div class="field">
     <%= form.label :carrier_name %>
-    <%= form.text_field :carrier_name, value: 'stub' %>
+    <%= form.text_field :carrier_name %>
   </div>
 
   <div class="field">
     <%= form.label :carrier_enterprise %>
-    <%= form.text_field :carrier_enterprise, value: 'stub' %>
+    <%= form.text_field :carrier_enterprise %>
   </div>
 
   <div class="field">
@@ -62,8 +63,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :type %>
-    <%= form.text_field :type, value: 'CARRIER CONTRACT' %>
+    <%= form.label :contract_type %>
+    <%= form.text_field :contract_type, value: 'CARRIER CONTRACT' %>
   </div>
 
   <div class="field">
@@ -214,4 +215,5 @@
   <div class="actions">
     <%= form.submit %>
   </div>
+</form>
 <% end %>

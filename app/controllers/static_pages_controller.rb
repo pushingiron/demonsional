@@ -12,22 +12,21 @@ class StaticPagesController < ApplicationController
     redirect_to paths_path
     user = current_user
     job_delay = 0.0
-    Path.max_records(user)
+    Path.max_records(user) # remove old audit records
     # GuestsCleanupJob.perform_later 'easy'
     @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
-    @new_ent = params[:enterprise]
+    @new_prospect = params[:enterprise] # prospect name
     @pickup_date = Date.parse(params[:pickup_date])
     @parent_ent = current_user.cust_acct
     ShippingOrder.destroy_all
-    path = Path
     Path.create(description: 'Remove shipping orders', object: 'ShippingOrder', action: 'destroy_all', user_id: current_user.id)
     Enterprise.destroy_all
     Path.create(description: 'Remove enterprises orders', object: 'Enterprise', action: 'destroy_all', user_id: current_user.id)
     cust_acct = nil
     @ent_sub_list.each do |sub|
-      @enterprise_name = "#{@new_ent} #{sub}"
+      @enterprise_name = "#{@new_prospect} #{sub}"
       Enterprise.create(company_name: @enterprise_name) do |e|
-        cust_acct = "#{@new_ent}_#{sub}_acct".downcase
+        cust_acct = "#{@new_prospect}_#{sub}_acct".downcase
         e.customer_account = cust_acct
         e.active = true
         e.user_id = user.id
@@ -42,11 +41,10 @@ class StaticPagesController < ApplicationController
     end
     current_user.enterprises.all.each do |e|
       @response = mg_post_xml(user, enterprise_xml(user, e))
-      @parent = e.company_name
-      Path.create(description: "Create #{@enterprise_name}", object: 'Enterprise', action: 'create', user_id: user.id)
+      Path.create(description: "Create #{e}", object: 'Enterprise', action: 'create', user_id: user.id)
     end
     current_user.contracts.all.each do |c|
-      mg_post_xml(user, contract_xml(user, @ent_sub_list, @new_ent, c))
+      mg_post_xml(user, contract_xml(user, @ent_sub_list, @new_prospect, c))
     end
     CreateSoJob.set(wait: job_delay.minutes).perform_later(user)
     Path.create(description: "Create Shipping Order job for #{@enterprise_name}", object: 'Job', action: 'schedule', user_id: user.id)
