@@ -1,6 +1,8 @@
 class MmoJob < ApplicationJob
   queue_as :mmo
 
+  include MercuryGateService
+
   def perform(user, enterprise)
     Path.create(description: "Starting MMO for #{enterprise}", object: 'Job', action: 'begin', user_id: user.id)
     @user = user
@@ -24,14 +26,7 @@ class MmoJob < ApplicationJob
                       Edge.mojoCreateServerLoads(false)"
     }
 
-    json = hash.to_json
-    uri = URI "https://#{@user.edge_pack_url}/execjs"
-    http = Net::HTTP.new uri.host, uri.port
-    http.use_ssl = false
-    http.write_timeout = 5000
-    http.open_timeout = 5000
-    http.read_timeout = 5000
-    http.post2 uri.path, json.to_s, 'Content-Type' => 'application/json'
+    mg_post_json(@user, hash)
     Path.create(description: "MMO complete for #{enterprise}", object: 'job', action: 'end', user_id: user.id)
     TenderJob.set(wait: 1.minutes).perform_later(user) if enterprise.include? 'Analytics'
   end

@@ -31,5 +31,16 @@ module MercuryGateService
     Document.new(response.body)
   end
 
+  def mg_post_json(user, data_has)
+    json = data_has.to_json
+    uri = URI "https://#{user.edge_pack_url}/execjs"
+    http = Net::HTTP.new uri.host, uri.port
+    http.use_ssl = false
+    http.write_timeout = 5000
+    http.open_timeout = 5000
+    http.read_timeout = 5000
+    http.post2 uri.path, json.to_s, 'Content-Type' => 'application/json'
+  end
+
 
 end
