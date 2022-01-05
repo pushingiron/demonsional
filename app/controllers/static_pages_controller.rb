@@ -1,11 +1,12 @@
 class StaticPagesController < ApplicationController
   include MercuryGateService
+  include MercuryGateJson
 
   before_action :authenticate_user!
   def index
     @paths = current_user.paths.all
-    #@test = Transport.transport_oid
-    p @test
+    @mmo_status = mg_get_edge(current_user, auth_mmo(current_user), 'serverstatus/html/myTok3141')
+    p @mmo_status
   end
 
   def create_demo

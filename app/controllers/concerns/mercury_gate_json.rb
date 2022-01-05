@@ -22,4 +22,11 @@ module MercuryGateJson
                       Edge.mojoCreateServerLoads(false)" }
 
   end
+
+  def auth_mmo(user)
+
+    "{ authentication: { username: #{user.edge_pack_id}, password: #{user.edge_pack_pwd} } }"
+
+  end
+
 end

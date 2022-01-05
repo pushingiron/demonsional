@@ -1,6 +1,7 @@
 module MercuryGateService
   include REXML
   include MercuryGateXml
+  include MercuryGateJson
 
   WS_URL = 'https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp'.freeze
 
@@ -31,15 +32,32 @@ module MercuryGateService
     Document.new(response.body)
   end
 
-  def mg_post_json(user, data_has)
-    json = data_has.to_json
-    uri = URI "https://#{user.edge_pack_url}/execjs"
+  def mg_post_edge(user, data_hash, end_point)
+    json = data_hash.to_json
+    uri = URI "https://#{user.edge_pack_url}/#{end_point}"
     http = Net::HTTP.new uri.host, uri.port
     http.use_ssl = false
     http.write_timeout = 5000
     http.open_timeout = 5000
     http.read_timeout = 5000
-    http.post2 uri.path, json.to_s, 'Content-Type' => 'application/json'
+    response = http.post(uri.path, json.to_s, 'Content-Type' => 'application/json')
+    p response.body
+  end
+
+  def mg_get_edge(user, data_hash, end_point)
+    p data_hash
+    json = data_hash.to_json
+    p json
+    uri = URI "https://#{user.edge_pack_url}/#{end_point}"
+    http = Net::HTTP.new uri.host, uri.port
+    http.use_ssl = false
+    http.write_timeout = 5000
+    http.open_timeout = 5000
+    http.read_timeout = 5000
+    p uri.path
+    p uri
+    response = http.get(uri.path)
+    p response.body
   end
 
 
