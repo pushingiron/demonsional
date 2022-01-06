@@ -7,6 +7,8 @@ class StaticPagesController < ApplicationController
     @paths = current_user.paths.all
     @mmo_status = mg_get_edge(current_user, auth_mmo(current_user), 'serverstatus/html/myTok3141')
     p @mmo_status
+    @mmo_status['content="5"'] = 'content="50"'
+    p @mmo_status
   end
 
   def create_demo

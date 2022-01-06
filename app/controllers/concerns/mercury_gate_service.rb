@@ -54,10 +54,8 @@ module MercuryGateService
     http.write_timeout = 5000
     http.open_timeout = 5000
     http.read_timeout = 5000
-    p uri.path
-    p uri
     response = http.get(uri.path)
-    p response.body
+    response.body
   end
 
 
