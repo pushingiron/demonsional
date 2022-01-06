@@ -3,6 +3,18 @@
   <td>
     <%= contract.contract_name %>
   </td>
+  <td>
+    <%= contract.rate_table %>
+  </td>
+  <td>
+    <%= contract.effective_date %>
+  </td>
+  <td>
+    <%= contract.expiration_date %>
+  </td>
+  <td>
+    <%= contract.contract_type %>
+  </td>
 
   <td>
     <%= link_to 'Edit', edit_contract_path(contract) %>

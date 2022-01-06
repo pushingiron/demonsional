@@ -97,7 +97,9 @@ class ContractsController < ApplicationController
       :uplift_min,
       :uplift_max,
       :exclude_pct_acc_from_uplift,
-      :uplift)
+      :uplift,
+      :rate_table
+    )
 
   end
 

@@ -11,204 +11,210 @@
     </div>
   <% end %>
 <form>
-  <div class="form-group">
+  <div class="form-group row">
   <div class="field">
-    <%= form.label :contract_name %>
+    <%= form.label :contract_name, class: "col-md-2 col-form-label" %>
     <%= form.text_field :contract_name %>
   </div>
   </div>
+  <div class="form-group row">
   <div class="field">
-    <%= form.label :owner %>
+    <%= form.label :owner, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :owner %>
   </div>
-
+  </div>
   <div class="field">
-    <%= form.label :carrier_name %>
+    <%= form.label :carrier_name, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :carrier_name %>
   </div>
 
   <div class="field">
-    <%= form.label :carrier_enterprise %>
+    <%= form.label :carrier_enterprise, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :carrier_enterprise %>
   </div>
 
   <div class="field">
-    <%= form.label :web_service %>
+    <%= form.label :rate_table, class: "col-sm-2 col-form-label" %>
+    <%= form.text_field :rate_table %>
+  </div>
+
+  <div class="field">
+    <%= form.label :web_service, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :web_service,  {checked: true } %>
   </div>
 
   <div class="field">
-    <%= form.label :service %>
+    <%= form.label :service, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :service, value: 'Standard' %>
   </div>
 
   <div class="field">
-    <%= form.label :service_days %>
+    <%= form.label :service_days, class: "col-sm-2 col-form-label" %>
     <%= form.number_field :service_days, value: 0 %>
   </div>
 
   <div class="field">
-    <%= form.label :mode %>
+    <%= form.label :mode, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :mode, value: 'TL' %>
   </div>
 
   <div class="field">
-    <%= form.label :effective_date %>
+    <%= form.label :effective_date, class: "col-sm-2 col-form-label" %>
     <%= form.date_field :effective_date, value: '01/01/2001'.to_date %>
   </div>
 
   <div class="field">
-    <%= form.label :expiration_date %>
+    <%= form.label :expiration_date, class: "col-sm-2 col-form-label" %>
     <%= form.date_field :expiration_date, value: '01/01/2099'.to_date %>
   </div>
 
   <div class="field">
-    <%= form.label :contract_type %>
+    <%= form.label :contract_type, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :contract_type, value: 'CARRIER CONTRACT' %>
   </div>
 
   <div class="field">
-    <%= form.label :is_multi_stop %>
+    <%= form.label :is_multi_stop, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :is_multi_stop, {checked: true } %>
   </div>
 
   <div class="field">
-    <%= form.label :disable_distance_non_mg %>
+    <%= form.label :disable_distance_non_mg, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :disable_distance_non_mg, {checked: true } %>
   </div>
 
   <div class="field">
-    <%= form.label :disable_distance_mg %>
+    <%= form.label :disable_distance_mg, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :disable_distance_mg, {checked: true } %>
   </div>
 
   <div class="field">
-    <%= form.label :is_gain_share %>
+    <%= form.label :is_gain_share, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :is_gain_share, {checked: true } %>
   </div>
 
   <div class="field">
-    <%= form.label :discount_type %>
+    <%= form.label :discount_type, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :discount_type, value: 'Flat' %>
   </div>
 
   <div class="field">
-    <%= form.label :discount_flat_value %>
+    <%= form.label :discount_flat_value, class: "col-sm-2 col-form-label" %>
     <%= form.number_field :discount_flat_value, value: 0 %>
   </div>
 
   <div class="field">
-    <%= form.label :smc_min_dis_enabled %>
+    <%= form.label :smc_min_dis_enabled, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :smc_min_dis_enabled, {checked: false} %>
   </div>
 
   <div class="field">
-    <%= form.label :minimum %>
+    <%= form.label :minimum, class: "col-sm-2 col-form-label" %>
     <%= form.number_field :minimum, value: 99 %>
   </div>
 
   <div class="field">
-    <%= form.label :re_rate_date_type %>
+    <%= form.label :re_rate_date_type, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :re_rate_date_type, value: 'PlannedShipDate' %>
   </div>
 
   <div class="field">
-    <%= form.label :distance_determiner %>
+    <%= form.label :distance_determiner, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :distance_determiner, value: 'PCMiler19' %>
   </div>
 
   <div class="field">
-    <%= form.label :distance_route_type %>
+    <%= form.label :distance_route_type, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :distance_route_type, value: 'Practical' %>
   </div>
 
   <div class="field">
-    <%= form.label :transit_time %>
+    <%= form.label :transit_time, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :transit_time %>
   </div>
 
   <div class="field">
-    <%= form.label :weekend_holiday_adj %>
+    <%= form.label :weekend_holiday_adj, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :weekend_holiday_adj, value: 'Default' %>
   </div>
 
   <div class="field">
-    <%= form.label :oversize_charges %>
+    <%= form.label :oversize_charges, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :oversize_charges, {checked: false} %>
   </div>
 
   <div class="field">
-    <%= form.label :show_zero %>
+    <%= form.label :show_zero, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :show_zero, { checked: false } %>
   </div>
 
   <div class="field">
-    <%= form.label :dim_factor %>
+    <%= form.label :dim_factor, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :dim_factor, value: 0 %>
   </div>
 
   <div class="field">
-    <%= form.label :dim_weight_calc %>
+    <%= form.label :dim_weight_calc, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :dim_weight_calc, value: 'Default' %>
   </div>
 
   <div class="field">
-    <%= form.label :dimensional_rounding %>
+    <%= form.label :dimensional_rounding, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :dimensional_rounding, {checked: false } %>
   </div>
 
   <div class="field">
-    <%= form.label :dim_weight_min_cube %>
+    <%= form.label :dim_weight_min_cube, class: "col-sm-2 col-form-label" %>
     <%= form.number_field :dim_weight_min_cube, default: 0 %>
   </div>
 
   <div class="field">
-    <%= form.label :include_rto_miles %>
+    <%= form.label :include_rto_miles, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :include_rto_miles, {checked: false} %>
   </div>
 
   <div class="field">
-    <%= form.label :require_dimensions %>
+    <%= form.label :require_dimensions, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :require_dimensions, {checked: false} %>
   </div>
 
   <div class="field">
-    <%= form.label :qty_density_weight %>
+    <%= form.label :qty_density_weight, class: "col-sm-2 col-form-label" %>
     <%= form.number_field :qty_density_weight, default: 0.0 %>
   </div>
 
   <div class="field">
-    <%= form.label :do_not_return_indirect_charges %>
+    <%= form.label :do_not_return_indirect_charges, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :do_not_return_indirect_charges, {checked: false} %>
   </div>
 
   <div class="field">
-    <%= form.label :uplift_per %>
+    <%= form.label :uplift_per, class: "col-sm-2 col-form-label" %>
     <%= form.number_field :uplift_per, default: 0.0 %>
   </div>
 
   <div class="field">
-    <%= form.label :uplift_type %>
+    <%= form.label :uplift_type, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :uplift_type, value: 'UPLIFT LINE HAUL' %>
   </div>
 
   <div class="field">
-    <%= form.label :uplift_min %>
+    <%= form.label :uplift_min, class: "col-sm-2 col-form-label" %>
     <%= form.number_field :uplift_min, default: 0.0 %>
   </div>
 
   <div class="field">
-    <%= form.label :uplift_max %>
+    <%= form.label :uplift_max, class: "col-sm-2 col-form-label" %>
     <%= form.number_field :uplift_max, default: 0.0 %>
   </div>
 
   <div class="field">
-    <%= form.label :exclude_pct_acc_from_uplift %>
+    <%= form.label :exclude_pct_acc_from_uplift, class: "col-sm-2 col-form-label" %>
     <%= form.check_box :exclude_pct_acc_from_uplift, {checked: false} %>
   </div>
 
   <div class="field">
-    <%= form.label :uplift %>
+    <%= form.label :uplift, class: "col-sm-2 col-form-label" %>
     <%= form.text_field :uplift %>
   </div>
 
