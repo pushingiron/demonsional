@@ -248,8 +248,8 @@ module MercuryGateXml
                 xml.Service contract.service
                 xml.ServiceDays contract.service_days.round(0)
                 xml.Mode contract.mode
-                xml.EffectiveDate contract.effective_date.strftime("%m/%d/%y")
-                xml.ExpirationDate contract.expiration_date.strftime("%m/%d/%y")
+                xml.EffectiveDate contract.effective_date.strftime('%m/%d/%Y')
+                xml.ExpirationDate contract.expiration_date.strftime('%m/%d/%Y')
                 xml.ExpirationReason
                 xml.Type contract.contract_type
                 xml.Role
