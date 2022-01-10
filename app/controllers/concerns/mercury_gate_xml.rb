@@ -349,7 +349,7 @@ module MercuryGateXml
                   end
                 end
                 xml.ReferenceNumbers do
-                  xml.ReferenceNumber 'Per_Mile_MultiStopV3Acc.xls', type: :AltRateDoc, isPrimary: :false
+                  xml.ReferenceNumber contract.rate_table, type: :AltRateDoc, isPrimary: :false
                 end
               end
             end
