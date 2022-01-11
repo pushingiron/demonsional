@@ -12,7 +12,11 @@ Rails.application.routes.draw do
 
   resources :items
 
-  resources :contracts
+  resources :contracts do
+    collection do
+      get :create_base
+    end
+  end
 
   resources :references
   resources :locations
