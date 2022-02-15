@@ -30,6 +30,7 @@ class ShippingOrder < ApplicationRecord
                        customs_value_currency origination_country manufacturing_country item_id].freeze
 
   def self.import(file, pickup_date = nil , cust_acct_num = nil)
+    p 'so import'
     so_prev = nil
     begin
       file_path = file.path
@@ -40,6 +41,7 @@ class ShippingOrder < ApplicationRecord
     CSV.foreach(file_path, headers: true) do |row|
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'], cust_acct_num: cust_acct_num)
       if row['so_match_ref'] != so_prev
+        p 'in single item condition'
         shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)
         unless pickup_date.nil?
           shipping_order['early_pickup_date'] = (pickup_date + 8.hours)

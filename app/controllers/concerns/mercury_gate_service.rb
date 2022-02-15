@@ -2,17 +2,20 @@ module MercuryGateService
   include REXML
   include MercuryGateXml
   include MercuryGateJson
+  include Base64
 
-  WS_URL = 'https://mgsales.mercurygate.net/MercuryGate/common/remoteService.jsp'.freeze
+  WS_URL_PROTOCOL = 'https://'.freeze
+  WS_URL_URL = '.mercurygate.net/MercuryGate/common/remoteService.jsp'.freeze
 
   def mg_post_list_report(user, type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
 
     ws_user_id = user.ws_user_id.freeze
     ws_password = user.ws_user_pwd.freeze
+    ws_url = WS_URL_PROTOCOL + user.server + WS_URL_URL
     params = { userid: ws_user_id, password: ws_password,
                request: xml_list_report(user, type, name, count, value1, value2, value3) }
     encoded_params = URI.encode_www_form(params)
-    response = Faraday.post(WS_URL, encoded_params)
+    response = Faraday.post(ws_url, encoded_params)
     response.body.force_encoding('utf-8')
     xml_results = Document.new(response.body)
     report_data = XPath.first(xml_results, '//service-response/data').text
@@ -22,14 +25,16 @@ module MercuryGateService
   def mg_post_xml(user, payload)
     ws_user_id = user.ws_user_id
     ws_password = user.ws_user_pwd
+    ws_url = WS_URL_PROTOCOL + user.server + WS_URL_URL
     params = { userid: ws_user_id, password: ws_password, request: payload }
     encoded_params = URI.encode_www_form(params)
     faraday = Faraday.new do |f|
       f.options.timeout = 1000
     end
-    response = faraday.post(WS_URL, encoded_params)
+    response = faraday.post(ws_url, encoded_params)
     response.body.force_encoding('utf-8')
-    Document.new(response.body)
+    xml_doc = Document.new(response.body)
+    XPath.first(xml_doc, "//service-response/data")
   end
 
   def mg_post_edge(user, data_hash, end_point)

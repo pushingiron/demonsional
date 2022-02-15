@@ -1,13 +1,23 @@
 module MercuryGateXml
 
-  WS_USER_ID = 'geer_shipper_ws'.freeze
+  require 'rexml/document'
+  include REXML
 
-  def xml_extract(oid)
+  WS_USER_ID = 'geer_shipper_ws'.freeze
+  PRIREF_VALUE = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = "true"]/text()'.freeze
+  PRIREF_TYPE = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = "true"]/@type'.freeze
+  CUST_ACCT = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@type = "Customer Acct Number"]/@type'.freeze
+  BILL_TO = '//MercuryGate/MasterBillOfLading/Payment/BillTo'.freeze
+  SCAC = '//MercuryGate/MasterBillOfLading/Carriers/Carrier/SCAC/text()'.freeze
+  PRICE_SHEET = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true"]'.freeze
+  CHARGES = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true"]/Charges'.freeze
+
+  def xml_extract(oid, service_type)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
     xml.tag! 'service-request' do
-      xml.tag! 'service-id', 'ImportWeb'
+      xml.tag! 'service-id', service_type
       xml.tag! 'request-id', request_id
       xml.tag! 'data' do
         xml.oid oid
@@ -159,47 +169,48 @@ module MercuryGateXml
               end
               xml.Enterprise(name: enterprise.company_name, parentName: enterprise.parent, active: enterprise.active,
                                action: :UpdateOrAdd) do
-              xml.MultiNational(false)
-              xml.Description
-              xml.DisplayNotes
-              xml.CustomerAcctNum(enterprise.customer_account)
-              xml.ReferenceNumbers
-              xml.FederalEIN
-              xml.DUNS
-              xml.PrimarySIC
-              xml.Ranking
-              xml.CreditLimitManagement(limit: ' ')
-              xml.Visibility(login: true, quote: true)
-              xml.EnterpriseRoles
-              xml.EnterpriseRoles(type: :customer, required: false)
-              unless enterprise.location_code.blank?
-                xml.tag! 'Locations' do
-                  xml.Address(type: enterprise.location_type, isResidential: enterprise.residential, isPrimary: false ) do
-                    xml.LocationCode(enterprise.location_code)
-                    xml.Alias(enterprise.location_code)
-                    xml.Name(enterprise.location_name)
-                    xml.AddrLine1(enterprise.address_1)
-                    xml.AddrLine2(enterprise.address_2)
-                    xml.City(enterprise.city)
-                    xml.StateProvince(enterprise.state)
-                    xml.PostalCode(enterprise.postal)
-                    xml.CountryCode(enterprise.country)
-                    xml.tag! 'Contacts' do
-                      unless enterprise.contact_type.blank?
-                        xml.Contact(type: enterprise.contact_type) do
-                          xml.Name(enterprise.contact_name)
-                          xml.tag! 'ContactMethods' do
-                            i = 1
-                            unless enterprise.contact_email.nil?
-                              xml.ContactMethod(enterprise.contact_phone, sequenceNum: i, type: 'Phone')
-                              i += 1
-                            end
-                            unless  enterprise.contact_fax.nil?
-                              xml.ContactMethod(enterprise.contact_fax, sequenceNum: i, type: 'Fax')
-                              i += 1
-                            end
-                            unless enterprise.contact_email.nil?
-                              xml.ContactMethod(enterprise.contact_email, sequenceNum: i, type: 'Email')
+                xml.MultiNational(false)
+                xml.Description
+                xml.DisplayNotes
+                xml.CustomerAcctNum(enterprise.customer_account)
+                xml.ReferenceNumbers
+                xml.FederalEIN
+                xml.DUNS
+                xml.PrimarySIC
+                xml.Ranking
+                xml.CreditLimitManagement(limit: ' ')
+                xml.Visibility(login: true, quote: true)
+                xml.EnterpriseRoles
+                xml.EnterpriseRoles(type: :customer, required: false)
+                unless enterprise.location_code.blank?
+                  xml.tag! 'Locations' do
+                    xml.Address(type: enterprise.location_type, isResidential: enterprise.residential, isPrimary: false ) do
+                      xml.LocationCode(enterprise.location_code)
+                      xml.Alias(enterprise.location_code)
+                      xml.Name(enterprise.location_name)
+                      xml.AddrLine1(enterprise.address_1)
+                      xml.AddrLine2(enterprise.address_2)
+                      xml.City(enterprise.city)
+                      xml.StateProvince(enterprise.state)
+                      xml.PostalCode(enterprise.postal)
+                      xml.CountryCode(enterprise.country)
+                      xml.tag! 'Contacts' do
+                        unless enterprise.contact_type.blank?
+                          xml.Contact(type: enterprise.contact_type) do
+                            xml.Name(enterprise.contact_name)
+                            xml.tag! 'ContactMethods' do
+                              i = 1
+                              unless enterprise.contact_email.nil?
+                                xml.ContactMethod(enterprise.contact_phone, sequenceNum: i, type: 'Phone')
+                                i += 1
+                              end
+                              unless  enterprise.contact_fax.nil?
+                                xml.ContactMethod(enterprise.contact_fax, sequenceNum: i, type: 'Fax')
+                                i += 1
+                              end
+                              unless enterprise.contact_email.nil?
+                                xml.ContactMethod(enterprise.contact_email, sequenceNum: i, type: 'Email')
+                              end
                             end
                           end
                         end
@@ -208,12 +219,11 @@ module MercuryGateXml
                   end
                 end
               end
-                end
-              end
             end
           end
         end
       end
+    end
     xml.target!
   end
 
@@ -381,6 +391,7 @@ module MercuryGateXml
   end
 
   def shipping_order_xml(user, shipping_order_list)
+    p 'in shipping order'
 
     so_match = user.so_match_reference
     sh_match = user.shipment_match_reference
@@ -625,6 +636,62 @@ module MercuryGateXml
       end
       xml.target!
     end
+  end
+
+  def carrier_invoice_xml(user, el_xml)
+
+    xml = Builder::XmlMarkup.new
+    xml.instruct! :xml, version: '1.0'
+    xml.tag! 'service-request' do
+      xml.tag! 'service-id', 'ImportWeb'
+      xml.tag! 'request-id', '2021031909400044'
+      xml.tag! 'data' do
+        xml.tag! 'WebImport' do
+          xml.tag! 'WebImportHeader' do
+            xml.FileName 'INV-2021031909400044.xml'
+            xml.Type 'WebImportShippingOrder'
+            xml.UserName user.ws_user_id
+          end
+          xml.tag! 'WebImportFile'do
+            xml.tag! 'MercuryGate' do
+              xml.tag! 'Header' do
+                xml.SenderID 'MGSALES'
+                xml.ReceiverID 'MGSALES'
+                xml.OriginalFileName 'INV-2021031909400044.xml'
+                xml.Action 'UpdateOrAdd'
+                xml.DocTypeID 'FreightBill'
+                xml.DocCount '1'
+              end
+              xml.FreightBill(action: 'Add') do
+                #                xml.Enterprise(customerAcctNum: post.cust_acct_num)
+                #                xml.Enterprise( name: '', customerAcctNum: XPath.first(el_xml, CUST_ACCT))
+                xml.tag! 'ReferenceNumbers' do
+                  xml.ReferenceNumber(XPath.first(el_xml, PRIREF_VALUE), type: XPath.first(el_xml, PRIREF_TYPE), isPrimary: true)
+                  xml.ReferenceNumber(XPath.first(el_xml, SCAC), type: 'SCAC', isPrimary: false)
+                end
+                xml.tag! 'PriceSheets' do
+                  xml.PriceSheet type: 'Carrier', isSelected: false, currencyCode: 'USD' do
+                    xml.tag! 'Carrier' do
+                      xml.SCAC XPath.first el_xml, SCAC
+                    end
+                    charges = XPath.first(el_xml, CHARGES)
+                    XPath.each(charges, '//Charge') do |c|
+                      puts c
+                      xml.tag! 'Charges' do
+                        xml.Charge sequenceNum: XPath.first(c, '//Charge/@sequenceNum'), type: 'ITEM', itemGroupId: '' do
+                          xml.Description XPath.first c, '//Charge/Description/text()'
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+    xml.target!
   end
 
 end

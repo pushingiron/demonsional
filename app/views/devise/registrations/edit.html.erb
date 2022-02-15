@@ -34,10 +34,14 @@
     </div>
 <div class="container">
 
-    <div class="field">
+  <div class="field">
+    <%= f.label :server %><br />
+    <%= f.text_field :server, placeholder: 'demo5' %>
+  </div>
+
+  <div class="field">
       <%= f.label :cust_acct %><br />
       <%= f.text_field :cust_acct, placeholder: 'TMS Enterprise' %>
-      <%#= Enterprise.mg_post_ent(current_user.cust_acct) %>
     </div>
 
     <div class="field">

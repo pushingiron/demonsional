@@ -17,7 +17,8 @@ class ApplicationController < ActionController::Base
                :report_user,
                :email, :password,
                :password_confirmation,
-               :remember_me)
+               :remember_me,
+               :server)
     end
     devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:password, :remember_me) }
     devise_parameter_sanitizer.permit(:account_update) do |u|
@@ -33,7 +34,8 @@ class ApplicationController < ActionController::Base
                :email,
                :password,
                :password_confirmation,
-               :current_password)
+               :current_password,
+               :server)
     end
   end
 
