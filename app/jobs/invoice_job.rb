@@ -15,15 +15,15 @@ class InvoiceJob < ApplicationJob
       n += 1
       transport_xml = mg_post_xml user, xml_extract(row[0], 'WebExtractTransportBasic')
       #puts transport_xml
-      puts carrier_invoice_xml(user, transport_xml)
-      pri_ref = XPath.first(transport_xml, "//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = \"true\"]/text()")
+      mg_post_xml user, carrier_invoice_xml(user, transport_xml)
+      #pri_ref = XPath.first(transport_xml, "//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = \"true\"]/text()")
       # puts pri_ref
-      bill_to = XPath.first(transport_xml, "//MercuryGate/MasterBillOfLading/Payment/BillTo")
+      #bill_to = XPath.first(transport_xml, "//MercuryGate/MasterBillOfLading/Payment/BillTo")
       # puts bill_to
-      bill_to_name = XPath.first(bill_to, "//Name/text()")
+      #bill_to_name = XPath.first(bill_to, "//Name/text()")
       # puts bill_to_name
-      pri_type = XPath.first(transport_xml, "//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = \"true\"]/@type")
+      # pri_type = XPath.first(transport_xml, "//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = \"true\"]/@type")
       # puts pri_type
     end
-  end
+    end
 end

@@ -8,7 +8,6 @@ module MercuryGateService
   WS_URL_URL = '.mercurygate.net/MercuryGate/common/remoteService.jsp'.freeze
 
   def mg_post_list_report(user, type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
-
     ws_user_id = user.ws_user_id.freeze
     ws_password = user.ws_user_pwd.freeze
     ws_url = WS_URL_PROTOCOL + user.server + WS_URL_URL
@@ -34,7 +33,7 @@ module MercuryGateService
     response = faraday.post(ws_url, encoded_params)
     response.body.force_encoding('utf-8')
     xml_doc = Document.new(response.body)
-    XPath.first(xml_doc, "//service-response/data")
+    XPath.first(xml_doc, '//service-response/data')
   end
 
   def mg_post_edge(user, data_hash, end_point)
@@ -62,6 +61,5 @@ module MercuryGateService
     response = http.get(uri.path)
     response.body
   end
-
 
 end

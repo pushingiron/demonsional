@@ -13,5 +13,6 @@ class DeliveredJob < ApplicationJob
       n += 1
       mg_post_xml(user, xml_status(user, row, STATUS_CODE))
     end
+    # InvoiceJob.set(wait: 1.minutes).perform_later(user)
   end
 end

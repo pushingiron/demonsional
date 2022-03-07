@@ -9,8 +9,8 @@ module MercuryGateXml
   CUST_ACCT = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@type = "Customer Acct Number"]/@type'.freeze
   BILL_TO = '//MercuryGate/MasterBillOfLading/Payment/BillTo'.freeze
   SCAC = '//MercuryGate/MasterBillOfLading/Carriers/Carrier/SCAC/text()'.freeze
-  PRICE_SHEET = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true"]'.freeze
-  CHARGES = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true"]/Charges'.freeze
+  PRICE_SHEET = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true" and  @type = "Charge"]'.freeze
+  CHARGES = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true" and  @type = "Charge"]/Charges'.freeze
 
   def xml_extract(oid, service_type)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
@@ -649,7 +649,7 @@ module MercuryGateXml
         xml.tag! 'WebImport' do
           xml.tag! 'WebImportHeader' do
             xml.FileName 'INV-2021031909400044.xml'
-            xml.Type 'WebImportShippingOrder'
+            xml.Type 'WebImportInvoice'
             xml.UserName user.ws_user_id
           end
           xml.tag! 'WebImportFile'do
@@ -675,11 +675,16 @@ module MercuryGateXml
                       xml.SCAC XPath.first el_xml, SCAC
                     end
                     charges = XPath.first(el_xml, CHARGES)
-                    XPath.each(charges, '//Charge') do |c|
+                    puts charges
+                    XPath.each(el_xml, CHARGES) do |c|
                       puts c
+                      puts XPath.first c, '//Charge/Amount/text()'
                       xml.tag! 'Charges' do
                         xml.Charge sequenceNum: XPath.first(c, '//Charge/@sequenceNum'), type: 'ITEM', itemGroupId: '' do
                           xml.Description XPath.first c, '//Charge/Description/text()'
+                          xml.RateQualifier XPath.first c, '//Charge/RateQualifier/text()'
+                          xml.Amount XPath.first c, '//Charge/Amount/text()'
+                          xml.Rate XPath.first c, '//Charge/Rate/text()'
                         end
                       end
                     end
