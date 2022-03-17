@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :contracts do
     collection do
       get :create_base
+      get :copy
     end
   end
 

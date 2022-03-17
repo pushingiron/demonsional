@@ -50,6 +50,18 @@ class ContractsController < ApplicationController
     end
   end
 
+  def copy
+    old_contract = current_user.contracts.find(params[:format])
+    @contract = old_contract.dup
+    @contract.contract_name = "#{old_contract.contract_name} copy"
+    if @contract.save
+      redirect_to edit_contract_path(@contract)
+    else
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @contract.errors, status: :unprocessable_entity }
+    end
+  end
+
   def create_base
     @contract = current_user.contracts.new(contract_name: :Omni,
                                            owner: 'Geer Automated Setup',
@@ -93,7 +105,8 @@ class ContractsController < ApplicationController
                                            carrier_name: :OMNI,
                                            carrier_enterprise: 'Demo Top',
                                            smc_minimum: nil,
-                                           rate_table: 'OMNI RATING.xls')
+                                           rate_table: 'OMNI RATING.xls',
+                                           accessorial_profile: 'LTL Fuel')
     respond_to do |format|
       if @contract.save
         format.html { redirect_to @contract, notice: 'Contract was successfully created.' }
@@ -153,7 +166,8 @@ class ContractsController < ApplicationController
       :uplift_max,
       :exclude_pct_acc_from_uplift,
       :uplift,
-      :rate_table
+      :rate_table,
+      :accessorial_profile
     )
 
   end

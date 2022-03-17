@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_06_182850) do
+ActiveRecord::Schema.define(version: 2022_03_16_181009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2022_01_06_182850) do
     t.string "carrier_enterprise"
     t.decimal "smc_minimum"
     t.text "rate_table"
+    t.string "accessorial_profile"
     t.index ["user_id"], name: "index_contracts_on_user_id"
   end
 

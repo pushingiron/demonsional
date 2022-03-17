@@ -297,6 +297,7 @@ module MercuryGateXml
                   xml.ExcludePctAccFromUplift contract.exclude_pct_acc_from_uplift
                 end
                 xml.Uplift
+                xml.AccessorialProfile contract.accessorial_profile
                 xml.GrantedCompanies do
                   enterprises.each do |post|
                     xml.Name "#{new_ent} #{post}" unless post == 'Admin'
