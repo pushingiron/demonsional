@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :rates, dependent: :destroy
   has_many :paths, dependent: :destroy
   has_many :contracts, dependent: :destroy
+  has_many :profiles, dependent: :destroy
 
   serialize :preferences, HashSerializer
   store_accessor :config, :cust_acct,

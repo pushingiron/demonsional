@@ -1,0 +1,20 @@
+<h1>Profiles</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Active</th>
+    <th>shipment_match_reference</th>
+    <th>so_match_reference</th>
+    <th>edge_pack_url</th>
+    <th>edge_pack_id</th>
+    <th>edge_pack_pwd</th>
+    <th>ws_user_id</th>
+    <th>ws_user_pwd</th>
+    <th>report_user</th>
+  </tr>
+  </thead>
+  <%= render @profiles %>
+</table>
+
+
+<%= link_to 'New Profile', new_profile_path %>

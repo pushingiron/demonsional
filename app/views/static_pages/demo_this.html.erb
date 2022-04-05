@@ -7,12 +7,12 @@
     <br>
     <%= form.label "Pickup Date: " %>
     <br>
-    <%= form.date_field :pickup_date, required: true %>
-    <!--    <p>Leave date input field blank to use dates provided in the upload file.</p>
+    <%= form.date_field :pickup_date, required: false %>
+    <p>Leave date input field blank to use dates provided in the upload file.</p>
     <br>
     <h3>Adding a file is optional.</h3>
-    <%#= file_field_tag :file %>
-    <br>-->
+    <%= file_field_tag :file %>
+    <br>
     <br>
     <br>
     <%= form.submit %>

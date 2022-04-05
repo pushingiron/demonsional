@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   resources :items
 
+  resources :profiles
+
   resources :contracts do
     collection do
       get :create_base

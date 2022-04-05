@@ -19,7 +19,7 @@ class StaticPagesController < ApplicationController
     # GuestsCleanupJob.perform_later 'easy'
     @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
     @new_prospect = params[:enterprise] # prospect name
-    @pickup_date = Date.parse(params[:pickup_date])
+    @pickup_date = Date.parse(params[:pickup_date]) unless params[:pickup_date].empty?
     @parent_ent = current_user.cust_acct
     ShippingOrder.destroy_all
     Path.create(description: 'Remove shipping orders', object: 'ShippingOrder', action: 'destroy_all', user_id: current_user.id)
@@ -40,6 +40,9 @@ class StaticPagesController < ApplicationController
           e.parent = @admin_name
         end
       end
+      p '*******'
+      p params[:pickup_date]
+      p @pickup_date
       current_user.shipping_orders.import(params[:file], @pickup_date, cust_acct) unless sub == 'Admin'
     end
     current_user.enterprises.all.each do |e|
