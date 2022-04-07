@@ -18,7 +18,7 @@ class StaticPagesController < ApplicationController
     @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
     @new_prospect = params[:enterprise] # prospect name
     @pickup_date = Date.parse(params[:pickup_date]) unless params[:pickup_date].empty?
-    @parent_ent = current_user.cust_acct
+    @parent_ent = Profile.cust_acct(user)
     ShippingOrder.destroy_all
     Path.create(description: 'Remove shipping orders', object: 'ShippingOrder', action: 'destroy_all', user_id: current_user.id)
     Enterprise.destroy_all
