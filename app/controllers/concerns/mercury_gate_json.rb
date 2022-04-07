@@ -13,7 +13,7 @@ module MercuryGateJson
                              :break_2_min, :break_2_max, :rate_field, :rate_calc, :rate, :accessorial1_field,
                              :accessorial1_calc, :accessorial1_rate, :total_min)
 
-    { authentication: { username: user.edge_pack_id, password: user.edge_pack_pwd },
+    { authentication: { username: Profile.edge_pack_id(user), password: Profile.edge_pack_pwd(user) },
       inputReports: [{ name: 'Rates', type: 'RateTable',
                        headers: RATE_HEADERS, data: rates }],
       script: "Edge.switchCompany('#{enterprise}');

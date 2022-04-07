@@ -2,7 +2,7 @@
 
 <%= link_to 'New Shipping Order', new_shipping_order_path %>
 <br>
-<% if current_user.cust_acct.blank? %>
+<% if Profile.cust_acct(current_user).blank? %>
   <%= link_to 'Complete configurations before importing', "users/edit" %>
 <% else %>
   <%= link_to 'Create in TMS', 'shipping_orders/post_xml'  %>
@@ -56,7 +56,7 @@
 
 <%= link_to 'New Shipping Order', new_shipping_order_path %>
 <br>
-<% if current_user.cust_acct.blank? %>
+<% if Profile.cust_acct(current_user).blank? %>
   <%= link_to 'Complete configurations before importing', "users/edit" %>
 <% else %>
   <%= link_to 'Create in TMS', 'shipping_orders/post_xml'  %>
