@@ -9,16 +9,7 @@ class User < ApplicationRecord
   has_many :profiles, dependent: :destroy
 
   serialize :preferences, HashSerializer
-  store_accessor :config, :cust_acct,
-                 :so_match_reference,
-                 :shipment_match_reference,
-                 :edge_pack_url,
-                 :edge_pack_id,
-                 :edge_pack_pwd,
-                 :ws_user_id,
-                 :ws_user_pwd,
-                 :report_user,
-                 :server
+
 
 
   # Include default devise modules. Others available are:

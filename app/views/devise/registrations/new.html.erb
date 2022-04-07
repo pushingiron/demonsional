@@ -21,27 +21,6 @@
       <%= f.label :password_confirmation %><br />
       <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
     </div>
-<div class="container bg-light">
-  <p>Customer account number is required if using automated demo setup.  The enterprise you select should be at least 1 enterprise levels under an existing boost setup.  2 enterprises levels is recommended.</p>
-  <%= image_tag('enterrpise.jpg') %>
-    <div class="field">
-      <%= f.label :cust_acct %><br />
-      <%= f.text_field :cust_acct, placeholder: 'TMS Enterprise' %>
-    </div>
-
-    <div class="field">
-      <%= f.label :so_match_reference %><br />
-      <%= f.text_field :so_match_reference, value: "SO Number" %>
-    </div>
-
-    <div class="field">
-      <%= f.label :shipment_match_reference %><br />
-      <%= f.text_field :shipment_match_reference, value: "Shipment Number" %>
-    </div>
-
-
-
-</div>
     <div class="actions">
       <%= f.submit "Sign up" %>
     </div>

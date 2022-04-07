@@ -6,9 +6,7 @@ class StaticPagesController < ApplicationController
   def index
     @paths = current_user.paths.all
     @mmo_status = mg_get_edge(current_user, auth_mmo(current_user), 'serverstatus/html/myTok3141')
-    p @mmo_status
     @mmo_status['content="5"'] = 'content="50"'
-    p @mmo_status
   end
 
   def create_demo
@@ -40,9 +38,6 @@ class StaticPagesController < ApplicationController
           e.parent = @admin_name
         end
       end
-      p '*******'
-      p params[:pickup_date]
-      p @pickup_date
       current_user.shipping_orders.import(params[:file], @pickup_date, cust_acct) unless sub == 'Admin'
     end
     current_user.enterprises.all.each do |e|
@@ -61,9 +56,11 @@ class StaticPagesController < ApplicationController
     @xml = params[:format]
   end
 
+=begin
   def tendered
     @xml = mg_post_list_report
   end
+=end
 
   private
 

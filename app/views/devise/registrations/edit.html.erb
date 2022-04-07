@@ -32,57 +32,6 @@
       <%= f.label :current_password %> <i>(we need your current password to confirm your changes below)</i><br />
       <%= f.password_field :current_password, autocomplete: "current-password" %>
     </div>
-<div class="container">
-
-  <div class="field">
-    <%= f.label :server %><br />
-    <%= f.text_field :server, placeholder: 'demo5' %>
-  </div>
-
-  <div class="field">
-      <%= f.label :cust_acct %><br />
-      <%= f.text_field :cust_acct, placeholder: 'TMS Enterprise' %>
-    </div>
-
-    <div class="field">
-      <%= f.label :so_match_reference %><br />
-      <%= f.text_field :so_match_reference, placeholder: "SO Number" %>
-    </div>
-
-    <div class="field">
-      <%= f.label :shipment_match_reference %><br />
-      <%= f.text_field :shipment_match_reference, placeholder: "Shipment Number" %>
-    </div>
-
-  <div class="field">
-    <%= f.label :edge_pack_url %><br />
-    <%= f.text_field :edge_pack_url, placeholder: "http..." %>
-  </div>
-  <div class="field">
-    <%= f.label :edge_pack_id %><br />
-    <%= f.text_field :edge_pack_id, placeholder: "Refer to TMS config" %>
-  </div>
-  <div class="field">
-    <%= f.label :edge_pack_pwd %><br />
-    <%= f.text_field :edge_pack_pwd, placeholder: "Refer to TMS config" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :ws_user_id %><br />
-    <%= f.text_field :ws_user_id, placeholder: "Refer to TMS config" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :ws_user_pwd %><br />
-    <%= f.text_field :ws_user_pwd, placeholder: "Refer to TMS config" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :report_user %><br />
-    <%= f.text_field :report_user, placeholder: "Report owner" %>
-  </div>
-
-</div>
 
     <div class="actions">
       <%= f.submit "Update" %>

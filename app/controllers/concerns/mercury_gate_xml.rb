@@ -3,7 +3,6 @@ module MercuryGateXml
   require 'rexml/document'
   include REXML
 
-  WS_USER_ID = 'geer_shipper_ws'.freeze
   PRIREF_VALUE = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = "true"]/text()'.freeze
   PRIREF_TYPE = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = "true"]/@type'.freeze
   CUST_ACCT = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@type = "Customer Acct Number"]/@type'.freeze
@@ -38,7 +37,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName "STATUS-#{request_id}.xml"
             xml.Type 'WebImportStatus'
-            xml.UserName user.ws_user_id
+            xml.UserName Profile.ws_user_id(user)
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do
@@ -87,7 +86,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName "TENDER-RESPONSE-#{request_id}.xml"
             xml.Type 'WebImportTenderResponse'
-            xml.UserName user.ws_user_id
+            xml.UserName Profile.ws_user_id(user)
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do
@@ -125,7 +124,7 @@ module MercuryGateXml
       xml.tag! 'data' do
         xml.listScreenType type
         xml.reportName name
-        xml.UserName user.report_user
+        xml.UserName Profile.report_user(user)
         if count.positive?
           xml.PromptFieldCount count
           if count >= 1
@@ -155,7 +154,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName "ENT#{request_id}.xml"
             xml.Type 'WebImportEnterprise'
-            xml.UserName user.ws_user_id
+            xml.UserName Profile.ws_user_id(user)
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do
@@ -239,7 +238,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName "CONTRACT-#{request_id}.xml"
             xml.Type 'WebImportContract'
-            xml.UserName user.ws_user_id
+            xml.UserName Profile.ws_user_id(user)
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do
@@ -394,8 +393,8 @@ module MercuryGateXml
   def shipping_order_xml(user, shipping_order_list)
     p 'in shipping order'
 
-    so_match = user.so_match_reference
-    sh_match = user.shipment_match_reference
+    so_match = Profile.so_match_reference(user)
+    sh_match = Profile.shipment_match_reference(user)
 
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -407,7 +406,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName 'SO-2021031909400044.xml'
             xml.Type 'WebImportShippingOrder'
-            xml.UserName user.ws_user_id
+            xml.UserName Profile.ws_user_id(user)
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do
@@ -651,7 +650,7 @@ module MercuryGateXml
           xml.tag! 'WebImportHeader' do
             xml.FileName 'INV-2021031909400044.xml'
             xml.Type 'WebImportInvoice'
-            xml.UserName user.ws_user_id
+            xml.UserName Profile.ws_user_id(user)
           end
           xml.tag! 'WebImportFile'do
             xml.tag! 'MercuryGate' do

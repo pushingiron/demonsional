@@ -15,10 +15,10 @@
       <h1>Dashboard</h1>
       <h2>Current Shipping Orders: <%= current_user.shipping_orders.count %></h2>
       <h2>Current Enterprises: <%= current_user.enterprises.count %></h2>
-      <% if current_user.cust_acct.blank? %>
+      <% if Profile.cust_acct(current_user).blank? %>
         <h2>Parent Enterprise: <%= link_to 'Configuration Needed', "users/edit" %></h2>
       <% else %>
-        <h2>Parent Enterprise: <%= link_to current_user.cust_acct, "users/edit" %></h2>
+        <h2>Parent Enterprise: <%= link_to Profile.cust_acct(current_user), profile_path(Profile.id(current_user)) %></h2>
       <% end %>
     </div>
   </div>

@@ -25,7 +25,7 @@ module MercuryGateJson
 
   def auth_mmo(user)
 
-    "{ authentication: { username: #{user.edge_pack_id}, password: #{user.edge_pack_pwd} } }"
+    "{ authentication: { username: #{Profile.edge_pack_id(user)}, password: #{Profile.edge_pack_pwd(user)} } }"
 
   end
 
