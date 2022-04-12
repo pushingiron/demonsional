@@ -1,5 +1,7 @@
 class ShippingOrder < ApplicationRecord
 
+  require 'roo'
+
   belongs_to :user
 
   #validates :payment_method, presence: true
@@ -30,15 +32,20 @@ class ShippingOrder < ApplicationRecord
                        customs_value_currency origination_country manufacturing_country item_id].freeze
 
   def self.import(file, pickup_date = nil , cust_acct_num = nil)
-    p 'so import'
+
     so_prev = nil
+
+    p 'so import'
     begin
-      file_path = file.path
+      p file_path = file.path
     rescue StandardError
-      file = open(Rails.root.join('app', 'assets', 'data', 'SO Automation.csv'))
-      file_path = file.path
+      p file = open(Rails.root.join('app', 'assets', 'data', 'SO Automation.csv'))
+      p file_path = file.path
     end
-    CSV.foreach(file_path, headers: true) do |row|
+    spreadsheet = open_spreadsheet(file)
+    header = spreadsheet.row(1)
+    (2..spreadsheet.last_row).each do |i|
+      row = Hash[[header, spreadsheet.row(i)].transpose]
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'], cust_acct_num: cust_acct_num)
       if row['so_match_ref'] != so_prev
         p 'in single item condition'
@@ -94,6 +101,16 @@ class ShippingOrder < ApplicationRecord
         items.save!
       end
       so_prev = row['so_match_ref']
+    end
+  end
+
+  def self.open_spreadsheet(file)
+    p File.extname(file)
+    case File.extname(file)
+    when '.csv' then Roo::CSV.new(file.path)
+    when '.xls' then Roo::Excel.new(file.path, nil, :ignore)
+    when '.xlsx' then Roo::Excelx.new(file.path)
+    else raise "Unknown file type: #{file.original_filename}"
     end
   end
 

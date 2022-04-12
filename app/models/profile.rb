@@ -1,6 +1,5 @@
 class Profile < ApplicationRecord
   belongs_to :user
-  validates_uniqueness_of :active
 
   serialize :preferences, HashSerializer
   store_accessor :config, :cust_acct,
