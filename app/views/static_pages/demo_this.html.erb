@@ -1,6 +1,6 @@
 <div class="container-fluid">
       <h1>Demonsional!</h1>
-      <h2>Creating a new demo environment will delete all existing enterprise and shipping order records in this application</h2>
+      <h2>Create a new demo environment</h2>
   <%= form_with model: @session, url: create_demo_url, multipart: true do |form| %>
     <%= form.label "Enterprise Name (Customer): " %>
     <%= form.text_field :enterprise %>
