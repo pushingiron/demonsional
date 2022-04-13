@@ -38,7 +38,7 @@ class StaticPagesController < ApplicationController
           e.parent = @admin_name
         end
       end
-      current_user.shipping_orders.import(params[:file], @pickup_date, cust_acct) unless sub == 'Admin'
+      current_user.shipping_orders.import(params[:file], cust_acct, @pickup_date) unless sub == 'Admin'
     end
     current_user.enterprises.all.each do |e|
       @response = mg_post_xml(user, enterprise_xml(user, e))

@@ -31,7 +31,7 @@ class ShippingOrder < ApplicationRecord
                        cube cube_uom weight_plan weight_delivered country_of_origin country_of_manufacture customs_value
                        customs_value_currency origination_country manufacturing_country item_id].freeze
 
-  def self.import(file, pickup_date = nil , cust_acct_num = nil)
+  def self.import(file,  cust_acct_num = nil, pickup_date = nil)
 
     so_prev = nil
 
