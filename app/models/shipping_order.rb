@@ -4,6 +4,8 @@ class ShippingOrder < ApplicationRecord
 
   belongs_to :user
 
+  validates :so_match_ref, uniqueness: true
+
   #validates :payment_method, presence: true
 
   has_many :pickup_locations, -> { where stop_type: :Pickup }, class_name: 'Location', dependent: :delete_all
@@ -29,11 +31,12 @@ class ShippingOrder < ApplicationRecord
 
   ITEM_ATTRIBUTES = %w[type sequence line_number description freight_class weight_actual weight_uom quantity quantity_uom
                        cube cube_uom weight_plan weight_delivered country_of_origin country_of_manufacture customs_value
-                       customs_value_currency origination_country manufacturing_country item_id].freeze
+                       customs_value_currency origination_country manufacturing_country item_id shipping_order_id].freeze
 
   def self.import(file,  cust_acct_num = nil, pickup_date = nil)
 
     so_prev = nil
+    so_id = nil
 
     p 'so import'
     begin
@@ -65,7 +68,7 @@ class ShippingOrder < ApplicationRecord
         p shipping_order.attributes
         p '*****'
         shipping_order.save!
-        after_save { so_id = id }
+        so_id = shipping_order.id
         origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
         load_location(origin_location, row, 'pickup')
         origin_location.save!
@@ -90,7 +93,7 @@ class ShippingOrder < ApplicationRecord
             end
           end
         end
-        # deal with line items
+        # deal with 1 line items
         Item.where(shipping_order_id: shipping_order.id).find_each(&:destroy)
         items = shipping_order.items.find_or_initialize_by(line_number: row['item_id'])
         items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
@@ -98,6 +101,7 @@ class ShippingOrder < ApplicationRecord
       else
         items = shipping_order.items.find_or_initialize_by(line_number: row['item_id'])
         items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
+        items.shipping_order_id = so_id
         items.save!
       end
       so_prev = row['so_match_ref']

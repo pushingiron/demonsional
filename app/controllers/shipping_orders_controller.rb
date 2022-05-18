@@ -38,7 +38,8 @@ class ShippingOrdersController < ApplicationController
     end
   end
 
-  def import_page; end
+  def import_page;
+  end
 
   def csv_example
     send_file 'app/assets/examples/so.csv'
@@ -162,8 +163,8 @@ class ShippingOrdersController < ApplicationController
   end
 
   def import
-    p current_user.shipping_orders.import(params[:file])
-    redirect_to root_url, notice: 'Shipping Orders Imported.'
+    current_user.shipping_orders.import(params[:file])
+    redirect_to shipping_orders_path, notice: 'Shipping Orders Imported.'
   end
 
   private
