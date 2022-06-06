@@ -4,7 +4,7 @@ class ShippingOrder < ApplicationRecord
 
   belongs_to :user
 
-  validates :so_match_ref, uniqueness: true
+  #validates :so_match_ref, uniqueness: true
 
   #validates :payment_method, presence: true
 
