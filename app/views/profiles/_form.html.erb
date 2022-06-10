@@ -1,4 +1,4 @@
-<%= form_with(model: profile) do |form| %>
+<%= bootstrap_form_for(@profile, layout: :horizontal) do |form| %>
   <% if profile.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
@@ -7,65 +7,18 @@
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
-    </div>
-
-  <% end %>
-  <div class="field">
-    <%= form.label :active %>
-    <%= form.text_field :active %>
+    <% end %>
   </div>
-
-  <div class="field">
-    <%= form.label :cust_acct %>
-    <%= form.text_field :cust_acct %>
-  </div>
-
-  <div class="field">
-    <%= form.label :shipment_match_reference %>
-    <%= form.text_field :shipment_match_reference %>
-  </div>
-
-  <div class="field">
-    <%= form.label :so_match_reference %>
-    <%= form.text_field :so_match_reference %>
-  </div>
-
-  <div class="field">
-    <%= form.label :edge_pack_url %>
-    <%= form.text_field :edge_pack_url %>
-  </div>
-
-  <div class="field">
-    <%= form.label :edge_pack_id %>
-    <%= form.text_field :edge_pack_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :edge_pack_pwd %>
-    <%= form.text_field :edge_pack_pwd %>
-  </div>
-
-  <div class="field">
-    <%= form.label :ws_user_id %>
-    <%= form.text_field :ws_user_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :ws_user_pwd %>
-    <%= form.text_field :ws_user_pwd %>
-  </div>
-
-  <div class="field">
-    <%= form.label :report_user %>
-    <%= form.text_field :report_user %>
-  </div>
-
-  <div class="field">
-    <%= form.label :server %>
-    <%= form.text_field :server %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <%= form.text_field :active %>
+  <%= form.text_field :cust_acct %>
+  <%= form.text_field :shipment_match_reference %>
+  <%= form.text_field :so_match_reference %>
+  <%= form.text_field :edge_pack_url %>
+  <%= form.text_field :edge_pack_id %>
+  <%= form.text_field :edge_pack_pwd %>
+  <%= form.text_field :ws_user_id %>
+  <%= form.text_field :ws_user_pwd %>
+  <%= form.text_field :report_user %>
+  <%= form.text_field :server %>
+  <%= form.submit %>
 <% end %>
