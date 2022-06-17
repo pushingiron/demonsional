@@ -31,8 +31,10 @@ module MercuryGateService
       f.options.timeout = 1000
     end
     response = faraday.post(ws_url, encoded_params)
+    p '***print response***'
     response.body.force_encoding('utf-8')
     xml_doc = Document.new(response.body)
+    puts xml_doc
     XPath.first(xml_doc, '//service-response/data')
   end
 

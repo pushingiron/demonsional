@@ -674,17 +674,17 @@ module MercuryGateXml
                     xml.tag! 'Carrier' do
                       xml.SCAC XPath.first el_xml, SCAC
                     end
-                    charges = XPath.first(el_xml, CHARGES)
-                    puts charges
-                    XPath.each(el_xml, CHARGES) do |c|
-                      puts c
-                      puts XPath.first c, '//Charge/Amount/text()'
-                      xml.tag! 'Charges' do
-                        xml.Charge sequenceNum: XPath.first(c, '//Charge/@sequenceNum'), type: 'ITEM', itemGroupId: '' do
-                          xml.Description XPath.first c, '//Charge/Description/text()'
-                          xml.RateQualifier XPath.first c, '//Charge/RateQualifier/text()'
-                          xml.Amount XPath.first c, '//Charge/Amount/text()'
-                          xml.Rate XPath.first c, '//Charge/Rate/text()'
+                     # puts XPath.first el_xml, CHARGES
+                    xml.tag! 'Charges' do
+                      XPath.each(el_xml, "#{CHARGES}//Charge") do |c|
+                        p '****'
+                        puts XPath.first c, 'Description'
+                        p '*****'
+                        xml.Charge sequenceNum: XPath.first(c, '@sequenceNum'), type: 'ITEM', itemGroupId: '' do
+                          xml.Description XPath.first c, 'Description/text()'
+                          xml.RateQualifier XPath.first c, 'RateQualifier/text()'
+                          xml.Amount XPath.first c, 'Amount/text()'
+                          xml.Rate XPath.first c, 'Rate/text()'
                         end
                       end
                     end
@@ -696,7 +696,7 @@ module MercuryGateXml
         end
       end
     end
-    xml.target!
+    puts xml.target!
   end
 
 end
