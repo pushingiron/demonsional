@@ -40,6 +40,12 @@ Rails.application.routes.draw do
   # resources :users
   resources :paths
 
+  resources :status_messages do
+    collection do
+      get :import_page
+    end
+  end
+
   resources :contracts
 
   resources :enterprises do
