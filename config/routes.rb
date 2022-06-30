@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   resources :status_messages do
     collection do
       get :import_page
+      post :import
     end
   end
 

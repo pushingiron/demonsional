@@ -11,6 +11,7 @@ module MercuryGateXml
   PRICE_SHEET = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true" and  @type = "Charge"]'.freeze
   CHARGES = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true" and  @type = "Charge"]/Charges'.freeze
 
+
   def xml_extract(oid, service_type)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
