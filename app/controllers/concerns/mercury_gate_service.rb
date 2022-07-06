@@ -28,7 +28,7 @@ module MercuryGateService
     params = { userid: ws_user_id, password: ws_password, request: payload }
     encoded_params = URI.encode_www_form(params)
     faraday = Faraday.new do |f|
-      f.options.timeout = 1000
+      f.options.timeout = 1000000
     end
     response = faraday.post(ws_url, encoded_params)
     p '***print response***'
