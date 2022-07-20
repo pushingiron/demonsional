@@ -3,6 +3,9 @@ module MercuryGateXml
   require 'rexml/document'
   include REXML
 
+  CITY = ''.freeze
+  STATE = ''.freeze
+  DAY_VARIANCE = 0
   PRIREF_VALUE = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = "true"]/text()'.freeze
   PRIREF_TYPE = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = "true"]/@type'.freeze
   CUST_ACCT = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@type = "Customer Acct Number"]/@type'.freeze
@@ -675,17 +678,15 @@ module MercuryGateXml
                     xml.tag! 'Carrier' do
                       xml.SCAC XPath.first el_xml, SCAC
                     end
-                     # puts XPath.first el_xml, CHARGES
                     xml.tag! 'Charges' do
                       XPath.each(el_xml, "#{CHARGES}//Charge") do |c|
-                        p '****'
-                        puts XPath.first c, 'Description'
-                        p '*****'
                         xml.Charge sequenceNum: XPath.first(c, '@sequenceNum'), type: 'ITEM', itemGroupId: '' do
+                          amount = (XPath.first c, 'Amount/text()')
+                          amount = amount.to_s.to_f * 1.1
                           xml.Description XPath.first c, 'Description/text()'
-                          xml.RateQualifier XPath.first c, 'RateQualifier/text()'
-                          xml.Amount XPath.first c, 'Amount/text()'
-                          xml.Rate XPath.first c, 'Rate/text()'
+                          xml.RateQualifier 'FR'
+                          xml.Amount amount.to_s
+                          xml.Rate amount.to_s
                         end
                       end
                     end
@@ -696,8 +697,50 @@ module MercuryGateXml
           end
         end
       end
+      puts xml.target!
     end
-    puts xml.target!
+  end
+
+  def call_check(user, el_xml)
+
+    xml = Builder::XmlMarkup.new
+    xml.instruct! :xml, version: '1.0'
+    xml.tag! 'service-request' do
+      xml.tag! 'service-id', 'ImportWeb'
+      xml.tag! 'request-id', '2021031909400044'
+      xml.tag! 'data' do
+        xml.tag! 'WebImport' do
+          xml.tag! 'WebImportHeader' do
+            xml.FileName 'INV-2021031909400044.xml'
+            xml.Type 'WebImportCallCheck'
+            xml.UserName Profile.ws_user_id(user)
+          end
+          xml.tag! 'WebImportFile'do
+            xml.tag! 'MercuryGate' do
+              xml.tag! 'Header' do
+                xml.SenderID 'MGSALES'
+                xml.ReceiverID 'MGSALES'
+                xml.OriginalFileName 'INV-2021031909400044.xml'
+                xml.Action 'UpdateOrAdd'
+                xml.DocTypeID 'CallCheck'
+                xml.DocCount '1'
+              end
+              xml.MasterBillOfLading(primaryReference: XPath.first(el_xml, PRIREF_TYPE)) do
+                xml.tag! 'CallChecks' do
+                  xml.tag! "CallCheck" do
+                    xml.tag! "Address" do
+                      xml.City CITY
+                      xml.State STATE
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+      puts xml.target!
+    end
   end
 
 end

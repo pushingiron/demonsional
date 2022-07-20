@@ -8,8 +8,6 @@ class InvoiceJob < ApplicationJob
   def perform(user)
     p 'invoice job'
     oids = mg_post_list_report user, REPORT_TYPE, REPORT_NAME
-    p oids
-    p 'done'
     n = 0
     CSV.parse(oids, headers: true, col_sep: ',') do |row|
       n += 1
