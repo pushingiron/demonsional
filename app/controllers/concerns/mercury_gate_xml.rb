@@ -3,8 +3,8 @@ module MercuryGateXml
   require 'rexml/document'
   include REXML
 
-  CITY = ''.freeze
-  STATE = ''.freeze
+  CITY = 'Omaha'.freeze
+  STATE = 'NE'.freeze
   DAY_VARIANCE = 0
   PRIREF_VALUE = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = "true"]/text()'.freeze
   PRIREF_TYPE = '//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = "true"]/@type'.freeze
@@ -391,7 +391,7 @@ module MercuryGateXml
   end
 
   def date_format(date)
-    DateTime.strptime(date, '%m/%d/%Y %I:%M%p')
+    Time.strptime(date, '%m/%d/%Y %I:%M%p')
   end
 
   def shipping_order_xml(user, shipping_order_list)
@@ -701,7 +701,7 @@ module MercuryGateXml
     end
   end
 
-  def call_check(user, el_xml)
+  def xml_call_check(user, el_xml)
 
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -716,7 +716,7 @@ module MercuryGateXml
             xml.UserName Profile.ws_user_id(user)
           end
           xml.tag! 'WebImportFile'do
-            xml.tag! 'MercuryGate' do
+            xml.tag! 'MercuryGate', specVersion: "" do
               xml.tag! 'Header' do
                 xml.SenderID 'MGSALES'
                 xml.ReceiverID 'MGSALES'
@@ -724,14 +724,26 @@ module MercuryGateXml
                 xml.Action 'UpdateOrAdd'
                 xml.DocTypeID 'CallCheck'
                 xml.DocCount '1'
+                xml.Date Time.now.strftime("%m/%d/%Y %H:%M:%S"), type: 'create'
               end
-              xml.MasterBillOfLading(primaryReference: XPath.first(el_xml, PRIREF_TYPE)) do
+              xml.MasterBillOfLading(primaryReference: el_xml['Primary Reference'].chomp(' (Load ID)')) do
                 xml.tag! 'CallChecks' do
                   xml.tag! "CallCheck" do
                     xml.tag! "Address" do
-                      xml.City CITY
-                      xml.State STATE
+                      xml.City el_xml['Call Check City']
+                      xml.StateProvince el_xml['Call Check State']
+                      xml.GeoLoc
                     end
+                    xml.Comments 'test'
+                    p '******'
+                    p el_xml['Target Ship (Early)']
+                    p ship_date = DateTime.strptime(el_xml['Target Ship (Early)'].gsub('/', "_"), '%m_%d_%Y %I:%M%p')
+                    # Date.strptime("6/15/2012", '%m/%d/%Y %h:%m')
+                    #date = DateTime.parse("07/22/2022 8:00 AM")
+                    # p DateTime.strptime(ship_date, '%d.%m.%y')
+                    # date = el_xml['Target Ship (Early)'].to_time
+                    xml.DateTime((ship_date + 1).strftime('%m/%d/%Y %I:%M:%S'))
+                    xml.StatusCode 'X6'
                   end
                 end
               end
