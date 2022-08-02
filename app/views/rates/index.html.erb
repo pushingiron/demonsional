@@ -1,5 +1,10 @@
 <p id="notice"><%= notice %></p>
-
+<%= link_to 'Load Rates', load_rates_rates_path %>
+<br>
+<%= link_to 'New Rate', new_rate_path %>
+<br>
+<%= link_to 'Delete All', destroy_all_rates_path %>
+<br><br>
 <h1>Rates</h1>
 
 <table>
@@ -78,9 +83,3 @@
   </tbody>
 </table>
 
-<br>
-<%= link_to 'Load Rates', load_rates_rates_path %>
-<br>
-<%= link_to 'New Rate', new_rate_path %>
-<br>
-<%= link_to 'Delete All', destroy_all_rates_path %>

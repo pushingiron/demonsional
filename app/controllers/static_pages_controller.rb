@@ -56,11 +56,6 @@ class StaticPagesController < ApplicationController
     @xml = params[:format]
   end
 
-=begin
-  def tendered
-    @xml = mg_post_list_report
-  end
-=end
 
   private
 

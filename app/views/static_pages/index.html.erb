@@ -20,9 +20,11 @@
       <% else %>
         <h2>Parent Enterprise: <%= link_to Profile.cust_acct(current_user), profile_path(Profile.id(current_user)) %></h2>
       <% end %>
+      <h3>Contracts: <%= current_user.contracts.count %></h3>
+      <h3>Rates: <%= current_user.rates.count %></h3>
+      <h3>Profile: <%= current_user.profiles.where(active: true).count %></h3>
     </div>
   </div>
-
+  <h2>MMO in the cloud status</h2>
+  <%= @mmo_status.html_safe %>
 </div>
-<h2>MMO in the cloud status</h2>
-<%= @mmo_status.html_safe %>

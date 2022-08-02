@@ -69,6 +69,5 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   #
   get 'demo_this' => 'static_pages#demo_this'
-  get 'tendered' => 'static_pages#tendered'
   post 'create_demo' => 'static_pages#create_demo'
 end
