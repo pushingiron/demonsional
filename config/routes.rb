@@ -65,6 +65,9 @@ Rails.application.routes.draw do
   resources :static_pages do
     get :index
     get :xml_response
+    collection do
+      get :so_example
+    end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   #

@@ -56,6 +56,9 @@ class StaticPagesController < ApplicationController
     @xml = params[:format]
   end
 
+  def so_example
+    send_file 'app/assets/data/SO Automation.csv'
+  end
 
   private
 

@@ -9,6 +9,8 @@
     <br>
     <%= form.date_field :pickup_date, required: false %>
     <p>Leave date input field blank to use dates provided in the upload file.</p>
+    <p><%= link_to 'Download', so_example_static_pages_path %> the file that is used for creating the SO's.
+      You can use this as a template for your own custom data set.</p>
     <br>
     <h3>Adding a file is optional.</h3>
     <%= file_field_tag :file %>
