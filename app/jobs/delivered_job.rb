@@ -3,11 +3,11 @@ class DeliveredJob < ApplicationJob
   include MercuryGateService
 
   REPORT_TYPE = 'Transport'.freeze
-  REPORT_NAME = 'AD_Delivered'.freeze
   STATUS_CODE = 'D1'.freeze
 
   def perform(user)
-    @transports = mg_post_list_report user, REPORT_TYPE, REPORT_NAME
+    report_name = Profile.delivered_report(user)
+    @transports = mg_post_list_report user, REPORT_TYPE, report_name
     n = 0
     CSV.parse(@transports, headers: true, col_sep: ',') do |row|
       n += 1

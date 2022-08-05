@@ -60,7 +60,12 @@ class ProfilesController < ApplicationController
                                     :password_confirmation,
                                     :remember_me,
                                     :server,
-                                    :active)
+                                    :active,
+                                    :call_check_report,
+                                    :delivered_report,
+                                    :in_transit_report,
+                                    :tender_reject_report,
+                                    :need_invoice_report)
   end
 
   def set_profile

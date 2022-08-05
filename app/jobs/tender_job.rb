@@ -1,9 +1,13 @@
 class TenderJob < ApplicationJob
 
   include MercuryGateService
+  REPORT_TYPE = 'Transport'.freeze
 
   def perform(user)
-    @transports = mg_post_list_report(user, 'Transport', 'Tender Reject')
+
+    report_name = Profile.tender_reject_report(user)
+
+    @transports = mg_post_list_report(user, REPORT_TYPE, report_name)
     n = 0
     CSV.parse(@transports, headers: true, col_sep: ',') do |row|
       n += 1

@@ -11,7 +11,12 @@ class Profile < ApplicationRecord
                  :ws_user_id,
                  :ws_user_pwd,
                  :report_user,
-                 :server
+                 :server,
+                 :call_check_report,
+                 :delivered_report,
+                 :in_transit_report,
+                 :tender_reject_report,
+                 :need_invoice_report
 
   def self.edge_pack_url(user)
     user.profiles.where(active: true).first.edge_pack_url
@@ -55,5 +60,25 @@ class Profile < ApplicationRecord
 
   def self.so_match_reference(user)
     user.profiles.where(active: true).first.so_match_reference
+  end
+
+  def self.tender_reject_report(user)
+    user.profiles.where(active: true).first.tender_reject_report
+  end
+
+  def self.in_transit_report(user)
+    user.profiles.where(active: true).first.in_transit_report
+  end
+
+  def self.delivered_report(user)
+    user.profiles.where(active: true).first.delivered_report
+  end
+
+  def self.call_check_report(user)
+    user.profiles.where(active: true).first.call_check_report
+  end
+
+  def self.invoice_report(user)
+    user.profiles.where(active: true).first.need_invoice_report
   end
 end

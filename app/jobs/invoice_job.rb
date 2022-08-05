@@ -3,11 +3,11 @@ class InvoiceJob < ApplicationJob
   include MercuryGateService
 
   REPORT_TYPE = 'Transport'.freeze
-  REPORT_NAME = 'AD_Need_Invoice'.freeze
 
   def perform(user)
+    report_name = Profile.invoice_report(user)
     p 'invoice job'
-    oids = mg_post_list_report user, REPORT_TYPE, REPORT_NAME
+    oids = mg_post_list_report user, REPORT_TYPE, report_name
     n = 0
     CSV.parse(oids, headers: true, col_sep: ',') do |row|
       n += 1

@@ -131,15 +131,9 @@ module MercuryGateXml
         xml.UserName Profile.report_user(user)
         if count.positive?
           xml.PromptFieldCount count
-          if count >= 1
-            xml.PromptField1 value1
-          end
-          if count >= 2
-            xml.PromptField2 value2
-          end
-          if count == 3
-            xml.PromptField value3
-          end
+          xml.PromptField1 value1 if count >= 1
+          xml.PromptField2 value2 if count >= 2
+          xml.PromptField value3 if count == 3
         end
       end
     end
@@ -391,12 +385,10 @@ module MercuryGateXml
   end
 
   def date_format(date)
-    Time.strptime(date, '%m/%d/%Y %I:%M%p')
+    Time.strptime(date, '%m/%d/%Y %I:%M%p') unless date.nil?
   end
 
   def shipping_order_xml(user, shipping_order_list)
-    p 'in shipping order'
-
     so_match = Profile.so_match_reference(user)
     sh_match = Profile.shipment_match_reference(user)
 
