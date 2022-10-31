@@ -15,6 +15,7 @@ class Profile < ApplicationRecord
                  :call_check_report,
                  :delivered_report,
                  :in_transit_report,
+                 :tender_accept_report,
                  :tender_reject_report,
                  :need_invoice_report
 
@@ -60,6 +61,10 @@ class Profile < ApplicationRecord
 
   def self.so_match_reference(user)
     user.profiles.where(active: true).first.so_match_reference
+  end
+
+  def self.tender_accept_report(user)
+    user.profiles.where(active: true).first.tender_accept_report
   end
 
   def self.tender_reject_report(user)

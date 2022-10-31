@@ -5,15 +5,13 @@ class TenderJob < ApplicationJob
 
   def perform(user)
 
-    report_name = Profile.tender_reject_report(user)
-
-    @transports = mg_post_list_report(user, REPORT_TYPE, report_name)
+    @transports = mg_post_list_report(user, REPORT_TYPE, Profile.tender_reject_report(user))
     n = 0
     CSV.parse(@transports, headers: true, col_sep: ',') do |row|
       n += 1
       mg_post_xml(user, xml_tender_response(user, row, 'D'))
     end
-    @transports = mg_post_list_report(user, 'Transport', 'Tender Accept')
+    @transports = mg_post_list_report(user, REPORT_TYPE, Profile.tender_accept_report(user))
     n = 0
     CSV.parse(@transports, headers: true, col_sep: ',') do |row|
       n += 1
