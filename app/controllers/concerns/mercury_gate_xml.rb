@@ -140,7 +140,6 @@ module MercuryGateXml
   end
 
   def enterprise_xml(user, enterprise)
-
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -164,49 +163,54 @@ module MercuryGateXml
                 xml.DocTypeID 'Enterprise'
                 xml.DocCount '1'
               end
-              xml.Enterprise(name: enterprise.company_name, parentName: enterprise.parent, active: enterprise.active,
-                               action: :UpdateOrAdd) do
-                xml.MultiNational(false)
-                xml.Description
-                xml.DisplayNotes
-                xml.CustomerAcctNum(enterprise.customer_account)
-                xml.ReferenceNumbers
-                xml.FederalEIN
-                xml.DUNS
-                xml.PrimarySIC
-                xml.Ranking
-                xml.CreditLimitManagement(limit: ' ')
-                xml.Visibility(login: true, quote: true)
-                xml.EnterpriseRoles
-                xml.EnterpriseRoles(type: :customer, required: false)
-                unless enterprise.location_code.blank?
-                  xml.tag! 'Locations' do
-                    xml.Address(type: enterprise.location_type, isResidential: enterprise.residential, isPrimary: false ) do
-                      xml.LocationCode(enterprise.location_code)
-                      xml.Alias(enterprise.location_code)
-                      xml.Name(enterprise.location_name)
-                      xml.AddrLine1(enterprise.address_1)
-                      xml.AddrLine2(enterprise.address_2)
-                      xml.City(enterprise.city)
-                      xml.StateProvince(enterprise.state)
-                      xml.PostalCode(enterprise.postal)
-                      xml.CountryCode(enterprise.country)
-                      xml.tag! 'Contacts' do
-                        unless enterprise.contact_type.blank?
-                          xml.Contact(type: enterprise.contact_type) do
-                            xml.Name(enterprise.contact_name)
-                            xml.tag! 'ContactMethods' do
-                              i = 1
-                              unless enterprise.contact_email.nil?
-                                xml.ContactMethod(enterprise.contact_phone, sequenceNum: i, type: 'Phone')
-                                i += 1
-                              end
-                              unless  enterprise.contact_fax.nil?
-                                xml.ContactMethod(enterprise.contact_fax, sequenceNum: i, type: 'Fax')
-                                i += 1
-                              end
-                              unless enterprise.contact_email.nil?
-                                xml.ContactMethod(enterprise.contact_email, sequenceNum: i, type: 'Email')
+              enterprise.each do |post|
+                xml.Enterprise(name: post.company_name,
+                               parentName: post.parent_name,
+                               parentAcctId: post.parent_acct_num,
+                               active: post.active,
+                                 action: :UpdateOrAdd) do
+                  xml.MultiNational(false)
+                  xml.Description
+                  xml.DisplayNotes
+                  xml.CustomerAcctNum(post.customer_account)
+                  xml.ReferenceNumbers
+                  xml.FederalEIN
+                  xml.DUNS
+                  xml.PrimarySIC
+                  xml.Ranking
+                  xml.CreditLimitManagement(limit: ' ')
+                  xml.Visibility(login: true, quote: true)
+                  xml.EnterpriseRoles
+                  xml.EnterpriseRoles(type: :customer, required: false)
+                  unless post.location_code.blank?
+                    xml.tag! 'Locations' do
+                      xml.Address(type: post.location_type, isResidential: post.residential, isPrimary: false ) do
+                        xml.LocationCode(post.location_code)
+                        xml.Alias(post.location_code)
+                        xml.Name(post.location_name)
+                        xml.AddrLine1(post.address_1)
+                        xml.AddrLine2(post.address_2)
+                        xml.City(post.city)
+                        xml.StateProvince(post.state)
+                        xml.PostalCode(post.postal)
+                        xml.CountryCode(post.country)
+                        xml.tag! 'Contacts' do
+                          unless post.contact_type.blank?
+                            xml.Contact(type: post.contact_type) do
+                              xml.Name(post.contact_name)
+                              xml.tag! 'ContactMethods' do
+                                i = 1
+                                unless post.contact_email.nil?
+                                  xml.ContactMethod(post.contact_phone, sequenceNum: i, type: 'Phone')
+                                  i += 1
+                                end
+                                unless  post.contact_fax.nil?
+                                  xml.ContactMethod(post.contact_fax, sequenceNum: i, type: 'Fax')
+                                  i += 1
+                                end
+                                unless post.contact_email.nil?
+                                  xml.ContactMethod(post.contact_email, sequenceNum: i, type: 'Email')
+                                end
                               end
                             end
                           end
@@ -221,7 +225,7 @@ module MercuryGateXml
         end
       end
     end
-    xml.target!
+    p xml.target!
   end
 
   def contract_xml(user, enterprises, new_ent, contract)

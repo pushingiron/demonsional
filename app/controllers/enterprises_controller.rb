@@ -1,5 +1,8 @@
 class EnterprisesController < ApplicationController
-  before_action :set_enterprise, except: %i[index post_xml new create import_page import destroy_all create_enterprise_demo]
+
+  include MercuryGateService
+
+  before_action :set_enterprise, except: %i[index post_xml new create import_page import destroy_all create_enterprise_demo csv_example]
   before_action :authenticate_user!
 
 
@@ -11,7 +14,7 @@ class EnterprisesController < ApplicationController
 
   def post_xml
     @enterprises = current_user.enterprises.all
-    @response = Enterprise.mg_post(@enterprises, current_user)
+    @response = mg_post_xml(current_user, enterprise_xml(current_user, @enterprises))
     p @response
     render inline: "<%= @response %><br><%= link_to 'back', enterprises_path %>"
   end
@@ -99,6 +102,6 @@ class EnterprisesController < ApplicationController
                                        :location_name, :address_1, :address_2, :city, :state, :postal, :country,
                                        :user_id, :residential, :comments, :earliest_appt, :latest_appt, :location_type,
                                        :contact_type, :contact_name, :contact_phone, :contact_fax, :contact_email,
-                                       :parent)
+                                       :parent_name, parent_acct_num)
   end
 end
