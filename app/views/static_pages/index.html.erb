@@ -22,7 +22,7 @@
       <% end %>
       <h3>Contracts: <%= current_user.contracts.count %></h3>
       <h3>Rates: <%= current_user.rates.count %></h3>
-      <h3>Profile: <%= current_user.profiles.where(active: true).count %></h3>
+      <h3>Active Profile: <%= current_user.profiles.cust_acct(current_user) %></h3>
     </div>
   </div>
   <h2>MMO in the cloud status</h2>
