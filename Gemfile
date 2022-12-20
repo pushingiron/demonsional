@@ -25,7 +25,6 @@ gem 'bootstrap_form', '~> 4.0'
 gem 'builder'
 gem 'devise'
 gem 'faraday'
-gem 'uri'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
