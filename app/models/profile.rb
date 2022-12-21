@@ -44,11 +44,19 @@ class Profile < ApplicationRecord
   end
 
   def self.cust_acct(user)
-    user.profiles.where(active: true).first.cust_acct
+    begin
+      user.profiles.where(active: true).first.cust_acct
+    rescue
+      'unknown'
+    end
   end
 
   def self.id(user)
-    user.profiles.where(active: true).first.id
+    begin
+      user.profiles.where(active: true).first.id
+    rescue
+      'unknown'
+    end
   end
 
   def self.server_name(user)
