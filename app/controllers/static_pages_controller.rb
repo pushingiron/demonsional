@@ -5,8 +5,12 @@ class StaticPagesController < ApplicationController
   before_action :authenticate_user!
   def index
     @paths = current_user.paths.all
-    @mmo_status = mg_get_edge(current_user, auth_mmo(current_user), 'serverstatus/html/myTok3141')
-    @mmo_status['content="5"'] = 'content="50"'
+    begin
+      @mmo_status = mg_get_edge(current_user, auth_mmo(current_user), 'serverstatus/html/myTok3141')
+      @mmo_status['content="5"'] = 'content="50"'
+    rescue
+      @mmo_status = 'Unavailable'
+    end
   end
 
   def create_demo
