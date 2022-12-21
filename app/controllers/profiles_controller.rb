@@ -25,8 +25,25 @@ class ProfilesController < ApplicationController
   end
 
   def new
-    p 'new'
     @profile = current_user.profiles.new
+    @profile.edge_pack_id = 'test'
+    @profile.cust_acct = 'automation... (need to replace this)'
+    @profile.shipment_match_reference = 'shipment_match_ref'
+    @profile.so_match_reference = 'so_match_ref'
+    @profile.edge_pack_url = '73.181.185.52:8001'
+    @profile.edge_pack_id = 'DemoTopEdgePack'
+    @profile.edge_pack_pwd = 'demo1234'
+    @profile.ws_user_id = '..shipper_ws... (need to replace this)'
+    @profile.ws_user_pwd = '..password... (need to replace this)'
+    @profile.report_user = '..Automation... (need to replace this)'
+    @profile.server = 'demo5'
+    @profile.active = true
+    @profile.call_check_report = 'AD_Call_Check (may need to replace this)'
+    @profile.delivered_report = 'AD_Delivered (may need to replace this)'
+    @profile.in_transit_report = 'AD_In_Transit (may need to replace this)'
+    @profile.tender_accept_report = 'AD_Tender_Accept (may need to replace this)'
+    @profile.tender_reject_report = 'AD_Tender_Reject (may need to replace this)'
+    @profile.need_invoice_report = 'AD_Need_Invoice (may need to replace this)'
   end
 
   def create
