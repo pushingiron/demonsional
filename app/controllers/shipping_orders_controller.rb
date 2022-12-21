@@ -8,8 +8,9 @@ class ShippingOrdersController < ApplicationController
 
   # GET /shipping_orders or /shipping_orders.json
   def index
-    @so_match = Profile.so_match_reference(current_user)
-    @shipping_orders = current_user.shipping_orders.all
+    # @so_match = Profile.so_match_reference(current_user)
+      @shipping_orders = current_user.shipping_orders.all
+
   end
 
   # GET /shipping_orders/1 or /shipping_orders/1.json

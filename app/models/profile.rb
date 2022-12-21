@@ -44,7 +44,11 @@ class Profile < ApplicationRecord
   end
 
   def self.cust_acct(user)
+    begin
       user.profiles.where(active: true).first.cust_acct
+    rescue
+      0
+    end
 
   end
 
@@ -62,7 +66,11 @@ class Profile < ApplicationRecord
   end
 
   def self.so_match_reference(user)
-    user.profiles.where(active: true).first.so_match_reference
+    begin
+      user.profiles.where(active: true).first.so_match_reference
+    rescue
+      ''
+    end
   end
 
   def self.tender_accept_report(user)
