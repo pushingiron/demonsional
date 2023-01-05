@@ -12,7 +12,7 @@ class ProfilesController < ApplicationController
   def update
     respond_to do |format|
       if @profile.update(profile_params)
-        format.html { redirect_to profiles_path, notice: "Profile was successfully updated." }
+        format.html { redirect_to profiles_path, notice: 'Profile was successfully updated.' }
         format.json { render :show, status: :ok, location: @profile }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -38,6 +38,8 @@ class ProfilesController < ApplicationController
     @profile.report_user = '..Automation... (need to replace this)'
     @profile.server = 'demo5'
     @profile.active = true
+    @profile.mmo_shipment_report = 'AD_Optimize (may need to replace this)'
+    @profile.contract_report = 'AD_Contract (may need to replace this)'
     @profile.call_check_report = 'AD_Call_Check (may need to replace this)'
     @profile.delivered_report = 'AD_Delivered (may need to replace this)'
     @profile.in_transit_report = 'AD_In_Transit (may need to replace this)'
@@ -78,6 +80,8 @@ class ProfilesController < ApplicationController
                                     :remember_me,
                                     :server,
                                     :active,
+                                    :mmo_shipment_report,
+                                    :contract_report,
                                     :call_check_report,
                                     :delivered_report,
                                     :in_transit_report,

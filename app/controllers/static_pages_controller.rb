@@ -3,6 +3,11 @@ class StaticPagesController < ApplicationController
   include MercuryGateJson
 
   before_action :authenticate_user!
+
+
+  CODE_TABLES = ["I", "WI:CallCheck", "WI:ShipmentStatus", "WI:ShipmentStatus", "WI:XMLContract", "WI:XMLEnterprise",
+                 "WI:XMLPriceSheet", "WI:XMLShippingOrder", "WI:XMLTenderReplyV2", "WI:yuk"].freeze
+
   def index
     @paths = current_user.paths.all
     begin
@@ -11,6 +16,10 @@ class StaticPagesController < ApplicationController
     rescue
       @mmo_status = 'Unavailable'
     end
+  end
+
+  def mmo_status
+    render partial: 'mmo_status'
   end
 
   def create_demo
@@ -61,6 +70,12 @@ class StaticPagesController < ApplicationController
 
   def so_example
     send_file 'app/assets/data/SO Automation.csv'
+  end
+
+  def code_table_status
+    CODE_TABLES.each do |c|
+      mg_post_xml(current_user, code_table_xml(c))
+    end
   end
 
   private

@@ -66,6 +66,8 @@ Rails.application.routes.draw do
     get :index
     get :xml_response
     collection do
+      get :code_table_status
+      get :mmo_status
       get :so_example
     end
   end

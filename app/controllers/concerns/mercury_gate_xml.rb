@@ -29,6 +29,21 @@ module MercuryGateXml
     xml.target!
   end
 
+  def code_table_xml(code_table)
+    p code_table
+    request_id = Time.now.strftime('%Y%m%d%H%M%L')
+    xml = Builder::XmlMarkup.new
+    xml.instruct! :xml, version: '1.0'
+    xml.tag! 'service-request' do
+      xml.tag! 'service-id', 'CodeTable'
+      xml.tag! 'request-id', request_id
+      xml.tag! 'data' do
+        xml.codeTableName code_table
+      end
+    end
+    xml.target!
+  end
+
   def xml_status(user, data, status_code)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new

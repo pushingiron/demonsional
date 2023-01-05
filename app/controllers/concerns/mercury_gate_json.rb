@@ -14,12 +14,12 @@ module MercuryGateJson
                              :accessorial1_calc, :accessorial1_rate, :total_min)
 
     { authentication: { username: Profile.edge_pack_id(user), password: Profile.edge_pack_pwd(user) },
-      inputReports: [{ name: 'Rates', type: 'RateTable',
-                       headers: RATE_HEADERS, data: rates }],
       script: "Edge.switchCompany('#{enterprise}');
-                      ship = Edge.getServerReport('Shipment', 'Planning Template', true);
-                      Edge.mojoExecute(ship, 'test', false);
-                      Edge.mojoCreateServerLoads(false)" }
+                ship = Edge.getServerReport('Shipment', '#{Profile.mmo_shipment_report(user)}', true);
+                contract = Edge.getServerReport('Contract', '#{Profile.contract_report(user)}', true);
+                rate = Edge.openRateTableReport(contract);
+                Edge.mojoExecute(ship, 'test', false);
+                Edge.mojoCreateServerLoads(false)" }
 
   end
 

@@ -12,6 +12,8 @@ class Profile < ApplicationRecord
                  :ws_user_pwd,
                  :report_user,
                  :server,
+                 :mmo_shipment_report,
+                 :contract_report,
                  :call_check_report,
                  :delivered_report,
                  :in_transit_report,
@@ -49,12 +51,10 @@ class Profile < ApplicationRecord
     rescue
       0
     end
-
   end
 
   def self.id(user)
-      user.profiles.where(active: true).first.id
-
+    user.profiles.where(active: true).first.id
   end
 
   def self.server_name(user)
@@ -71,6 +71,14 @@ class Profile < ApplicationRecord
     rescue
       ''
     end
+  end
+
+  def self.mmo_shipment_report(user)
+    user.profiles.where(active: true).first.mmo_shipment_report
+  end
+
+  def self.contract_report(user)
+    user.profiles.where(active: true).first.contract_report
   end
 
   def self.tender_accept_report(user)

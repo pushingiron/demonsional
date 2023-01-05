@@ -31,16 +31,12 @@ module MercuryGateService
       f.options.timeout = 1000000
     end
     response = faraday.post(ws_url, encoded_params)
-    p '***print response***'
-    response.body.force_encoding('utf-8')
     xml_doc = Document.new(response.body)
-    puts xml_doc
     XPath.first(xml_doc, '//service-response/data')
   end
 
   def mg_post_edge(user, data_hash, end_point)
     json = data_hash.to_json
-    p "**** json: #{json}"
     uri = URI "https://#{Profile.edge_pack_url(user)}/#{end_point}"
     http = Net::HTTP.new uri.host, uri.port
     http.use_ssl = false
@@ -48,13 +44,10 @@ module MercuryGateService
     http.open_timeout = 5000
     http.read_timeout = 5000
     response = http.post(uri.path, json.to_s, 'Content-Type' => 'application/json')
-    p response.body
+    response.body
   end
 
   def mg_get_edge(user, data_hash, end_point)
-    p data_hash
-    json = data_hash.to_json
-    p json
     uri = URI "https://#{Profile.edge_pack_url(user)}/#{end_point}"
     http = Net::HTTP.new uri.host, uri.port
     http.use_ssl = false
