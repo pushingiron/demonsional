@@ -6,10 +6,10 @@
 //= require popper
 //= require bootstraps=sprockets
 
-import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
+//= require bootstrap
 import "channels"
-import "bootstrap"
+//= require "trubolinks"
 
 
 Turbolinks.start()
