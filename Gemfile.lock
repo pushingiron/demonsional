@@ -70,6 +70,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     bcrypt (3.1.18)
     bindex (0.8.1)
+    bootsnap (1.15.0)
+      msgpack (~> 1.2)
     bootstrap (5.2.3)
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 2.11.6, < 3)
@@ -175,6 +177,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
     minitest (5.17.0)
+    msgpack (1.6.0)
     multi_test (1.1.0)
     net-imap (0.3.4)
       date
@@ -322,6 +325,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  bootsnap
   bootstrap
   bootstrap_form (~> 4.0)
   builder
