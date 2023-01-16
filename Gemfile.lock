@@ -204,8 +204,6 @@ GEM
       nio4r (~> 2.0)
     racc (1.6.2)
     rack (2.2.5)
-    rack-mini-profiler (2.3.4)
-      rack (>= 1.2.0)
     rack-proxy (0.7.4)
       rack
     rack-test (2.0.2)
@@ -344,7 +342,6 @@ DEPENDENCIES
   pagy (~> 3.5)
   pg (~> 1.1)
   puma (~> 5.0)
-  rack-mini-profiler (~> 2.0)
   rails (~> 6.1.1)
   rexml
   roo (~> 2.9.0)
