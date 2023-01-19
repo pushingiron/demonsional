@@ -8,6 +8,7 @@
     "react-scripts": "^5.0.1",
     "turbolinks": "^5.2.0",
     "webpack": "^4.46.0",
+    "jquery": "^3.6.3",
     "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
