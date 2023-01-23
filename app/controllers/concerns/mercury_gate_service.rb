@@ -36,6 +36,7 @@ module MercuryGateService
   end
 
   def mg_post_edge(user, data_hash, end_point)
+    p "**** #{data_hash}"
     json = data_hash.to_json
     uri = URI "https://#{Profile.edge_pack_url(user)}/#{end_point}"
     http = Net::HTTP.new uri.host, uri.port
