@@ -11,8 +11,8 @@ class InvoiceJob < ApplicationJob
     n = 0
     CSV.parse(oids, headers: true, col_sep: ',') do |row|
       n += 1
-      transport_xml = mg_post_xml user, xml_extract(row[0], 'WebExtractTransportBasic')
-      #puts transport_xml
+      transport_xml = mg_post_xml user, xml_extract(row[0], 'WebXMLTransportDeep')
+      puts transport_xml
       mg_post_xml user, carrier_invoice_xml(user, transport_xml)
       #pri_ref = XPath.first(transport_xml, "//MercuryGate/MasterBillOfLading/ReferenceNumbers/ReferenceNumber[@isPrimary = \"true\"]/text()")
       # puts pri_ref

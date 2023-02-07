@@ -691,13 +691,28 @@ module MercuryGateXml
                     end
                     xml.tag! 'Charges' do
                       XPath.each(el_xml, "#{CHARGES}//Charge") do |c|
-                        xml.Charge sequenceNum: XPath.first(c, '@sequenceNum'), type: 'ITEM', itemGroupId: '' do
-                          amount = (XPath.first c, 'Amount/text()')
-                          amount = amount.to_s.to_f * 1.1
-                          xml.Description XPath.first c, 'Description/text()'
-                          xml.RateQualifier 'FR'
+                        description = XPath.first c, 'Description/text()'
+                        if description == "Discount"
+                          type = "DISCOUNT"
+                        elsif description == "Contract Minimum Reached"
+                          type = "MG_MINMAX_ADJ"
+                        elsif description == "Fuel Surcharge"
+                          type = "ACCESSORIAL_FUEL"
+                        else
+                          type = "ITEM"
+                        end
+                        xml.Charge sequenceNum: XPath.first(c, '@sequenceNum'), type: type, itemGroupId: '' do
+                          amount = (XPath.first c, 'Amount/text()').to_s.to_f
+                          description = XPath.first c, 'Description/text()'
+                          rate_qualifier = XPath.first(c, 'RateQualifier/text()')
+                          rate = (XPath.first c, 'Rate/text()').to_s.to_f
+                          # amount = amount.to_s.to_f * 1.1
+                          quantity = (XPath.first c, 'Quantity/text()').to_s.to_f
+                          xml.Description description
+                          xml.RateQualifier rate_qualifier
+                          xml.Rate rate
+                          xml.Quantity quantity
                           xml.Amount amount.to_s
-                          xml.Rate amount.to_s
                         end
                       end
                     end
