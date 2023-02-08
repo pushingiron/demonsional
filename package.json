@@ -6,6 +6,7 @@
     "bootstrap": "^5.2.3",
     "channels": "^0.0.4",
     "jquery": "^3.6.3",
+    "jquery-ui": "^1.13.2",
     "popper": "^1.0.1",
     "react-scripts": "^5.0.1",
     "turbolinks": "^5.2.0",
@@ -15,7 +16,6 @@
   "devDependencies": {
     "@rails/ujs": "^7.0.4-1",
     "jquery": "^3.6.3",
-    "jquery-ui": "^1.13.2",
     "webpack-dev-server": "^3"
   }
 }
