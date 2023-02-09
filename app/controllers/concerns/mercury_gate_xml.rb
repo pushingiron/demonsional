@@ -654,7 +654,6 @@ module MercuryGateXml
   end
 
   def carrier_invoice_xml(user, el_xml)
-
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
     xml.tag! 'service-request' do
@@ -691,6 +690,7 @@ module MercuryGateXml
                     end
                     xml.tag! 'Charges' do
                       XPath.each(el_xml, "#{CHARGES}//Charge") do |c|
+                        puts "in charges: #{c}"
                         description = XPath.first c, 'Description/text()'
                         if description == "Discount"
                           type = "DISCOUNT"
@@ -714,6 +714,13 @@ module MercuryGateXml
                           xml.Quantity quantity
                           xml.Amount amount.to_s
                         end
+                      end
+                      xml.Charge sequenceNum: 99, type: "ITEM", itemGroupId: '' do
+                        xml.Description "Detention"
+                        xml.RateQualifier "Hourly"
+                        xml.Rate 200
+                        xml.Quantity 1
+                        xml.Amount 200.to_s
                       end
                     end
                   end
