@@ -40,6 +40,7 @@ class ProfilesController < ApplicationController
     @profile.active = true
     @profile.mmo_shipment_report = 'AD_Optimize (may need to replace this)'
     @profile.contract_report = 'AD_Contract (may need to replace this)'
+    @profile.pool_report = 'AD_Pool (may need to replace this)'
     @profile.call_check_report = 'AD_Call_Check (may need to replace this)'
     @profile.delivered_report = 'AD_Delivered (may need to replace this)'
     @profile.in_transit_report = 'AD_In_Transit (may need to replace this)'
@@ -82,6 +83,7 @@ class ProfilesController < ApplicationController
                                     :active,
                                     :mmo_shipment_report,
                                     :contract_report,
+                                    :pool_report,
                                     :call_check_report,
                                     :delivered_report,
                                     :in_transit_report,
