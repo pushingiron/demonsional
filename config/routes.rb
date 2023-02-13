@@ -12,6 +12,13 @@ Rails.application.routes.draw do
 
   resources :items
 
+  resources :rates do
+    collection do
+      get :load_rates
+      get :destroy_all
+    end
+  end
+
   resources :profiles
 
   resources :contracts do

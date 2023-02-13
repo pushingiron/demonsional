@@ -7,23 +7,24 @@ module MercuryGateJson
                   'Total Min'].freeze
 
   def rate_table(user, enterprise)
-=begin
-    rates = user.rates.pluck(:contract_id, :lane_calc, :from_loccode, :from_city, :from_state, :from_zip,
+
+     rates = user.rates.pluck(:contract_id, :lane_calc, :from_loccode, :from_city, :from_state, :from_zip,
                              :from_country, :to_loccode, :to_city, :to_state, :to_zip, :to_country, :scac,
                              :service, :mode, :break_1_field, :break_1_min, :break_1_max, :break_2_field,
                              :break_2_min, :break_2_max, :rate_field, :rate_calc, :rate, :accessorial1_field,
                              :accessorial1_calc, :accessorial1_rate, :total_min)
-=end
 
-    { authentication: { username: Profile.edge_pack_id(user), password: Profile.edge_pack_pwd(user) },
+
+     { authentication: { username: Profile.edge_pack_id(user), password: Profile.edge_pack_pwd(user) },
       script: "Edge.switchCompany('#{enterprise}');
                 contract = Edge.getServerReport('Location', '#{Profile.pool_report(user)}', true);
                 ship = Edge.getServerReport('Shipment', '#{Profile.mmo_shipment_report(user)}', true);
-                contract = Edge.getServerReport('Contract', '#{Profile.contract_report(user)}', true);
-                rate = Edge.openRateTableReport(contract);
                 Edge.mojoExecute(ship, 'test', false);
                 Edge.mojoCreateServerLoads(false)",
       inputReports: [
+
+        { name: 'Rates', type: 'RateTable',
+          headers: RATE_HEADERS, data: rates },
         {"name":"OptParam","type":"OptParam", headers:%w[Key Value],
          data: [["Allow Off-Duty Extension","false"],
                 ["Backhaul Bias","Off"],
@@ -139,7 +140,7 @@ module MercuryGateJson
                 ["Pool Chains",""],
                 ["Pool Consideration Iter","5.0"],
                 ["Pool Date Policy",""],
-                ["Pool Strategy","On"],
+                ["Pool Strategy","Consider Pools"],
                 ["Postliminary Depth","10"],
                 ["Private Fleet SCAC",""],
                 ["Private Fleet Strategy","Off"],
