@@ -16,6 +16,9 @@ Rails.application.routes.draw do
     collection do
       get :load_rates
       get :destroy_all
+      get :import_page
+      post :import
+      get :csv_example
     end
   end
 

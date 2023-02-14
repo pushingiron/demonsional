@@ -1,0 +1,124 @@
+<div class="container-fluid">
+  <h3>MMO Rate Table Import Page</h3>
+  <p>
+    Make sure your file is a CSV format.  So commas need to separate the columns in the spreadsheet.  You can download an
+    example <%= link_to 'here', csv_example_rates_path %>.</p>
+
+  <%= form_tag import_rates_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import" %>
+  <% end %>
+</div>
+<!--  <br>
+  <h4>Instructions</h4>
+  <p>
+    You can have as many columns as you want that have any header name.  These will be ignored.  The columns used by the importer can be in any order.
+  </p>
+
+  <p>
+    There is a unique column in the CSV column for supporting the ability to import multiple references.  The column name is
+    "References" (no quotes), in this column you can define multiple references by using this format.
+  </p>
+  <div class="row justify-content-center">
+    <table class="table-bordered">
+      <thead>
+      <tr>
+        <th scope="col">CSV Reference</th>
+        <th scope="col">TMS example</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th>PO Number.123.false|DELV05.444.false|Sales Acct.876.false</th>
+        <th><%#= image_tag("references.jpg", :alt => "tms image of references") %></th>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Dates need to follow this formate YYYY-MM-DD HH:MM.  For example 2021-01-01 07:00 or 1999-12-25 23:31.  Midnight is 00:00.
+  </p>
+</div>
+<table id="t01">
+  <tr>
+    <th>excel column header</th>
+    <th>maps to</th>
+    <th>required</th>
+    <th>notes</th>
+  </tr>
+  <tr>
+    <td>payment_method</td><td>Payment Terms</td><td>Yes</td><td>Values: Prepaid, Collect or Third Party</td>
+  </tr>
+  <tr>
+    <td>cust_acct_num</td><td>Customer Account</td><td>Yes</td><td>This will identify the enterprise (company) to create the shipping orders.  Do not use the enterprise name.</td></tr>
+  <tr>
+    <td>so_match_ref</td><td>A reference</td><td>Yes</td><td>This will show up as a reference on the shipping order.  It is used for uniquely identifying the shipping order for updates.</td></tr>
+  <tr>
+    <td>shipment_match_ref</td><td>A reference</td><td>Yes</td><td>This will show up as a reference on the associated shipment.  It is used for uniquely identifying the shipping order for updates.</td></tr>
+  <tr>
+    <td>early_pickup_date</td><td>Target Ship Early</td><td>Yes</td><td></td>
+  </tr>
+  <tr>
+    <td>late_pickup_date</td><td>Target Ship Late</td><td>Yes</td><td></td>
+  </tr>
+  <tr>
+    <td>early_delivery_date</td><td>Target Deliver Early</td><td>Yes</td><td></td>
+  </tr>
+  <tr>
+    <td>late_delivery_date</td><td>Target Delivery Late</td><td>Yes</td><td></td>
+  </tr>
+  <tr>
+    <td>demo_type</td><td>Future User</td><td>No</td><td></td>
+  </tr>
+  <tr><td>equipment_code</td><td>Equipment Code</td><td>No</td><td>Make sure to use the code not the description.  You may need to refer to the code tables.</td></tr>
+  <tr><td>pickup_loc_code</td><td>Origin Location Code</td><td>Yes</td><td>TMS loader will do a lookup if the location exists in the master location table.  If you are doing a lookup no other location information is needed</td></tr>
+  <tr><td>pickup_name</td><td>Origin Name</td><td>Yes - see notes</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>pickup_address1</td><td>Origin Address1</td><td>Yes - see notes</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>pickup_address2</td><td>Origin Address2</td><td>Yes - see notes</td><td>Never required</td></tr>
+  <tr><td>pickup_city</td><td>Origin City</td><td>Yes - see notes</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>pickup_state</td><td>Origin State</td><td>Yes - see notes</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>pickup_postal</td><td>Origin Zip</td><td>Yes - see notes</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>pickup_country</td><td>Origin Country</td><td>Yes - see notes</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>pickup_geo</td><td>Origin Geo</td><td>No</td><td></td></tr>
+  <tr><td>pickup_residential</td><td>Origin Residential Flag</td><td>No</td><td></td></tr>
+  <tr><td>pickup_comments</td><td>Origin Comments</td><td>No</td><td></td></tr>
+  <tr><td>pickup_earliest_appt</td><td>Origin Earliest Appt</td><td>No</td><td></td></tr>
+  <tr><td>pickup_latest_appt</td><td>Origin Latest Appt</td><td>No</td><td></td></tr>
+  <tr><td>pickup_stop_type</td><td>Future Use</td><td>No</td><td>Not used at this time</td></tr>
+  <tr><td>pickup_loc_type</td><td>Origin Location Type</td><td>No</td><td></td></tr>
+  <tr><td>delv_loc_code</td><td>Destination Location Code</td><td>Yes</td><td>TMS loader will do a lookup if the location exists in the master location table.  If you are doing a lookup no other location information is needed</td></tr>
+  <tr><td>delv_name</td><td>Origin Name</td><td>Yes - see notes</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>delv_address1</td><td>Destination Address1</td><td>required</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>delv_address2</td><td>Destination Address2</td><td>required</td><td>notes</td></tr>
+  <tr><td>delv_city</td><td>Destination City</td><td>required</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>delv_state</td><td>Destination State</td><td>required</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>delv_postal</td><td>Destination Zip</td><td>required</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>delv_country</td><td>Destination Country</td><td>required</td><td>If you are doing a lookup using the location code this field is not required</td></tr>
+  <tr><td>delv_geo</td><td>Destination Geo</td><td>No</td><td></td></tr>
+  <tr><td>delv_residential</td><td>Destination Residential Flag</td><td>No</td><td></td></tr>
+  <tr><td>delv_comments</td><td>Destination Comments</td><td>No</td><td></td></tr>
+  <tr><td>delv_earliest_appt</td><td>Destination Earliest Appt</td><td>No</td><td></td></tr>
+  <tr><td>delv_latest_appt</td><td>Destination Latest Appt</td><td>No</td><td></td></tr>
+  <tr><td>delv_stop_type</td><td>Future Use</td><td>required</td><td>Not used at this time</td></tr>
+  <tr><td>delv_loc_type</td><td>Delivery Location Type</td><td>No</td><td></td></tr>
+  <tr><td>references</td><td>Shipping Order References</td><td>No</td><td>See the section references for instructions on mapping with this field</td></tr>
+  <tr><td>item_id</td><td>Line Item - Item ID</td><td>Yes</td><td>To load multiple line items on a shipping order.  Duplicate the row in the CSV file.  Modify the item_id to be unique for each row for that shipping order.</td></tr>
+  <tr><td>sequence</td><td>Item Line Item Sequence</td><td>No</td><td></td></tr>
+  <tr><td>line_number</td><td>Item Line Number</td><td>No</td><td></td></tr>
+  <tr><td>description</td><td>Item Description</td><td>No</td><td></td></tr>
+  <tr><td>freight_class</td><td>Item Freight Class</td><td>No</td><td></td></tr>
+  <tr><td>weight_plan</td><td>Line Item Planned Weight</td><td>required</td><td>notes</td></tr>
+  <tr><td>weight_actual</td><td>Line Item Actual Weight</td><td>No</td><td>Although not required it is strongly encouraged to provide a value.</td></tr>
+  <tr><td>weight_delivered</td><td>Line Item Delivered Weight</td><td>No</td><td></td></tr>
+  <tr><td>weight_uom</td><td>Item Weight UOM</td><td>Yes</td><td>This will be used for all weight types.</td></tr>
+  <tr><td>quantity</td><td>Item Weight Quantity</td><td>Yes</td><td>This will be used for all quantity types</td></tr>
+  <tr><td>quantity_uom</td><td>Item Quantity UOM</td><td>Yes</td><td>This will be used for all quantity types</td></tr>
+  <tr><td>cube</td><td>Item Cube</td><td>No</td><td></td></tr>
+  <tr><td>cube_uom</td><td>Item Cube UOM</td><td>No - see notes</td><td>This is required if you supply a cube value</td></tr>
+  <tr><td>country_of_origin</td><td>Line Item Country Of Origin</td><td>No</td><td>Some parcel rating may be dependent on this field</td></tr>
+  <tr><td>country_of_manufacture</td><td>Line Item Country Of Manufacture</td><td>No</td><td>Some parcel rating may be dependent on this field</td></tr>
+  <tr><td>customs_value</td><td>Line Item Customers Value</td><td>No</td><td>Some parcel rating may be dependent on this field</td></tr>
+  <tr><td>customs_value_currency</td><td>Line Item Customs Value Currency</td><td>No</td><td>Some parcel rating may be dependent on this field</td></tr>
+  <tr><td>origination_country</td><td>Line Item Origination Country</td><td>No</td><td>Some parcel rating may be dependent on this field</td></tr>
+  <tr><td>manufacturing_country</td><td>Line Item Manufacturing Country</td><td>No</td><td></td></tr>
+</table>-->

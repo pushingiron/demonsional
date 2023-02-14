@@ -20,6 +20,18 @@ class RatesController < ApplicationController
   def edit
   end
 
+  def import_page;
+  end
+
+  def import
+    current_user.rates.import(params[:file])
+    redirect_to root_url, notice: 'Rates Imported.'
+  end
+
+  def csv_example
+    send_file 'app/assets/examples/mmo_rates.csv'
+  end
+
   # POST /rates or /rates.json
   def create
     @rate = Rate.new(rate_params)

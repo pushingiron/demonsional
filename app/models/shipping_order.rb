@@ -34,16 +34,13 @@ class ShippingOrder < ApplicationRecord
                        customs_value_currency origination_country manufacturing_country item_id shipping_order_id].freeze
 
   def self.import(file,  cust_acct_num = nil, pickup_date = nil)
-
     so_prev = nil
     so_id = nil
-
-    p 'so import'
     begin
-      p file_path = file.path
+      file_path = file.path
     rescue StandardError
-      p file = open(Rails.root.join('app', 'assets', 'data', 'SO Automation.csv'))
-      p file_path = file.path
+      file = open(Rails.root.join('app', 'assets', 'data', 'SO Automation.csv'))
+      file_path = file.path
     end
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(1)
@@ -51,7 +48,6 @@ class ShippingOrder < ApplicationRecord
       row = Hash[[header, spreadsheet.row(i)].transpose]
       shipping_order = ShippingOrder.find_or_initialize_by(so_match_ref: row['so_match_ref'], cust_acct_num: cust_acct_num)
       if row['so_match_ref'] != so_prev
-        p 'in single item condition'
         shipping_order.attributes = row.to_hash.slice(*SHIPPING_ORDER_ATTRIBUTES)
         unless pickup_date.nil?
           shipping_order['early_pickup_date'] = (pickup_date + 8.hours)
@@ -60,13 +56,6 @@ class ShippingOrder < ApplicationRecord
           shipping_order['late_delivery_date'] = (pickup_date + 7.days + 16.hours)
         end
         shipping_order['cust_acct_num'] = cust_acct_num unless cust_acct_num.nil?
-        p row.to_hash
-        p 'attribues'
-        p shipping_order.attributes
-        p SHIPPING_ORDER_ATTRIBUTES
-        p row
-        p shipping_order.attributes
-        p '*****'
         shipping_order.save!
         so_id = shipping_order.id
         origin_location = shipping_order.pickup_locations.find_or_initialize_by(loc_code: row['pickup_loc_code'])
