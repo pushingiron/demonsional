@@ -32,14 +32,14 @@ class StaticPagesController < ApplicationController
     @new_prospect = params[:enterprise] # prospect name
     @pickup_date = Date.parse(params[:pickup_date]) unless params[:pickup_date].empty?
     @parent_ent = Profile.cust_acct(user)
-    ShippingOrder.destroy_all
+    current_user.shipping_orders.destroy_all
     Path.create(description: 'Remove shipping orders', object: 'ShippingOrder', action: 'destroy_all', user_id: current_user.id)
-    Enterprise.destroy_all
+    current_user.enterprises.destroy_all
     Path.create(description: 'Remove enterprises orders', object: 'Enterprise', action: 'destroy_all', user_id: current_user.id)
     cust_acct = nil
     @ent_sub_list.each do |sub|
       @enterprise_name = "#{@new_prospect} #{sub}"
-      Enterprise.create(company_name: @enterprise_name) do |e|
+      current_user.enterprises.create(company_name: @enterprise_name) do |e|
         cust_acct = "#{@new_prospect}_#{sub}_acct".downcase
         e.customer_account = cust_acct
         e.active = true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_02_220613) do
+ActiveRecord::Schema.define(version: 2023_02_15_202742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,6 +214,9 @@ ActiveRecord::Schema.define(version: 2022_12_02_220613) do
     t.decimal "break_2_min"
     t.decimal "break_2_max"
     t.decimal "total_max"
+    t.integer "max_stops"
+    t.string "transit_method"
+    t.integer "transit_value"
   end
 
   create_table "references", force: :cascade do |t|

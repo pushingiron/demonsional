@@ -1,15 +1,14 @@
 <p id="notice"><%= notice %></p>
+<div class="container-fluid">
 <%= link_to 'Load Rates', load_rates_rates_path %>
 <br>
 <%= link_to 'New Rate', new_rate_path %>
 <br>
 <%= link_to 'Delete All', destroy_all_rates_path %>
-<br><br>
-<div class="container-fluid">
 <h1>Rates</h1>
 
-<table>
-  <thead class="table">
+<table class="table">
+  <thead>
     <tr>
       <th>Contract</th>
       <th>From loccode</th>

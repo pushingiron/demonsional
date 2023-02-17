@@ -8,6 +8,8 @@ class Rate < ApplicationRecord
 
   belongs_to :user
 
+  converter = lambda { |header| header.downcase }
+
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
       Rate.create!(row.to_hash)
