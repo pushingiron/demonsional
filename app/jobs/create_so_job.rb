@@ -17,7 +17,7 @@ class CreateSoJob < ApplicationJob
     @response = mg_post_xml(user, shipping_order_xml(user, @shipping_orders))
     Path.create(description: "Finish creating SO's in", object: 'Job', action: 'end', user_id: user.id)
     Path.create(description: "Create MMO job for", object: 'Job', action: 'schedule', user_id: user.id)
-    enterprise = Enterprise.all
+    enterprise = user.enterprises.all
     enterprise.each do |e|
       unless (e.company_name.include? 'Admin') || (e.company_name.include? 'Planning')
         MmoJob.set(wait: job_delay.minutes).perform_later(user, e.company_name)
