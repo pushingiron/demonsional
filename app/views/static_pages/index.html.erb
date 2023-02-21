@@ -30,7 +30,17 @@
     </div>
   </div>
   <h2>MMO in the cloud status</h2>
-  <%#= link_to "Get MMO Status", remote: true %>
+  <%= link_to "Refresh", '/', remote: true %>
+  <br>
+  <div class="row">
+    <div class="col-md-2">Status:</div>
+    <div class="col-md-10"><%= @mmo_status['status'] %></div>
+    <div class="col-md-2">Uptime (hours):</div>
+    <div class="col-md-10"><%= (@mmo_status['uptimeSeconds'] / 3600) %></div>
+    <div class="col-md-2">Currently Processing:</div>
+    <div class="col-md-10"><%= @mmo_status['processingCount'] %></div>
+  </div>
+
   <br>
   <%#= link_to "Validate Code Tables", code_table_status_static_pages_path, remote: true %>
   <div class="mmo_status"></div>

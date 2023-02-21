@@ -15,6 +15,14 @@ module MercuryGateXml
   CHARGES = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true" and  @type = "Charge"]/Charges'.freeze
 
 
+  def date_format(date)
+    begin
+      Time.strptime(date, '%m/%d/%Y %I:%M%p') unless date.nil?
+    rescue
+      Time.strptime(date, '%m/%d/%Y %H:%M') unless date.nil?
+    end
+  end
+
   def xml_extract(oid, service_type)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
@@ -403,14 +411,6 @@ module MercuryGateXml
     end
   end
 
-  def date_format(date)
-    begin
-      Time.strptime(date, '%m/%d/%Y %I:%M%p') unless date.nil?
-    rescue
-      Time.strptime(date, '%m/%d/%Y %H:%M') unless date.nil?
-    end
-  end
-
   def shipping_order_xml(user, shipping_order_list)
     so_match = Profile.so_match_reference(user)
     sh_match = Profile.shipment_match_reference(user)
@@ -738,7 +738,7 @@ module MercuryGateXml
     end
   end
 
-  def xml_call_check(user, el_xml)
+  def xml_call_check(user, el_csv)
 
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -763,18 +763,19 @@ module MercuryGateXml
                 xml.DocCount '1'
                 xml.Date Time.now.strftime("%m/%d/%Y %H:%M:%S"), type: 'create'
               end
-              xml.MasterBillOfLading(primaryReference: el_xml['Primary Reference'].chomp(' (Load ID)')) do
+              xml.MasterBillOfLading(primaryReference: el_csv['Primary Reference'].chomp(' (Load ID)')) do
                 xml.tag! 'CallChecks' do
                   xml.tag! "CallCheck" do
                     xml.tag! "Address" do
-                      xml.City el_xml['Call Check City']
-                      xml.StateProvince el_xml['Call Check State']
+                      xml.City el_csv['Call Check City']
+                      xml.StateProvince el_csv['Call Check State']
                       xml.GeoLoc
                     end
                     xml.Comments 'test'
                     p '******'
-                    p el_xml['Target Ship (Early)']
-                    p ship_date = DateTime.strptime(el_xml['Target Ship (Early)'].gsub('/', "_"), '%m_%d_%Y %I:%M%p')
+                    p el_csv['Target Ship (Early)']
+                    ship_date = date_format(el_csv['Target Ship (Early)'])
+                      #p ship_date = DateTime.strptime(el_csv['Target Ship (Early)'].gsub('/', "_"), '%m_%d_%Y %I:%M%p')
                     # Date.strptime("6/15/2012", '%m/%d/%Y %h:%m')
                     #date = DateTime.parse("07/22/2022 8:00 AM")
                     # p DateTime.strptime(ship_date, '%d.%m.%y')
