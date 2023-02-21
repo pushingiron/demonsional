@@ -404,7 +404,11 @@ module MercuryGateXml
   end
 
   def date_format(date)
-    Time.strptime(date, '%m/%d/%Y %I:%M%p') unless date.nil?
+    begin
+      Time.strptime(date, '%m/%d/%Y %I:%M%p') unless date.nil?
+    rescue
+      Time.strptime(date, '%m/%d/%Y %H:%M') unless date.nil?
+    end
   end
 
   def shipping_order_xml(user, shipping_order_list)
