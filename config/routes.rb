@@ -33,7 +33,9 @@ Rails.application.routes.draw do
 
   resources :references
   resources :locations
-  resources :paths
+  resources :paths do
+    get :view_xml
+  end
 
   resources :shipping_orders do
     collection do

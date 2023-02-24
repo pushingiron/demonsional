@@ -16,7 +16,11 @@
       <td><%= paths.description %></td>
       <td><%= paths.object %></td>
       <td><%= paths.action %></td>
-      <td>"link"</td>
+      <% if paths.data.blank? %>
+      <td></td>
+      <% else %>
+        <td><%= link_to "View XML", path_view_xml_path(paths.id), target: :_blank %></td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>

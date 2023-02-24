@@ -248,7 +248,7 @@ module MercuryGateXml
         end
       end
     end
-    p xml.target!
+    xml.target!
   end
 
   def contract_xml(user, enterprises, new_ent, contract)
@@ -772,8 +772,6 @@ module MercuryGateXml
                       xml.GeoLoc
                     end
                     xml.Comments 'test'
-                    p '******'
-                    p el_csv['Target Ship (Early)']
                     ship_date = date_format(el_csv['Target Ship (Early)'])
                       #p ship_date = DateTime.strptime(el_csv['Target Ship (Early)'].gsub('/', "_"), '%m_%d_%Y %I:%M%p')
                     # Date.strptime("6/15/2012", '%m/%d/%Y %h:%m')
@@ -789,7 +787,7 @@ module MercuryGateXml
           end
         end
       end
-      puts xml.target!
+      xml.target!
     end
   end
 

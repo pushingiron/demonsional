@@ -54,15 +54,16 @@ class StaticPagesController < ApplicationController
       end
       current_user.shipping_orders.import(params[:file], cust_acct, @pickup_date) unless sub == 'Admin'
     end
+    Path.create(description: 'Create Enterprises', object: 'Enterprise', action: 'create', user_id: user.id, data: enterprise_xml(user, current_user.enterprises.all))
     @response = mg_post_xml(user, enterprise_xml(user, current_user.enterprises.all))
-    Path.create(description: 'Create Enterprises', object: 'Enterprise', action: 'create', user_id: user.id)
+    Path.create(description: 'Completed Creating Enterprises', object: 'Enterprise', action: 'results', user_id: user.id, data: @response)
     current_user.contracts.all.each do |c|
+      Path.create(description: 'Create contracts', object: 'Contract', action: 'create', user_id: user.id, data: contract_xml(user, @ent_sub_list, @new_prospect, c))
       p mg_post_xml(user, contract_xml(user, @ent_sub_list, @new_prospect, c))
     end
 
     CreateSoJob.set(wait: job_delay.minutes).perform_later(user)
-    Path.create(description: "Create Shipping Order job for #{@enterprise_name}", object: 'Job', action: 'schedule', user_id: user.id)
-    Path.create(description: 'Create contract', object: 'Contract', action: 'create', user_id: user.id)
+    Path.create(description: "Create Shipping Order job", object: 'Job', action: 'schedule', user_id: user.id)
   end
 
   def xml_response
