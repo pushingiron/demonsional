@@ -32,15 +32,20 @@
   <h2>MMO in the cloud status</h2>
   <%= link_to "Refresh", '/', remote: true %>
   <br>
-  <div class="row">
-    <div class="col-md-2">Status:</div>
-    <div class="col-md-10"><%= @mmo_status['status'] %></div>
-    <div class="col-md-2">Uptime (hours):</div>
-    <div class="col-md-10"><%= (@mmo_status['uptimeSeconds'] / 3600) %></div>
-    <div class="col-md-2">Currently Processing:</div>
-    <div class="col-md-10"><%= @mmo_status['processingCount'] %></div>
-  </div>
-
+  <% if @mmo_status == 'Unavailable' %>
+    <h4>Unable to find MMO Server</h4>
+  <% else %>
+    <div class="row">
+      <div class="col-md-2">Status:</div>
+      <div class="col-md-10"><%= @mmo_status['status'] %></div>
+      <div class="col-md-2">Uptime (hours):</div>
+      <div class="col-md-10"><%= (@mmo_status['uptimeSeconds'] / 3600) %></div>
+      <div class="col-md-2">On Deck (Queue):</div>
+      <div class="col-md-10"><%= @mmo_status['currentQueueLength'] %></div>
+      <div class="col-md-2">Currently Processing:</div>
+      <div class="col-md-10"><%= @mmo_status['processingCount'] %></div>
+    </div>
+  <% end %>
   <br>
   <%#= link_to "Validate Code Tables", code_table_status_static_pages_path, remote: true %>
   <div class="mmo_status"></div>

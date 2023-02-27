@@ -20,7 +20,34 @@ class Profile < ApplicationRecord
                  :in_transit_report,
                  :tender_accept_report,
                  :tender_reject_report,
-                 :need_invoice_report
+                 :invoice_report
+
+  def self.attr_empty?
+    p 'empty ******'
+    self.attributes do |k, v|
+      [:cust_acct,
+       :so_match_reference,
+       :shipment_match_reference,
+       :edge_pack_url,
+       :edge_pack_id,
+       :edge_pack_pwd,
+       :ws_user_id,
+       :ws_user_pwd,
+       :report_user,
+       :server,
+       :mmo_shipment_report,
+       :contract_report,
+       :pool_report,
+       :call_check_report,
+       :delivered_report,
+       :in_transit_report,
+       :tender_accept_report,
+       :tender_reject_report,
+       :need_invoice_report].include?(k) || v.nil? || v == [] || v == [""]
+      p k
+      p v
+    end
+  end
 
   def self.edge_pack_url(user)
     user.profiles.where(active: true).first.edge_pack_url
@@ -107,6 +134,6 @@ class Profile < ApplicationRecord
   end
 
   def self.invoice_report(user)
-    user.profiles.where(active: true).first.need_invoice_report
+    user.profiles.where(active: true).first.invoice_report
   end
 end

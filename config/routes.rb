@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   resources :static_pages do
     get :index
     get :xml_response
+    get :demo_this
     collection do
       get :code_table_status
       get :mmo_status

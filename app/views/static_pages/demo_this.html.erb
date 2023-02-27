@@ -17,7 +17,11 @@
     <br>
     <br>
     <br>
-    <%= form.submit %>
+    <% if @show_submit %>
+      <%= form.submit :disabled => false %>
+    <% else %>
+      <%= form.submit :disabled => true %>
+    <% end %>
   <% end %>
 
 </div>

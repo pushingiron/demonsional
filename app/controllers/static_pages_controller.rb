@@ -19,6 +19,29 @@ class StaticPagesController < ApplicationController
     end
   end
 
+  def demo_this
+    begin
+      mmo_status = JSON.parse(mg_get_edge(current_user, auth_mmo(current_user), 'serverstatus/json/myTok3141'))
+      @mmo_status = mmo_status[0]
+      # @mmo_status['content="5"'] = 'content="50"'
+    rescue
+      @mmo_status = 'Unavailable'
+    end
+    @profile = current_user.profiles.where(active: true)
+      p @profile.mmo_shipment_report(current_user).blank? ||
+          @profile.contract_report(current_user).blank? ||
+          @profile.pool_report(current_user).blank? ||
+          @profile.call_check_report(current_user).blank? ||
+          @profile.delivered_report(current_user).blank? ||
+          @profile.tender_accept_report(current_user).blank? ||
+          @profile.tender_reject_report(current_user).blank? ||
+          @profile.invoice_report(current_user).blank? ||
+          @mmo_status == 'Unavailable' ?
+          @show_submit = false : @show_submit = true
+    p  @profile.invoice_report(current_user)
+    p 'aaaaaaaaaa'
+  end
+
   def mmo_status
     render partial: 'mmo_status'
   end
