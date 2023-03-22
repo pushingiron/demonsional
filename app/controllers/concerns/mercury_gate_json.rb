@@ -1,7 +1,7 @@
 module MercuryGateJson
 
-  RATE_HEADERS = ['Contract Id', 'Lane Calc', 'From Loccode', 'From City', 'From State', 'From Zip', 'From Country',
-                  'To Loccode', 'To City', 'To State', 'To Zip', 'To Country', 'SCAC', 'Service', 'Mode',
+  RATE_HEADERS = ['Contract Id', 'Lane Calc', 'From LocCode', 'From City', 'From State', 'From Zip', 'From Country',
+                  'To LocCode', 'To City', 'To State', 'To Zip', 'To Country', 'SCAC', 'Service', 'Mode',
                   'Break 1 Field', 'Break 1 Min', 'Break 1 Max', 'Break 2 Field', 'Break 2 Min', 'Break 2 Max',
                   'Rate Field', 'Rate Calc', 'Rate', 'Accessorial1 Field', 'Accessorial1 Calc', 'Accessorial1 Rate',
                   'Total Min', 'Max Stops'].freeze
