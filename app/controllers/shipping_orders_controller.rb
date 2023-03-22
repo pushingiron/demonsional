@@ -179,7 +179,7 @@ class ShippingOrdersController < ApplicationController
     params.require(:shipping_order).permit(:payment_method, :cust_acct_num, :user_id, :so_match_ref,
                                            :shipment_match_ref, :update_attributes, :early_pickup_date,
                                            :late_pickup_date, :early_delivery_date, :late_delivery_date, :demo_type,
-                                           :equipment_code,
+                                           :equipment_code, :shipment_type,
                                            { pickup_locations_attributes: %i[id shipping_order_id loc_code name address1
                                                                              address2 city state postal country geo
                                                                              residential comments earliest_appt

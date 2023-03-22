@@ -521,7 +521,7 @@ module MercuryGateXml
                     end
                   end
                   xml.tag! 'Shipments' do
-                    xml.Shipment(type: 'REGULAR', action: 'UPDATEORADD') do
+                    xml.Shipment(type: post.shipment_type, action: 'UPDATEORADD') do
                       xml.Status('Pending')
                       xml.tag! 'ReferenceNumbers' do
                         xml.ReferenceNumber(post.shipment_match_ref, type: sh_match)
@@ -623,6 +623,26 @@ module MercuryGateXml
                               end
                               if !item.manufacturing_country.nil? && !item.manufacturing_country.nil?
                                 xml.ManufacturingCountry(item.manufacturing_country)
+                              end
+                              if !item.country_of_manufacture.nil? && !item.country_of_manufacture.nil?
+                                xml.CountryOfManufacture(item.country_of_manufacture)
+                              end
+                            end
+                            xml.CountryOfManufacture(item.country_of_manufacture)
+                            xml.HazardousMaterial(item.is_hazardous)
+                            if item.is_hazardous
+                              xml.tag! 'HazMatDetail' do
+                                xml.ProperShippingName(item.proper_shipping_name)
+                                xml.PackageGroup(item.hazmat_group)
+                                xml.HazMatClass(item.hazmat_class)
+                                xml.HazMatID(item.hazmat_un_na)
+                                xml.HazMatEMSNumber(item.hazmat_ems_number)
+                                xml.ContactName(item.hazmat_contact_name)
+                                xml.ContactPhone(item.hazmat_contact_phone)
+                                xml.HazMatPlacards(item.hazmat_is_placard)
+                                xml.HazMatPlacardsDetails(item.hazmat_placard_details)
+                                xml.HazMatFlashPointTemp(item.hazmat_flashpoint, uom: item.hazmat_flashpoint_uom)
+                                xml.Comments(item.hazmat_comments)
                               end
                             end
                           end

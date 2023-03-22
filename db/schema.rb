@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_15_202742) do
+ActiveRecord::Schema.define(version: 2023_03_17_204149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,19 @@ ActiveRecord::Schema.define(version: 2023_02_15_202742) do
     t.string "origination_country"
     t.string "manufacturing_country"
     t.string "item_id"
+    t.boolean "is_hazardous"
+    t.string "proper_shipping_name"
+    t.string "hazmat_un_na"
+    t.string "hazmat_group"
+    t.string "hazmat_class"
+    t.string "hazmat_ems_number"
+    t.string "hazmat_contact_name"
+    t.string "hazmat_contact_phone"
+    t.boolean "hazmat_is_placard"
+    t.string "hazmat_placard_details"
+    t.decimal "hazmat_flashpoint"
+    t.string "hazmat_flashpoint_uom"
+    t.text "hazmat_comments"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -242,6 +255,7 @@ ActiveRecord::Schema.define(version: 2023_02_15_202742) do
     t.datetime "late_delivery_date"
     t.string "demo_type"
     t.string "equipment_code"
+    t.string "shipment_type"
     t.index ["user_id"], name: "index_shipping_orders_on_user_id"
   end
 

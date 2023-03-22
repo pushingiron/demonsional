@@ -65,9 +65,38 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:type, :sequence, :line_number, :description, :freight_class, :weight_actual,
-                                   :weight_uom, :quantity, :quantity_uom, :cube, :cube_uom, :shipping_orders, :weight_plan,
-                                   :weight_delivered, :country_of_origin, :country_of_manufacture, :customs_value,
-                                   :customs_value_currency, :origination_country, manufacturing_country)
+      params.require(:item).permit(:type,
+                                   :sequence,
+                                   :line_number,
+                                   :description,
+                                   :freight_class,
+                                   :weight_actual,
+                                   :weight_uom,
+                                   :quantity,
+                                   :quantity_uom,
+                                   :cube,
+                                   :cube_uom,
+                                   :shipping_orders,
+                                   :weight_plan,
+                                   :weight_delivered,
+                                   :country_of_origin,
+                                   :country_of_manufacture,
+                                   :customs_value,
+                                   :customs_value_currency,
+                                   :origination_country,
+                                   :manufacturing_country,
+                                   :is_hazardous,
+                                   :proper_shipping_name,
+                                   :hazmat_un_na,
+                                   :hazmat_group,
+                                   :hazmat_class,
+                                   :hazmat_ems_number,
+                                   :hazmat_contact_name,
+                                   :hazmat_contact_phone,
+                                   :hazmat_is_placard,
+                                   :hazmat_placard_details,
+                                   :hazmat_flashpoint,
+                                   :hazmat_flashpoint_uom,
+                                   :hazmat_comments)
     end
 end

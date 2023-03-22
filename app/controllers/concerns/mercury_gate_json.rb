@@ -4,7 +4,7 @@ module MercuryGateJson
                   'To Loccode', 'To City', 'To State', 'To Zip', 'To Country', 'SCAC', 'Service', 'Mode',
                   'Break 1 Field', 'Break 1 Min', 'Break 1 Max', 'Break 2 Field', 'Break 2 Min', 'Break 2 Max',
                   'Rate Field', 'Rate Calc', 'Rate', 'Accessorial1 Field', 'Accessorial1 Calc', 'Accessorial1 Rate',
-                  'Total Min'].freeze
+                  'Total Min', 'Max Stops'].freeze
 
   def rate_table(user, enterprise)
 
@@ -12,7 +12,7 @@ module MercuryGateJson
                              :from_country, :to_loccode, :to_city, :to_state, :to_zip, :to_country, :scac,
                              :service, :mode, :break_1_field, :break_1_min, :break_1_max, :break_2_field,
                              :break_2_min, :break_2_max, :rate_field, :rate_calc, :rate, :accessorial1_field,
-                             :accessorial1_calc, :accessorial1_rate, :total_min)
+                             :accessorial1_calc, :accessorial1_rate, :total_min, :max_stops)
 
 
      { authentication: { username: Profile.edge_pack_id(user), password: Profile.edge_pack_pwd(user) },
@@ -136,7 +136,7 @@ module MercuryGateJson
                 ["Pickup Radius Limit 1","0.0"],
                 ["Pickup Radius Limit 2","0.0"],
                 ["PivotAnalysisConfig",""],
-                ["Pool Assignment",""],
+                ["Pool Assignment","Best Rate (Introspective)"],
                 ["Pool Chains",""],
                 ["Pool Consideration Iter","5.0"],
                 ["Pool Date Policy",""],

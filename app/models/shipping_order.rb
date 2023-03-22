@@ -22,7 +22,7 @@ class ShippingOrder < ApplicationRecord
   accepts_nested_attributes_for :items, allow_destroy: true
 
   SHIPPING_ORDER_ATTRIBUTES = %w[payment_method cust_acct_num user_id so_match_ref shipment_match_ref early_pickup_date
-                                 late_pickup_date early_delivery_date late_delivery_date demo_type equipment_code].freeze
+                                 late_pickup_date early_delivery_date late_delivery_date demo_type equipment_code shipment_type].freeze
 
   REFERENCE_ATTRIBUTES = %w[id reference_type reference_value is_primary].freeze
 
@@ -30,8 +30,11 @@ class ShippingOrder < ApplicationRecord
                            residential comments earliest_appt latest_appt stop_type loc_type].freeze
 
   ITEM_ATTRIBUTES = %w[type sequence line_number description freight_class weight_actual weight_uom quantity quantity_uom
-                       cube cube_uom weight_plan weight_delivered country_of_origin country_of_manufacture customs_value
-                       customs_value_currency origination_country manufacturing_country item_id shipping_order_id].freeze
+                        cube cube_uom weight_plan weight_delivered country_of_origin country_of_manufacture customs_value
+                        customs_value_currency origination_country manufacturing_country item_id shipping_order_id
+                        is_hazardous proper_shipping_name hazmat_un_na hazmat_group hazmat_class hazmat_ems_number
+                        hazmat_contact_name hazmat_contact_phone hazmat_is_placard hazmat_placard_details
+                        hazmat_flashpoint hazmat_flashpoint_uom hazmat_comments].freeze
 
   def self.import(file,  cust_acct_num = nil, pickup_date = nil)
     so_prev = nil
