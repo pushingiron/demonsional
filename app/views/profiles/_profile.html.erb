@@ -16,18 +16,6 @@
     <%= profile.edge_pack_url %>
   </td>
   <td>
-    <%= profile.edge_pack_id %>
-  </td>
-  <td>
-    <%= profile.edge_pack_pwd %>
-  </td>
-  <td>
-    <%= profile.ws_user_id %>
-  </td>
-  <td>
-    <%= profile.ws_user_pwd %>
-  </td>
-  <td>
     <%= profile.report_user %>
   </td>
   <td>
@@ -37,9 +25,10 @@
   <td>
     <%= link_to 'Edit', edit_profile_path(profile) %>
   </td>
-
   <td>
-    <%= button_to 'Destroy', profile, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Copy', copy_profiles_path(:id => profile.id) %>
+  <td>
+    <%= button_to 'Delete', profile, method: :delete, data: { confirm: 'Are you sure?' } %>
   </td>
 </tr>
 </tbody>

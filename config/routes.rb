@@ -22,7 +22,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :profiles
+  resources :profiles do
+    collection do
+      get :copy
+    end
+  end
 
   resources :contracts do
     collection do

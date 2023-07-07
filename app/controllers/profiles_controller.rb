@@ -8,7 +8,13 @@ class ProfilesController < ApplicationController
 
   def edit
   end
-
+  def destroy
+    @profile.destroy
+    respond_to do |format|
+      format.html { redirect_to profiles_url, notice: 'Profile was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
   def update
     respond_to do |format|
       if @profile.update(profile_params)
@@ -46,7 +52,7 @@ class ProfilesController < ApplicationController
     @profile.in_transit_report = 'AD_In_Transit (may need to replace this)'
     @profile.tender_accept_report = 'AD_Tender_Accept (may need to replace this)'
     @profile.tender_reject_report = 'AD_Tender_Reject (may need to replace this)'
-    @profile.need_invoice_report = 'AD_Need_Invoice (may need to replace this)'
+    @profile.invoice_report = 'AD_Need_Invoice (may need to replace this)'
   end
 
   def create
@@ -61,6 +67,13 @@ class ProfilesController < ApplicationController
         format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def copy
+    existing_profile = current_user.profiles.find(params[:id])
+    new_profile = Profile.new(existing_profile.attributes.except("id"))
+    new_profile.save
+    redirect_to profiles_path
   end
 
   private
