@@ -21,8 +21,8 @@ class ShippingOrder < ApplicationRecord
   has_many :items, dependent: :delete_all
   accepts_nested_attributes_for :items, allow_destroy: true
 
-  has_many :item_references, dependent: :delete_all
-  accepts_nested_attributes_for :item_references, allow_destroy: true
+  # has_many :item_references, dependent: :delete_all
+  # accepts_nested_attributes_for :item_references, allow_destroy: true
 
   SHIPPING_ORDER_ATTRIBUTES = %w[payment_method cust_acct_num user_id so_match_ref shipment_match_ref early_pickup_date
                                  late_pickup_date early_delivery_date late_delivery_date demo_type equipment_code shipment_type].freeze
@@ -92,7 +92,7 @@ class ShippingOrder < ApplicationRecord
         end
         # deal with 1 line items
         Item.where(shipping_order_id: shipping_order.id).find_each(&:destroy)
-        items = shipping_order.items.find_or_initialize_by(line_number: row['item_id'])
+        items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
         items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
         items.save!
         item_ref_list = row['item_references']
@@ -101,6 +101,8 @@ class ShippingOrder < ApplicationRecord
             ItemReference.find_by(item_id: items.id).destroy
           rescue NoMethodError
             CSV.parse(item_ref_list, col_sep: '.', row_sep: '|') do |item_ref_row|
+              p item_ref_row
+              p item_ref_row[1]
               unless item_ref_row[1].blank?
                 item_reference = ItemReference.find_or_initialize_by(item_id: items.id,
                                                                      reference_type: item_ref_row[0])
@@ -113,8 +115,12 @@ class ShippingOrder < ApplicationRecord
           end
         end
       else
-        items = shipping_order.items.find_or_initialize_by(line_number: row['item_id'])
+        p '**** duplicate line'
+        items = Item.new(row.to_hash.slice(*ITEM_ATTRIBUTES))
+=begin
+        items = shipping_order.items.find_or_initialize_by(line_number: row['line_number'])
         items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
+=end
         items.shipping_order_id = so_id
         items.save!
         item_ref_list = row['item_references']
@@ -125,9 +131,9 @@ class ShippingOrder < ApplicationRecord
             CSV.parse(item_ref_list, col_sep: '.', row_sep: '|') do |item_ref_row|
               unless item_ref_row[1].blank?
                 item_reference = ItemReference.find_or_initialize_by(item_id: items.id,
-                                                            type: item_ref_row[0])
-                item_reference.type = item_ref_row[0]
-                item_reference.value = item_ref_row[1]
+                                                                     reference_type: item_ref_row[0])
+                item_reference.reference_type = item_ref_row[0]
+                item_reference.reference_value = item_ref_row[1]
                 item_reference.is_primary = item_ref_row[2]
                 item_reference.save!
               end

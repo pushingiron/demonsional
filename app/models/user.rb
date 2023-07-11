@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :contracts, dependent: :destroy
   has_many :profiles, dependent: :destroy
   has_many :items, through: :shipping_orders
-  has_many :item_references, through: :items
+  # has_many :item_references, through: :items
 
 
   serialize :preferences, HashSerializer
