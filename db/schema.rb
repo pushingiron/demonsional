@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_17_204149) do
+ActiveRecord::Schema.define(version: 2023_07_11_171741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,18 @@ ActiveRecord::Schema.define(version: 2023_03_17_204149) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "item_references", force: :cascade do |t|
+    t.string "reference_type"
+    t.string "reference_value"
+    t.boolean "is_primary"
+    t.bigint "item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "shipping_order_id"
+    t.index ["item_id"], name: "index_item_references_on_item_id"
+    t.index ["shipping_order_id"], name: "index_item_references_on_shipping_order_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.integer "sequence"
     t.integer "line_number"
@@ -136,7 +148,6 @@ ActiveRecord::Schema.define(version: 2023_03_17_204149) do
     t.string "customs_value_currency"
     t.string "origination_country"
     t.string "manufacturing_country"
-    t.string "item_id"
     t.boolean "is_hazardous"
     t.string "proper_shipping_name"
     t.string "hazmat_un_na"
@@ -282,6 +293,8 @@ ActiveRecord::Schema.define(version: 2023_03_17_204149) do
   add_foreign_key "configurations", "users"
   add_foreign_key "contracts", "users"
   add_foreign_key "enterprises", "users"
+  add_foreign_key "item_references", "items"
+  add_foreign_key "item_references", "shipping_orders"
   add_foreign_key "items", "shipping_orders"
   add_foreign_key "locations", "shipping_orders"
   add_foreign_key "rates", "users"

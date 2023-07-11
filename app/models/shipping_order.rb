@@ -21,6 +21,9 @@ class ShippingOrder < ApplicationRecord
   has_many :items, dependent: :delete_all
   accepts_nested_attributes_for :items, allow_destroy: true
 
+  has_many :item_references, dependent: :delete_all
+  accepts_nested_attributes_for :item_references, allow_destroy: true
+
   SHIPPING_ORDER_ATTRIBUTES = %w[payment_method cust_acct_num user_id so_match_ref shipment_match_ref early_pickup_date
                                  late_pickup_date early_delivery_date late_delivery_date demo_type equipment_code shipment_type].freeze
 
@@ -35,6 +38,8 @@ class ShippingOrder < ApplicationRecord
                         is_hazardous proper_shipping_name hazmat_un_na hazmat_group hazmat_class hazmat_ems_number
                         hazmat_contact_name hazmat_contact_phone hazmat_is_placard hazmat_placard_details
                         hazmat_flashpoint hazmat_flashpoint_uom hazmat_comments].freeze
+
+  ITEM_REFERENCE_ATTRIBUTES = %w[id reference_type reference_value is_primary].freeze
 
   def self.import(file,  cust_acct_num = nil, pickup_date = nil)
     so_prev = nil
@@ -90,11 +95,45 @@ class ShippingOrder < ApplicationRecord
         items = shipping_order.items.find_or_initialize_by(line_number: row['item_id'])
         items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
         items.save!
+        item_ref_list = row['item_references']
+        unless item_ref_list.blank?
+          begin
+            ItemReference.find_by(item_id: items.id).destroy
+          rescue NoMethodError
+            CSV.parse(item_ref_list, col_sep: '.', row_sep: '|') do |item_ref_row|
+              unless item_ref_row[1].blank?
+                item_reference = ItemReference.find_or_initialize_by(item_id: items.id,
+                                                                     reference_type: item_ref_row[0])
+                item_reference.reference_type = item_ref_row[0]
+                item_reference.reference_value = item_ref_row[1]
+                item_reference.is_primary = item_ref_row[2]
+                item_reference.save!
+              end
+            end
+          end
+        end
       else
         items = shipping_order.items.find_or_initialize_by(line_number: row['item_id'])
         items.attributes = row.to_hash.slice(*ITEM_ATTRIBUTES)
         items.shipping_order_id = so_id
         items.save!
+        item_ref_list = row['item_references']
+        unless item_ref_list.blank?
+          begin
+            ItemReference.find_by(item_id: items.id).destroy
+          rescue NoMethodError
+            CSV.parse(item_ref_list, col_sep: '.', row_sep: '|') do |item_ref_row|
+              unless item_ref_row[1].blank?
+                item_reference = ItemReference.find_or_initialize_by(item_id: items.id,
+                                                            type: item_ref_row[0])
+                item_reference.type = item_ref_row[0]
+                item_reference.value = item_ref_row[1]
+                item_reference.is_primary = item_ref_row[2]
+                item_reference.save!
+              end
+            end
+          end
+        end
       end
       so_prev = row['so_match_ref']
     end
@@ -326,6 +365,11 @@ def shipping_order_xml_dep(user, shipping_order_list, so_match, sh_match)
                       post.items.each do |item|
                         item_seq += 1
                         xml.ItemGroup(sequence: item_seq, id: item.id, isHandlingUnit: item.ship_unit) do
+                          xml.tag! 'ReferenceNumbers' do
+                            ItemReference.where(item_id: item.id).each do |item_ref|
+                              xml.ItemReference(item_ref.reference_value, type: item_ref.reference_type, isPrimary: item_ref.is_primary)
+                            end
+                          end
                           xml.FreightClasses do
                             xml.FreightClass(item.freight_class, type: 'ordered')
                           end

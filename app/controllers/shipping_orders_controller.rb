@@ -56,6 +56,9 @@ class ShippingOrdersController < ApplicationController
 
   def destroy_all
     if current_user.shipping_orders.first.present?
+      current_user.items.each do |item|
+        ItemReference.where(item_id: item.id).destroy_all
+      end
       current_user.shipping_orders.destroy_all
       redirect_to shipping_orders_path, notice: 'All enterprises deleted'
     else
@@ -197,6 +200,9 @@ class ShippingOrdersController < ApplicationController
                                                                   cube_uom shipping_orders_id _destroy weight_delivered
                                                                   country_of_origin country_of_manufacture customs_value
                                                                   customs_value_currency origination_country weight_plan
-                                                                  manufacturing_country item_id] })
+                                                                  manufacturing_country item_id _destroy] },
+                                           { items_references_attributes: %i[id reference_type reference_value is_primary
+                                                                       shipping_order_id _destroy] },
+    )
   end
 end
