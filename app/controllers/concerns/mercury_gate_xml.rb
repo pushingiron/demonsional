@@ -590,6 +590,11 @@ module MercuryGateXml
                         post.items.each do |item|
                           item_seq += 1
                           xml.ItemGroup(sequence: item_seq, id: item.id, isHandlingUnit: item.ship_unit) do
+                            xml.tag! 'ReferenceNumbers' do
+                              ItemReference.where(item_id: item.id).each do |itemRef|
+                                xml.ReferenceNumber(itemRef.reference_value, type: itemRef.reference_type, isPrimary: itemRef.is_primary)
+                              end
+                            end
                             xml.FreightClasses do
                               xml.FreightClass(item.freight_class, type: 'ordered')
                             end
@@ -673,7 +678,7 @@ module MercuryGateXml
           end
         end
       end
-      xml.target!
+      puts xml.target!
     end
   end
 
