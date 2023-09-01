@@ -9,7 +9,7 @@ class ShippingOrdersController < ApplicationController
   # GET /shipping_orders or /shipping_orders.json
   def index
     # @so_match = Profile.so_match_reference(current_user)
-      @shipping_orders = current_user.shipping_orders.all
+      @shipping_orders = current_user.shipping_orders.limit(100)
 
   end
 
@@ -48,13 +48,15 @@ class ShippingOrdersController < ApplicationController
 
   def post_xml
     p '**** post xml'
-    @shipping_orders = current_user.shipping_orders.all
-    @response = mg_post_xml(current_user, shipping_order_xml(current_user, @shipping_orders))
-    p @response
-    # Path.create(description: "Finish creating SO's in", object: 'Manual', action: 'SO Only', user_id: current_user, data: @response)
-    render inline: "<%= @response %><br><%= link_to 'back', shipping_orders_path %>"
-    # redirect_to static_page_xml_response_path
-    # redirect_to static_page_xml_response_path
+    current_user.shipping_orders.in_batches(of: 100) do |relation|
+      # @shipping_orders = relation
+      @response = mg_post_xml(current_user, shipping_order_xml(current_user, relation))
+      p @response
+      # Path.create(description: "Finish creating SO's in", object: 'Manual', action: 'SO Only', user_id: current_user, data: @response)
+      #render inline: "<%= @response %><br><%= link_to 'back', shipping_orders_path %>"
+      # redirect_to static_page_xml_response_path
+      # redirect_to static_page_xml_response_path
+    end
   end
 
   def destroy_all

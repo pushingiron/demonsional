@@ -4,6 +4,14 @@
   <%= form_with model: @session, url: create_demo_url, multipart: true do |form| %>
     <%= form.label "Enterprise Name (Customer): " %>
     <%= form.text_field :enterprise %>
+    <br><br>
+    <h3>Select Deployment Option:</h3>
+    <%= form.label :single_enterprise %>
+    <%= form.radio_button :selected_option, "single_enterprise" %>
+    <br>
+    <%= form.label :multiple_enterprises %>
+    <%= form.radio_button :selected_option, "multiple_enterprises" %>
+
     <br>
     <%= form.label "Pickup Date: " %>
     <br>

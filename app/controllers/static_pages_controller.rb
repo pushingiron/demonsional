@@ -50,7 +50,11 @@ class StaticPagesController < ApplicationController
     job_delay = 0.0
     Path.max_records(user) # remove old audit records
     # GuestsCleanupJob.perform_later 'easy'
-    @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
+    if params[:selected_option] == 'multiple_enterprises'
+      @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
+    else
+      @ent_sub_list = %w[Admin FAP]
+    end
     @new_prospect = params[:enterprise] # prospect name
     @pickup_date = Date.parse(params[:pickup_date]) unless params[:pickup_date].empty?
     @parent_ent = Profile.cust_acct(user)
