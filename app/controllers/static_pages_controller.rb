@@ -51,9 +51,9 @@ class StaticPagesController < ApplicationController
     Path.max_records(user) # remove old audit records
     # GuestsCleanupJob.perform_later 'easy'
     if params[:selected_option] == 'multiple_enterprises'
-      @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
+      @ent_sub_list = %w[Admin Planning Execution Vi  sibility POD FAP Analytics]
     else
-      @ent_sub_list = %w[Admin FAP]
+      @ent_sub_list = %w[Admin Analytics]
     end
     @new_prospect = params[:enterprise] # prospect name
     @pickup_date = Date.parse(params[:pickup_date]) unless params[:pickup_date].empty?

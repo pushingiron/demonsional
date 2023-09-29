@@ -24,6 +24,12 @@
       <th>Scac</th>
       <th>Mode</th>
       <th>Rate</th>
+      <th>Break1</th>
+      <th>Break1 Min</th>
+      <th>Break1 Max</th>
+      <th>Break2</th>
+      <th>Break2 Min</th>
+      <th>Break2 Max</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -45,6 +51,12 @@
         <td><%= rate.scac %></td>
         <td><%= rate.mode %></td>
         <td><%= rate.rate %></td>
+        <td><%= rate.break_1_field %></td>
+        <td><%= rate.break_1_min %></td>
+        <td><%= rate.break_1_max %></td>
+        <td><%= rate.break_2_field %></td>
+        <td><%= rate.break_2_min %></td>
+        <td><%= rate.break_2_max %></td>
         <td><%= link_to 'Show', rate %></td>
         <td><%= link_to 'Edit', edit_rate_path(rate) %></td>
         <td><%= link_to 'Destroy', rate, method: :delete, data: { confirm: 'Are you sure?' } %></td>

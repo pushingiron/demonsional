@@ -300,7 +300,7 @@ module MercuryGateXml
                 xml.Minimum contract.minimum
                 xml.ReRateDateType contract.re_rate_date_type
                 xml.DistanceDeterminer contract.distance_determiner, routeType: contract.distance_route_type
-                xml.TransitTime
+                xml.TransitTime contract.transit_time
                 xml.WeekendHolidayAdjusment contract.weekend_holiday_adj
                 xml.ApplyOversizeCharges contract.oversize_charges
                 xml.ShowZeroRate contract.show_zero

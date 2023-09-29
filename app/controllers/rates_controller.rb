@@ -98,6 +98,6 @@ class RatesController < ApplicationController
                                    :mode, :break_1_field, :break_1_min, :break_1_max, :break_2_field, :break_2_min,
                                    :break_2_max, :rate_field, :rate_calc, :rate, :accessorial1_field,
                                    :accessorial1_calc, :accessorial1_rate, :total_min, :max_stops, :transit_method,
-                                   :transit_value)
+                                   :transit_value, :rating_zone)
     end
 end

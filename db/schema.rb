@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_08_154753) do
+ActiveRecord::Schema.define(version: 2023_09_27_210454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 2023_08_08_154753) do
     t.string "re_rate_date_type"
     t.string "distance_determiner"
     t.string "distance_route_type"
-    t.decimal "transit_time"
     t.string "weekend_holiday_adj"
     t.boolean "oversize_charges"
     t.boolean "show_zero"
@@ -72,6 +71,7 @@ ActiveRecord::Schema.define(version: 2023_08_08_154753) do
     t.decimal "smc_minimum"
     t.text "rate_table"
     t.string "accessorial_profile"
+    t.string "transit_time"
     t.index ["user_id"], name: "index_contracts_on_user_id"
   end
 
@@ -241,6 +241,7 @@ ActiveRecord::Schema.define(version: 2023_08_08_154753) do
     t.integer "max_stops"
     t.string "transit_method"
     t.integer "transit_value"
+    t.string "rating_zone"
   end
 
   create_table "references", force: :cascade do |t|

@@ -14,58 +14,58 @@
     <div class="form-group row">
     <div class="field">
       <%= form.label :contract_name, class: "col-md-2 col-form-label" %>
-      <%= form.text_field :contract_name %>
+      <%= form.text_field :contract_name, placeholder: "Contract Name" %>
     </div>
     </div>
     <div class="form-group row">
     <div class="field">
       <%= form.label :owner, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :owner %>
+      <%= form.text_field :owner, placeholder: "Owner" %>
     </div>
     </div>
     <div class="field">
       <%= form.label :carrier_name, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :carrier_name %>
+      <%= form.text_field :carrier_name, placeholder: "Carrier Name" %>
     </div>
 
     <div class="field">
       <%= form.label :carrier_enterprise, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :carrier_enterprise %>
+      <%= form.text_field :carrier_enterprise, placeholder: "Demo Top" %>
     </div>
 
     <div class="field">
       <%= form.label :rate_table, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :rate_table %>
+      <%= form.text_field :rate_table, placeholder: "Omni" %>
     </div>
 
     <div class="field">
       <%= form.label :web_service, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :web_service,  {checked: true } %>
+      <%= form.check_box :web_service %>
     </div>
 
     <div class="field">
       <%= form.label :service, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :service, value: 'Standard' %>
+      <%= form.text_field :service, placeholder: "Standard" %>
     </div>
 
     <div class="field">
       <%= form.label :service_days, class: "col-sm-2 col-form-label" %>
-      <%= form.number_field :service_days, value: 0 %>
+      <%= form.number_field :service_days, placeholder: "0" %>
     </div>
 
     <div class="field">
       <%= form.label :mode, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :mode, value: 'TL' %>
+      <%= form.text_field :mode, placeholder: "LTL" %>
     </div>
 
     <div class="field">
       <%= form.label :effective_date, class: "col-sm-2 col-form-label" %>
-      <%= form.date_field :effective_date, value: '01/01/2001'.to_date %>
+      <%= form.date_field :effective_date, placeholder: "01/01/2001" %>
     </div>
 
     <div class="field">
       <%= form.label :expiration_date, class: "col-sm-2 col-form-label" %>
-      <%= form.date_field :expiration_date, value: '01/01/2099'.to_date %>
+      <%= form.date_field :expiration_date, placeholder: "12/31/2099" %>
     </div>
 
     <div class="field">
@@ -75,117 +75,117 @@
 
     <div class="field">
       <%= form.label :is_multi_stop, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :is_multi_stop, {checked: true } %>
+      <%= form.check_box :is_multi_stop %>
     </div>
 
     <div class="field">
       <%= form.label :disable_distance_non_mg, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :disable_distance_non_mg, {checked: true } %>
+      <%= form.check_box :disable_distance_non_mg %>
     </div>
 
     <div class="field">
       <%= form.label :disable_distance_mg, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :disable_distance_mg, {checked: true } %>
+      <%= form.check_box :disable_distance_mg %>
     </div>
 
     <div class="field">
       <%= form.label :is_gain_share, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :is_gain_share, {checked: true } %>
+      <%= form.check_box :is_gain_share %>
     </div>
 
     <div class="field">
       <%= form.label :discount_type, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :discount_type, value: 'Flat' %>
+      <%= form.text_field :discount_type, placeholder: "Flat" %>
     </div>
 
     <div class="field">
       <%= form.label :discount_flat_value, class: "col-sm-2 col-form-label" %>
-      <%= form.number_field :discount_flat_value, value: 0 %>
+      <%= form.number_field :discount_flat_value, placeholder: "0" %>
     </div>
 
     <div class="field">
       <%= form.label :smc_min_dis_enabled, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :smc_min_dis_enabled, {checked: false} %>
+      <%= form.check_box :smc_min_dis_enabled %>
     </div>
 
     <div class="field">
       <%= form.label :minimum, class: "col-sm-2 col-form-label" %>
-      <%= form.number_field :minimum, value: 99 %>
+      <%= form.number_field :minimum, placeholder: "99" %>
     </div>
 
     <div class="field">
       <%= form.label :re_rate_date_type, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :re_rate_date_type, value: 'PlannedShipDate' %>
+      <%= form.text_field :re_rate_date_type, placeholder: "PlannedShipDate" %>
     </div>
 
     <div class="field">
       <%= form.label :distance_determiner, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :distance_determiner, value: 'PCMiler19' %>
+      <%= form.text_field :distance_determiner, placeholder: "PCMiler19" %>
     </div>
 
     <div class="field">
       <%= form.label :distance_route_type, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :distance_route_type, value: 'Practical' %>
+      <%= form.text_field :distance_route_type, placeholder: "Practical" %>
     </div>
 
     <div class="field">
       <%= form.label :transit_time, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :transit_time %>
+      <%= form.text_field :transit_time, placeholder: "SMC CarrierConnect" %>
     </div>
 
     <div class="field">
       <%= form.label :weekend_holiday_adj, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :weekend_holiday_adj, value: 'Default' %>
+      <%= form.text_field :weekend_holiday_adj, placeholder: "Default" %>
     </div>
 
     <div class="field">
       <%= form.label :oversize_charges, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :oversize_charges, {checked: false} %>
+      <%= form.check_box :oversize_charges %>
     </div>
 
     <div class="field">
       <%= form.label :show_zero, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :show_zero, { checked: false } %>
+      <%= form.check_box :show_zero %>
     </div>
 
     <div class="field">
       <%= form.label :dim_factor, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :dim_factor, value: 0 %>
+      <%= form.text_field :dim_factor, placeholder: "0" %>
     </div>
 
     <div class="field">
       <%= form.label :dim_weight_calc, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :dim_weight_calc, value: 'Default' %>
+      <%= form.text_field :dim_weight_calc, placeholder: "Default" %>
     </div>
 
     <div class="field">
       <%= form.label :dimensional_rounding, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :dimensional_rounding, {checked: false } %>
+      <%= form.check_box :dimensional_rounding %>
     </div>
 
     <div class="field">
       <%= form.label :dim_weight_min_cube, class: "col-sm-2 col-form-label" %>
-      <%= form.number_field :dim_weight_min_cube, default: 0 %>
+      <%= form.number_field :dim_weight_min_cube, placeholder: "0" %>
     </div>
 
     <div class="field">
       <%= form.label :include_rto_miles, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :include_rto_miles, {checked: false} %>
+      <%= form.check_box :include_rto_miles %>
     </div>
 
     <div class="field">
       <%= form.label :require_dimensions, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :require_dimensions, {checked: false} %>
+      <%= form.check_box :require_dimensions %>
     </div>
 
     <div class="field">
       <%= form.label :qty_density_weight, class: "col-sm-2 col-form-label" %>
-      <%= form.number_field :qty_density_weight, default: 0.0 %>
+      <%= form.number_field :qty_density_weight, placeholder: "0.0" %>
     </div>
 
     <div class="field">
       <%= form.label :do_not_return_indirect_charges, class: "col-sm-2 col-form-label" %>
-      <%= form.check_box :do_not_return_indirect_charges, {checked: false} %>
+      <%= form.check_box :do_not_return_indirect_charges %>
     </div>
 
     <div class="field">
@@ -195,7 +195,7 @@
 
     <div class="field">
       <%= form.label :uplift_type, class: "col-sm-2 col-form-label" %>
-      <%= form.text_field :uplift_type, value: 'UPLIFT LINE HAUL' %>
+      <%= form.text_field :uplift_type, placeholder: 'UPLIFT LINE HAUL' %>
     </div>
 
     <div class="field">
