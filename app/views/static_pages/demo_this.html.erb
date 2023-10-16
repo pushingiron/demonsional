@@ -29,6 +29,7 @@
     <% if @show_submit %>
       <%= form.submit :disabled => false %>
     <% else %>
+      <h2 style="color: red; font-weight: bold;">MMO is unavailable</h2>
       <%= form.submit :disabled => true %>
     <% end %>
   <% end %>
