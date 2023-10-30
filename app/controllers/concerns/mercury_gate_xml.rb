@@ -54,6 +54,45 @@ module MercuryGateXml
 
   def xml_status(user, data, status_code)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
+    case status_code
+    when 'AF'
+      input_time = data['pick_time']
+      report_date = date_format(data['Target Ship (Early)'])
+      reason_code = data['pick_code']
+      addr_1 = data['Origin Addr1']
+      addr_2 = data['Origin Addr2']
+      city = data['Origin City']
+      state = data['Origin State']
+      zip = data['Origin Zip']
+      ctry = data['Origin Ctry']
+      addr_type = data['ShipTo/From']
+    when 'D1'
+      input_time = data['delv_time']
+      report_date = date_format(data['Target Delivery (Late)'])
+      reason_code = data['delv_code']
+      addr_1 = data['Dest Addr1']
+      addr_2 = data['Dest Addr2']
+      city = data['Dest City']
+      state = data['Dest State']
+      zip = data['Dest Zip']
+      ctry = data['Dest Ctry']
+      addr_type = data['ShipTo/From']
+    else
+      input_time = nil
+      reason_code = nil
+      addr_1 = nil
+      addr_2 = nil
+      city = nil
+      state = nil
+      zip = nil
+      ctry = nil
+      addr_type = nil
+    end
+
+    input_time.nil? ? (minutes_to_add_or_subtract = 0): (minutes_to_add_or_subtract = input_time.to_i)
+    actual_date = (report_date + minutes_to_add_or_subtract.minutes)
+    status_date = (actual_date + minutes_to_add_or_subtract).strftime('%Y%m%d')
+    status_time = actual_date.to_datetime.strftime('%H%M')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
     xml.tag! 'service-request' do
@@ -80,17 +119,17 @@ module MercuryGateXml
                   xml.ReferenceNumber data['Primary Reference'].chomp(' (Load ID)'), type: 'Load ID'
                 end
                 xml.Locations do
-                  xml.Location addr1: data['Origin Addr1'], addr2: data['Origin Addr2'], city: data['Origin City'],
-                               countryCode: data['Origin Ctry'], postalCode: data['Origin Zip'],
-                               state: data['Origin State'], type: data['SH']
+                  xml.Location addr1: addr_1, addr2: addr_2, city: city,
+                               countryCode: ctry, postalCode: zip,
+                               state: state, type: addr_type
                 end
                 xml.StatusDetails do
-                  xml.StatusDetail address: data['Origin Addr1'], apptCode: '', apptReasonCode: '',
-                                   cityName: data['Origin City'], countryCode: data['Origin Ctry'],
-                                   date: date_format(data['Target Ship (Early)']).to_datetime.strftime('%Y%m%d'),
+                  xml.StatusDetail address: addr_1, apptCode: '', apptReasonCode: '',
+                                   cityName: city, countryCode: ctry,
+                                   date: status_date,
                                    equipNum: '', equipNumCheckDigit: '', equipDescCode: '', index: '', podName: '',
-                                   scacCode: '', stateCode: data['Origin State'], statusCode: status_code,
-                                   statusReasonCode: '', stopNum: '', time: '0800'
+                                   scacCode: '', stateCode: state, statusCode: status_code,
+                                   statusReasonCode: reason_code, stopNum: '', time: status_time
                 end
               end
             end
