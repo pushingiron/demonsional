@@ -22,14 +22,67 @@
     <table class="table-bordered">
       <thead>
       <tr>
-        <th scope="col">CSV Reference</th>
+        <th scope="col">Example of adding Reference</th>
         <th scope="col">TMS example</th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <th>PO Number.123.false|DELV05.444.false|Sales Acct.876.false</th>
-        <th><%= image_tag("references.jpg", :alt => "tms image of references") %></th>
+        <td>PO Number.123.false|DELV05.444.false|Sales Acct.876.false</td>
+        <td><%= image_tag("references.jpg", :alt => "tms image of references") %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row justify-content-center">
+    <table class="table-bordered">
+      <thead>
+      <tr>
+        <th scope="col">CSV Reference</th>
+        <th scope="col">Value</th>
+        <th scope="col">Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Auto Tender</td>
+        <td>logical (true/false)</td>
+        <td>true value will cause loads to be tendered</td>
+      </tr>
+      <tr>
+        <td>Tender Reject</td>
+        <td>logical (true/false)</td>
+        <td>true value will cause loads that were tendered to be tender rejected</td>
+      </tr>
+      <tr>
+        <td>In Transit</td>
+        <td>logical (true/false)</td>
+        <td>true value will cause loads to have an actual pickup message applied</td>
+      </tr>
+      <tr>
+        <td>Delivered</td>
+        <td>logical (true/false)</td>
+        <td>true value will cause loads to have an actual delivery message applied</td>
+      </tr>
+      <tr>
+        <td>pick_time</td>
+        <td>minutes (1450)</td>
+        <td>A positive value will move the actual pickup time into the future by the target ship early plus the number of minutes supplied.  A negative value will move the actual ship date into the past from the target ship early.</td>
+      </tr>
+      <tr>
+        <td>delv_time.2500|pick_code.AM|delv_code.B1</td>
+        <td>minutes (2500)</td>
+        <td>A positive value will move the actual delivery time into the future by the target delivery late plus the number of minutes supplied.  A negative value will move the actual delivery date into the past from the target delivery late.</td>
+      </tr>
+      <tr>
+        <td>pick_code.AM|delv_code.B1</td>
+        <td>code table value for late reason code (AM)</td>
+        <td>This will apply a late reason code to the actual pickup message</td>
+      </tr>
+      <tr>
+        <td>delv_code.B1</td>
+        <td>code table value for late reason code (B!)</td>
+        <td>This will apply a late reason code to the actual delivery message</td>
       </tr>
       </tbody>
     </table>
