@@ -137,7 +137,7 @@ module MercuryGateJson
                 ["Pickup Radius Limit 2","0.0"],
                 ["PivotAnalysisConfig",""],
                 ["Pool Assignment","Best Rate (Introspective)"],
-                ["Pool Chains",""],
+                ["Pool Chains","CNNGBO>USSEA"],
                 ["Pool Consideration Iter","5.0"],
                 ["Pool Date Policy",""],
                 ["Pool Strategy","Consider Pools"],

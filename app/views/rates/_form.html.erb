@@ -1,137 +1,147 @@
-<%= bootstrap_form_for(@rate, layout: :horizontal) do |form| %>
-  <% if rate.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(rate.errors.count, "error") %> prohibited this rate from being saved:</h2>
+<div class="container-fluid">
+  <%= bootstrap_form_for(@rate, layout: :horizontal) do |form| %>
+    <% if rate.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(rate.errors.count, "error") %> prohibited this rate from being saved:</h2>
 
-      <ul>
-        <% rate.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% rate.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.number_field :user_id %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :contract_id %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :lane_calc %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :rating_zone %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :from_loccode %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :from_city %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :from_state %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :from_zip %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :from_country %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :to_loccode %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :to_city %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :to_state %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :to_zip %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :to_country %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :scac %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :service %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :mode %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :break_1_field %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :break_1_min %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :break_1_max %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :break_2_field %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :break_2_min %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :break_2_max %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :rate_field %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :rate_calc %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :rate %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :accessorial1_field %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :accessorial1_calc %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :accessorial1_rate %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :total_min %>
+    </div>
+
+    <div class="field">
+      <%= form.text_field :transit_method %>
+    </div>
+
+    <div class="field">
+      <%= form.number_field :transit_value %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.number_field :user_id %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :contract_id %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :lane_calc %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :rating_zone %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :from_loccode %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :from_city %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :from_state %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :from_zip %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :from_country %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :to_loccode %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :to_city %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :to_state %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :to_zip %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :to_country %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :scac %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :service %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :mode %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :break_1_field %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :break_1_min %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :break_1_max %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :break_2_field %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :break_2_min %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :break_2_max %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :rate_field %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :rate_calc %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :rate %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :accessorial1_field %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :accessorial1_calc %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :accessorial1_rate %>
-  </div>
-
-  <div class="field">
-    <%= form.text_field :total_min %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
