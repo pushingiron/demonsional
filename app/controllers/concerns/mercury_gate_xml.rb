@@ -783,7 +783,7 @@ module MercuryGateXml
                           xml.Amount amount.to_s
                         end
                       end
-                      xml.Charge sequenceNum: 99, type: "ITEM", itemGroupId: '' do
+                      xml.Charge sequenceNum: 99, type: "ACCESSORIAL", itemGroupId: '' do
                         xml.Description "Detention"
                         xml.RateQualifier "Hourly"
                         xml.Rate 200
