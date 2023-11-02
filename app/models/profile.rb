@@ -20,7 +20,8 @@ class Profile < ApplicationRecord
                  :in_transit_report,
                  :tender_accept_report,
                  :tender_reject_report,
-                 :invoice_report
+                 :invoice_report,
+                 :pool_chains
 
   def self.attr_empty?
     p 'empty ******'
@@ -43,7 +44,8 @@ class Profile < ApplicationRecord
        :in_transit_report,
        :tender_accept_report,
        :tender_reject_report,
-       :need_invoice_report].include?(k) || v.nil? || v == [] || v == [""]
+       :need_invoice_report,
+       :pool_chains].include?(k) || v.nil? || v == [] || v == [""]
       p k
       p v
     end
@@ -135,5 +137,9 @@ class Profile < ApplicationRecord
 
   def self.invoice_report(user)
     user.profiles.where(active: true).first.invoice_report
+  end
+
+  def self.pool_chains(user)
+    user.profiles.where(active: true).first.pool_chains
   end
 end

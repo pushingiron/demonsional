@@ -102,7 +102,8 @@ class ProfilesController < ApplicationController
                                     :in_transit_report,
                                     :tender_accept_report,
                                     :tender_reject_report,
-                                    :invoice_report)
+                                    :invoice_report,
+                                    :pool_chains)
   end
 
   def set_profile
