@@ -10,6 +10,7 @@ class ShippingOrder < ApplicationRecord
 
   has_many :pickup_locations, -> { where stop_type: :Pickup }, class_name: 'Location', dependent: :delete_all
   has_many :delivery_locations,  -> { where stop_type: :Drop }, class_name: 'Location', dependent: :delete_all
+  has_many :bill_to_locations,  -> { where stop_type: :ThirdParty }, class_name: 'Location', dependent: :delete_all
 
 
   accepts_nested_attributes_for :pickup_locations, allow_destroy: true
@@ -72,6 +73,9 @@ class ShippingOrder < ApplicationRecord
         delivery_location = shipping_order.delivery_locations.find_or_initialize_by(loc_code: row['delv_loc_code'])
         load_location(delivery_location, row, 'delv')
         delivery_location.save!
+        bill_to_location = shipping_order.bill_to_locations.find_or_initialize_by(loc_code: row['bill_to_loc_code'])
+        load_location(bill_to_location, row, 'bill_to')
+        bill_to_location.save!
         # start dealing with parsing out references and submitting to DB
         ref_list = row['references']
         unless ref_list.blank?
@@ -194,6 +198,7 @@ class ShippingOrder < ApplicationRecord
 
 end
 
+=begin
 def shipping_order_xml_dep(user, shipping_order_list, so_match, sh_match)
 
   xml = Builder::XmlMarkup.new
@@ -442,3 +447,4 @@ def shipping_order_xml_dep(user, shipping_order_list, so_match, sh_match)
     xml.target!
   end
 end
+=end
