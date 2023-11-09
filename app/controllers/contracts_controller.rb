@@ -106,7 +106,7 @@ class ContractsController < ApplicationController
                                            carrier_enterprise: 'Demo Top',
                                            smc_minimum: nil,
                                            rate_table: 'OMNI RATING.xls',
-                                           accessorial_profile: 'LTL Fuel')
+                                           accessorial_profile: nil)
     respond_to do |format|
       if @contract.save
         format.html { redirect_to @contract, notice: 'Contract was successfully created.' }

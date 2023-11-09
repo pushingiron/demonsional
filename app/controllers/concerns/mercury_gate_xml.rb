@@ -487,6 +487,20 @@ module MercuryGateXml
                   end
                   xml.tag! 'Payment' do
                     xml.Method(post.payment_method)
+                    xml.tag! 'BillTo' do
+                      post.bill_to_locations.each do |bill|
+                        xml.Address(type: bill.loc_type, isPrimary: false, isResidential: bill.residential) do
+                          xml.LocationCode(bill.loc_code)
+                          xml.Name(bill.name)
+                          xml.AddrLine1(bill.address1)
+                          xml.AddrLine2(bill.address2)
+                          xml.City(bill.city)
+                          xml.StateProvince(bill.state)
+                          xml.PostalCode(bill.postal)
+                          xml.CountryCode(bill.country)
+                        end
+                      end
+                    end
                   end
                   xml.tag! 'EquipmentList' do
                     xml.Equipment(code: post.equipment_code)
@@ -694,16 +708,17 @@ module MercuryGateXml
                       end
                       xml.tag! 'Payment' do
                         xml.Method(post.payment_method)
-                        xml.BillTo(thirdParty: false) do
-                          post.pickup_locations.each do |pickup|
-                            xml.Address(type: pickup.loc_type, isPrimary: false, isResidential: pickup.residential) do
-                              xml.Name(pickup.name)
-                              xml.AddrLine1(pickup.address1)
-                              xml.AddrLine2(pickup.address2)
-                              xml.City(pickup.city)
-                              xml.StateProvince(pickup.state)
-                              xml.PostalCode(pickup.postal)
-                              xml.CountryCode(pickup.country)
+                        xml.tag! 'BillTo' do
+                          post.bill_to_locations.each do |bill|
+                            xml.Address(type: bill.loc_type, isPrimary: false, isResidential: bill.residential) do
+                              xml.LocationCode(bill.loc_code)
+                              xml.Name(bill.name)
+                              xml.AddrLine1(bill.address1)
+                              xml.AddrLine2(bill.address2)
+                              xml.City(bill.city)
+                              xml.StateProvince(bill.state)
+                              xml.PostalCode(bill.postal)
+                              xml.CountryCode(bill.country)
                             end
                           end
                         end
