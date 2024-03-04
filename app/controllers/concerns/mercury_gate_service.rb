@@ -1,4 +1,5 @@
 module MercuryGateService
+  require 'rexml/document'
   include REXML
   include MercuryGateXml
   include MercuryGateJson

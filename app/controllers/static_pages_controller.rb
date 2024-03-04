@@ -27,21 +27,26 @@ class StaticPagesController < ApplicationController
       @mmo_status = 'Unavailable'
     end
     @profile = current_user.profiles.where(active: true)
-      @profile.mmo_shipment_report(current_user).blank? ||
-      @profile.contract_report(current_user).blank? ||
-      @profile.pool_report(current_user).blank? ||
-      @profile.call_check_report(current_user).blank? ||
-      @profile.delivered_report(current_user).blank? ||
-      @profile.tender_accept_report(current_user).blank? ||
-      @profile.tender_reject_report(current_user).blank? ||
-      @profile.invoice_report(current_user).blank? ||
-      @mmo_status == 'Unavailable' ?
-        @show_submit = false :
-        @show_submit = true
+    @profile.mmo_shipment_report(current_user).blank? ||
+    @profile.contract_report(current_user).blank? ||
+    @profile.pool_report(current_user).blank? ||
+    @profile.call_check_report(current_user).blank? ||
+    @profile.delivered_report(current_user).blank? ||
+    @profile.tender_accept_report(current_user).blank? ||
+    @profile.tender_reject_report(current_user).blank? ||
+    @profile.invoice_report(current_user).blank? ||
+    @mmo_status == 'Unavailable' ?
+      @show_submit = false :
+      @show_submit = true
+    @report_status = mg_post_list_report(current_user, 'Transport', Profile.invoice_report(current_user))
   end
 
   def mmo_status
     render partial: 'mmo_status'
+  end
+
+  def profile_status
+    @report_status = mg_post_list_report(current_user, 'Transport', Profile.tender_reject_report(current_user))
   end
 
   def create_demo
@@ -51,7 +56,7 @@ class StaticPagesController < ApplicationController
     Path.max_records(user) # remove old audit records
     # GuestsCleanupJob.perform_later 'easy'
     if params[:selected_option] == 'multiple_enterprises'
-      @ent_sub_list = %w[Admin Planning Execution Vi  sibility POD FAP Analytics]
+      @ent_sub_list = %w[Admin Planning Execution Visibility POD FAP Analytics]
     else
       @ent_sub_list = %w[Admin Analytics]
     end
