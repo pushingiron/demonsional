@@ -13,20 +13,84 @@
     </div>
     <div class="col">
       <h1>Dashboard</h1>
-   <!--   <h2>Current Shipping Orders: <%#= current_user.shipping_orders.count %></h2>
-      <h2>Current Enterprises: <%#= current_user.enterprises.count %></h2>
-      <%# if Profile.cust_acct(current_user).blank? %>
-        <h2>Parent Enterprise: <%#= link_to 'Configuration Needed', "users/edit" %></h2>
-      <%# else %>
-        <h2>Parent Enterprise: <%#= link_to Profile.cust_acct(current_user), profile_path(Profile.id(current_user)) %></h2>
-      <%# end %>
-      <h3>Contracts: <%#= current_user.contracts.count %></h3>
-      <h3>Rates: <%#= current_user.rates.count %></h3>-->
       <% begin %>
         <h3>Active Profile: <%= current_user.profiles.cust_acct(current_user) %></h3>
       <% rescue %>
         <h3><%= link_to 'Need to setup profiles', new_profile_path %></h3>
       <% end %>
+      <div class="row">
+        <div class="col">
+          MMO Shipment Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Contract Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Pool Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Tender Accept Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Tender Reject Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          In Transit Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Delivered Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Call Check Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Invoice Report
+        </div>
+        <div class="col">
+          DD
+        </div>
+      </div>
+      </div>
     </div>
   </div>
   <h2>MMO in the cloud status</h2>

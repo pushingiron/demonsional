@@ -15,7 +15,7 @@ module MercuryGateXml
   CHARGES = '//MercuryGate/MasterBillOfLading/PriceSheets/PriceSheet[@isSelected = "true" and  @type = "Charge"]/Charges'.freeze
 
 
-  def date_format(date)
+  def self.date_format(date)
     begin
       Time.strptime(date, '%m/%d/%Y %I:%M%p') unless date.nil?
     rescue
@@ -23,7 +23,7 @@ module MercuryGateXml
     end
   end
 
-  def xml_extract(oid, service_type)
+  def self.xml_extract(oid, service_type)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -37,7 +37,7 @@ module MercuryGateXml
     xml.target!
   end
 
-  def code_table_xml(code_table)
+  def self.code_table_xml(code_table)
     p code_table
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
@@ -52,12 +52,12 @@ module MercuryGateXml
     xml.target!
   end
 
-  def xml_status(user, data, status_code)
+  def self.xml_status(user, data, status_code)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     case status_code
     when 'AF'
       input_time = data['pick_time']
-      report_date = date_format(data['Target Ship (Early)'])
+      report_date = MercuryGateXml.date_format(data['Target Ship (Early)'])
       reason_code = data['pick_code']
       addr_1 = data['Origin Addr1']
       addr_2 = data['Origin Addr2']
@@ -68,7 +68,7 @@ module MercuryGateXml
       addr_type = data['ShipTo/From']
     when 'D1'
       input_time = data['delv_time']
-      report_date = date_format(data['Target Delivery (Late)'])
+      report_date = MercuryGateXml.date_format(data['Target Delivery (Late)'])
       reason_code = data['delv_code']
       addr_1 = data['Dest Addr1']
       addr_2 = data['Dest Addr2']
@@ -140,7 +140,7 @@ module MercuryGateXml
     xml.target!
   end
 
-  def xml_tender_response(user, data, code)
+  def self.xml_tender_response(user, data, code)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -180,7 +180,7 @@ module MercuryGateXml
     xml.target!
   end
 
-  def xml_list_report(user, type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
+  def self.xml_list_report(user, type, name, count = 0, value1 = nil, value2 = nil, value3 = nil)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -201,7 +201,7 @@ module MercuryGateXml
     end
   end
 
-  def enterprise_xml(user, enterprise)
+  def self.enterprise_xml(user, enterprise)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -290,7 +290,7 @@ module MercuryGateXml
     xml.target!
   end
 
-  def contract_xml(user, enterprises, new_ent, contract)
+  def self.contract_xml(user, enterprises, new_ent, contract)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -434,7 +434,7 @@ module MercuryGateXml
     end
   end
 
-  def object_lookup(object_type, search_by, search_value, search_modifier = nil)
+  def self.object_lookup(object_type, search_by, search_value, search_modifier = nil)
     request_id = Time.now.strftime('%Y%m%d%H%M%L')
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -450,7 +450,7 @@ module MercuryGateXml
     end
   end
 
-  def shipping_order_xml(user, shipping_order_list)
+  def self.shipping_order_xml(user, shipping_order_list)
     so_match = Profile.so_match_reference(user)
     sh_match = Profile.shipment_match_reference(user)
 
@@ -736,7 +736,7 @@ module MercuryGateXml
     end
   end
 
-  def carrier_invoice_xml(user, el_xml)
+  def self.carrier_invoice_xml(user, el_xml)
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
     xml.tag! 'service-request' do
@@ -817,7 +817,7 @@ module MercuryGateXml
     end
   end
 
-  def xml_call_check(user, el_csv)
+  def self.xml_call_check(user, el_csv)
 
     xml = Builder::XmlMarkup.new
     xml.instruct! :xml, version: '1.0'
@@ -851,12 +851,7 @@ module MercuryGateXml
                       xml.GeoLoc
                     end
                     xml.Comments 'test'
-                    ship_date = date_format(el_csv['Target Ship (Early)'])
-                      #p ship_date = DateTime.strptime(el_csv['Target Ship (Early)'].gsub('/', "_"), '%m_%d_%Y %I:%M%p')
-                    # Date.strptime("6/15/2012", '%m/%d/%Y %h:%m')
-                    #date = DateTime.parse("07/22/2022 8:00 AM")
-                    # p DateTime.strptime(ship_date, '%d.%m.%y')
-                    # date = el_xml['Target Ship (Early)'].to_time
+                    ship_date = MercuryGateXml.date_format(el_csv['Target Ship (Early)'])
                     xml.DateTime((ship_date + 1).strftime('%m/%d/%Y %I:%M:%S'))
                     xml.StatusCode 'X6'
                   end

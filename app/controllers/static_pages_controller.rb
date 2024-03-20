@@ -1,6 +1,4 @@
 class StaticPagesController < ApplicationController
-  include MercuryGateService
-  include MercuryGateJson
 
   before_action :authenticate_user!
 
@@ -11,7 +9,7 @@ class StaticPagesController < ApplicationController
   def index
     @paths = current_user.paths.all
     begin
-      mmo_status = JSON.parse(mg_get_edge(current_user, auth_mmo(current_user), 'serverstatus/json/myTok3141'))
+      mmo_status = JSON.parse(MercuryGateApiServices.mg_get_edge(current_user, MercuryGateJson.auth_mmo(current_user), 'serverstatus/json/myTok3141'))
       @mmo_status = mmo_status[0]
       # @mmo_status['content="5"'] = 'content="50"'
     rescue
@@ -21,7 +19,8 @@ class StaticPagesController < ApplicationController
 
   def demo_this
     begin
-      mmo_status = JSON.parse(mg_get_edge(current_user, auth_mmo(current_user), 'serverstatus/json/myTok3141'))
+      mmo_status = JSON.parse(MercuryGateApiServices.mg_get_edge(current_user, MercuryGateJson.auth_mmo(current_user),
+                                                                 'serverstatus/json/myTok3141'))
       @mmo_status = mmo_status[0]
     rescue
       @mmo_status = 'Unavailable'
@@ -38,7 +37,7 @@ class StaticPagesController < ApplicationController
     @mmo_status == 'Unavailable' ?
       @show_submit = false :
       @show_submit = true
-    @report_status = mg_post_list_report(current_user, 'Transport', Profile.invoice_report(current_user))
+    @report_status = MercuryGateApiServices.mg_post_list_report(current_user, 'Transport', Profile.invoice_report(current_user))
   end
 
   def mmo_status
@@ -84,12 +83,15 @@ class StaticPagesController < ApplicationController
       end
       current_user.shipping_orders.import(params[:file], cust_acct, @pickup_date) unless sub == 'Admin'
     end
-    Path.create(description: 'Create Enterprises', object: 'Enterprise', action: 'create', user_id: user.id, data: enterprise_xml(user, current_user.enterprises.all))
-    @response = mg_post_xml(user, enterprise_xml(user, current_user.enterprises.all))
-    Path.create(description: 'Completed Creating Enterprises', object: 'Enterprise', action: 'results', user_id: user.id, data: @response)
+    Path.create(description: 'Create Enterprises', object: 'Enterprise', action: 'create', user_id: user.id,
+                data: MercuryGateXml.enterprise_xml(user, current_user.enterprises.all))
+    @response = MercuryGateApiServices.mg_post_xml(user, MercuryGateXml.enterprise_xml(user, current_user.enterprises.all))
+    Path.create(description: 'Completed Creating Enterprises', object: 'Enterprise', action: 'results',
+                user_id: user.id, data: @response)
     current_user.contracts.all.each do |c|
-      Path.create(description: 'Create contracts', object: 'Contract', action: 'create', user_id: user.id, data: contract_xml(user, @ent_sub_list, @new_prospect, c))
-      p mg_post_xml(user, contract_xml(user, @ent_sub_list, @new_prospect, c))
+      Path.create(description: 'Create contracts', object: 'Contract', action: 'create', user_id: user.id,
+                  data: MercuryGateXml.contract_xml(user, @ent_sub_list, @new_prospect, c))
+      MercuryGateApiServices.mg_post_xml(user, MercuryGateXml.contract_xml(user, @ent_sub_list, @new_prospect, c))
     end
     CreateSoJob.set(wait: job_delay.minutes).perform_later(user)
     Path.create(description: "Create Shipping Order job", object: 'Job', action: 'schedule', user_id: user.id)

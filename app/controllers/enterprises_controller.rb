@@ -14,7 +14,7 @@ class EnterprisesController < ApplicationController
 
   def post_xml
     @enterprises = current_user.enterprises.all
-    @response = mg_post_xml(current_user, enterprise_xml(current_user, @enterprises))
+    @response = MercuryGateApiServices.mg_post_xml(current_user, enterprise_xml(current_user, @enterprises))
     p @response
     render inline: "<%= @response %><br><%= link_to 'back', enterprises_path %>"
   end

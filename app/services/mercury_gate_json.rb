@@ -6,7 +6,7 @@ module MercuryGateJson
                   'Rate Field', 'Rate Calc', 'Rate', 'Accessorial1 Field', 'Accessorial1 Calc', 'Accessorial1 Rate',
                   'Total Min', 'Max Stops'].freeze
 
-  def rate_table(user, enterprise)
+  def self.rate_table(user, enterprise)
 
      rates = user.rates.pluck(:contract_id, :lane_calc, :rating_zone, :from_loccode, :from_city, :from_state, :from_zip,
                              :from_country, :to_loccode, :to_city, :to_state, :to_zip, :to_country, :scac,
@@ -235,7 +235,7 @@ module MercuryGateJson
 
   end
 
-  def auth_mmo(user)
+  def self.auth_mmo(user)
 
     "{ authentication: { username: #{Profile.edge_pack_id(user)}, password: #{Profile.edge_pack_pwd(user)} } }"
 
