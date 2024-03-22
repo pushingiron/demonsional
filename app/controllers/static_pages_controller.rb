@@ -8,6 +8,7 @@ class StaticPagesController < ApplicationController
 
   def index
     @paths = current_user.paths.all
+    @profile = current_user.profiles
     begin
       mmo_status = JSON.parse(MercuryGateApiServices.mg_get_edge(current_user, MercuryGateJson.auth_mmo(current_user), 'serverstatus/json/myTok3141'))
       @mmo_status = mmo_status[0]
@@ -15,6 +16,10 @@ class StaticPagesController < ApplicationController
     rescue
       @mmo_status = 'Unavailable'
     end
+    contracts = MercuryGateApiServices.mg_post_list_report(current_user, 'Contract',
+                                                            @profile.contract_report(current_user))
+    @contract_report = contracts.empty? ? false : true
+    p @contract_report
   end
 
   def demo_this
