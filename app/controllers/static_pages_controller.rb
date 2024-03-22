@@ -16,10 +16,33 @@ class StaticPagesController < ApplicationController
     rescue
       @mmo_status = 'Unavailable'
     end
+
+    mmo_shipments = check_report(current_user, 'Shipment', @profile.mmo_shipment_report(current_user))
+    @mmo_shipments_report = mmo_shipments.empty? ? false : true
+
     contracts = check_report(current_user, 'Contract', @profile.contract_report(current_user))
     @contract_report = contracts.empty? ? false : true
-    mmo_shipments = check_report(current_user, 'Shipment', @profile.mmo_shipment_report(current_user))
-    @mmo_shipments = mmo_shipments.empty? ? false : true
+
+    pool = check_report(current_user, 'Location', @profile.pool_report(current_user))
+    @pool_report = pool.empty? ? false : true
+
+    tender_accept = check_report(current_user, 'Transport', @profile.tender_accept_report(current_user))
+    @tender_accept_report = tender_accept.empty? ? false : true
+
+    tender_reject = check_report(current_user, 'Transport', @profile.tender_reject_report(current_user))
+    @tender_reject_report = tender_reject.empty? ? false : true
+
+    in_transit = check_report(current_user, 'Transport', @profile.in_transit_report(current_user))
+    @in_transit_report = in_transit.empty? ? false : true
+
+    deliver = check_report(current_user, 'Transport', @profile.delivered_report(current_user))
+    @deliver_report = deliver.empty? ? false : true
+
+    call_check = check_report(current_user, 'Transport', @profile.call_check_report(current_user))
+    @call_check_report = call_check.empty? ? false : true
+
+    invoice = check_report(current_user, 'Transport', @profile.invoice_report(current_user))
+    @invoice_report = invoice.empty? ? false : true
 
   end
 
