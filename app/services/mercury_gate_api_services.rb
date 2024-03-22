@@ -17,7 +17,8 @@
       encoded_params = URI.encode_www_form(params)
       response = Faraday.post(ws_url, encoded_params)
       response.body.force_encoding('utf-8')
-      xml_results = Document.new(response.body)
+      processed_response = response.body.gsub('&', '&amp;')
+      xml_results = Document.new(processed_response)
       report_data = XPath.first(xml_results, '//service-response/data').to_s
       report_data
     end

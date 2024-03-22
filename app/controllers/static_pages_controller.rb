@@ -16,10 +16,11 @@ class StaticPagesController < ApplicationController
     rescue
       @mmo_status = 'Unavailable'
     end
-    contracts = MercuryGateApiServices.mg_post_list_report(current_user, 'Contract',
-                                                            @profile.contract_report(current_user))
+    contracts = check_report(current_user, 'Contract', @profile.contract_report(current_user))
     @contract_report = contracts.empty? ? false : true
-    p @contract_report
+    mmo_shipments = check_report(current_user, 'Shipment', @profile.mmo_shipment_report(current_user))
+    @mmo_shipments = mmo_shipments.empty? ? false : true
+
   end
 
   def demo_this
@@ -117,6 +118,21 @@ class StaticPagesController < ApplicationController
   end
 
   private
+
+  # Public: See if report exists using MercuryGate API.
+  #
+  # user        - The user object.
+  # report_type - The type of the report.
+  # report_name - The name of the report.
+  #
+  # Examples
+  #
+  #   check_report(user, 'Contract', 'contract_report')
+  #
+  # Returns the report data as a String.
+  def check_report(user, report_type, report_name)
+    MercuryGateApiServices.mg_post_list_report(user, report_type, report_name)
+  end
 
 
 end
