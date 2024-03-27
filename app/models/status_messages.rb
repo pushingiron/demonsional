@@ -1,7 +1,6 @@
 class StatusMessages < ActiveRecord::Base
 
   include REXML
-  include MercuryGateApiServices
 
   attribute :id, :integer
 
