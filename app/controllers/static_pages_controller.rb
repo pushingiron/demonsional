@@ -8,7 +8,7 @@ class StaticPagesController < ApplicationController
 
   def index
     @paths = current_user.paths.all
-    @profile = current_user.profiles
+    @profile = current_user.profiles.where(active: true)
     begin
       mmo_status = JSON.parse(MercuryGateApiServices.mg_get_edge(current_user, MercuryGateJson.auth_mmo(current_user), 'serverstatus/json/myTok3141'))
       @mmo_status = mmo_status[0]
@@ -18,31 +18,31 @@ class StaticPagesController < ApplicationController
     end
 
     mmo_shipments = check_report(current_user, 'Shipment', @profile.mmo_shipment_report(current_user))
-    @mmo_shipments_report = mmo_shipments.empty? ? false : true
+    @mmo_shipments_report = mmo_shipments == "<data/>" ? false : true
 
     contracts = check_report(current_user, 'Contract', @profile.contract_report(current_user))
-    @contract_report = contracts.empty? ? false : true
+    @contract_report = contracts == "<data/>" ? false : true
 
     pool = check_report(current_user, 'Location', @profile.pool_report(current_user))
-    @pool_report = pool.empty? ? false : true
+    @pool_report = pool == "<data/>" ? false : true
 
     tender_accept = check_report(current_user, 'Transport', @profile.tender_accept_report(current_user))
-    @tender_accept_report = tender_accept.empty? ? false : true
+    @tender_accept_report = tender_accept == "<data/>" ? false : true
 
     tender_reject = check_report(current_user, 'Transport', @profile.tender_reject_report(current_user))
-    @tender_reject_report = tender_reject.empty? ? false : true
+    @tender_reject_report = tender_reject == "<data/>" ? false : true
 
     in_transit = check_report(current_user, 'Transport', @profile.in_transit_report(current_user))
-    @in_transit_report = in_transit.empty? ? false : true
+    @in_transit_report = in_transit == "<data/>" ? false : true
 
     deliver = check_report(current_user, 'Transport', @profile.delivered_report(current_user))
-    @deliver_report = deliver.empty? ? false : true
+    @deliver_report = deliver == "<data/>" ? false : true
 
     call_check = check_report(current_user, 'Transport', @profile.call_check_report(current_user))
-    @call_check_report = call_check.empty? ? false : true
+    @call_check_report = call_check == "<data/>" ? false : true
 
     invoice = check_report(current_user, 'Transport', @profile.invoice_report(current_user))
-    @invoice_report = invoice.empty? ? false : true
+    @invoice_report = invoice == "<data/>" ? false : true
 
   end
 
@@ -89,7 +89,7 @@ class StaticPagesController < ApplicationController
       @ent_sub_list = %w[Admin Analytics]
     end
     @new_prospect = params[:enterprise] # prospect name
-    @pickup_date = Date.parse(params[:pickup_date]) unless params[:pickup_date].empty?
+    @pickup_date = Date.parse(params[:pickup_date]) unless params[:pickup_date] == "<data/>"
     @parent_ent = Profile.cust_acct(user)
     current_user.shipping_orders.destroy_all
     Path.create(description: 'Remove shipping orders', object: 'ShippingOrder', action: 'destroy_all', user_id: current_user.id)
@@ -154,7 +154,8 @@ class StaticPagesController < ApplicationController
   #
   # Returns the report data as a String.
   def check_report(user, report_type, report_name)
-    MercuryGateApiServices.mg_post_list_report(user, report_type, report_name)
+    p '*****'
+    p MercuryGateApiServices.mg_post_list_report(user, report_type, report_name)
   end
 
 
