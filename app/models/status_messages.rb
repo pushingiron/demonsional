@@ -18,8 +18,8 @@ class StatusMessages < ActiveRecord::Base
     (2..spreadsheet.last_row).each do |i|
       p  spreadsheet.row(i)
       unless spreadsheet.row(i)[16].blank?
-        @response = MercuryGateService.mg_post_xml(user, xml_status_kp_ocean(user, spreadsheet.row(i)))
-        @response = MercuryGateService.mg_post_xml(user, xml_status_kp_port(user, spreadsheet.row(i)))
+        @response = MercuryGateApiServices.mg_post_xml(user, xml_status_kp_ocean(user, spreadsheet.row(i)))
+        @response = MercuryGateApiServices.mg_post_xml(user, xml_status_kp_port(user, spreadsheet.row(i)))
       end
 
     end
