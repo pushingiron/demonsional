@@ -24,7 +24,6 @@ class Profile < ApplicationRecord
                  :pool_chains
 
   def self.attr_empty?
-    p 'empty ******'
     self.attributes do |k, v|
       [:cust_acct,
        :so_match_reference,

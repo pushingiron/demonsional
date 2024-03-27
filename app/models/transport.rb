@@ -1,7 +1,7 @@
 class Transport < ApplicationRecord
 
   include MercuryGateXml
-  include MercuryGateService
+  include MercuryGateApiServices
 
   REPORT_TYPE = 'Transport'.freeze
   IN_TRANSIT_REPORT_NAME = 'in_transit_demo'.freeze

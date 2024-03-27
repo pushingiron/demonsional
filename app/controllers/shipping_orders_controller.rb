@@ -1,6 +1,6 @@
 class ShippingOrdersController < ApplicationController
 
-  include MercuryGateService
+  include MercuryGateApiServices
 
   before_action :set_shipping_order, except: %i[index post_xml new create import_page csv_example import destroy_all]
   before_action :authenticate_user!

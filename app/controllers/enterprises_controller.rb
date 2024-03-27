@@ -1,6 +1,6 @@
 class EnterprisesController < ApplicationController
 
-  include MercuryGateService
+  include MercuryGateApiServices
 
   before_action :set_enterprise, except: %i[index post_xml new create import_page import destroy_all create_enterprise_demo csv_example]
   before_action :authenticate_user!
