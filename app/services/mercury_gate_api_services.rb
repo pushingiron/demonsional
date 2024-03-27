@@ -1,4 +1,4 @@
-  class MercuryGateApiServices
+module MercuryGateApiServices
 
     require 'rexml/document'
     include REXML
